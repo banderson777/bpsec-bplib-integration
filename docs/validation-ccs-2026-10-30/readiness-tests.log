@@ -1,0 +1,7 @@
+test_live_host_with_failed_application (__main__.NodeHealth) ... ok
+test_restart_requires_current_application_readiness (__main__.NodeHealth) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.003s
+
+OK

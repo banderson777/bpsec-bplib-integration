@@ -1,0 +1,1 @@
+custody_db_regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/custody_db_regression.c:46: main: Assertion `inst.Ct.CurrDbSize==1 && live_blocks==1 && by_id(&inst,11)==original' failed.

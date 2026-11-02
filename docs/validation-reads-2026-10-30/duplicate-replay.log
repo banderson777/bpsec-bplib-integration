@@ -1,0 +1,6 @@
+Prepared 1 segments / 9 records in /tmp/bpsec-read-20261030/duplicate-replay/runtime
+PASS: 1 segments match source byte for byte
+PASS: 1 segments match source byte for byte
+PASS: replayed 9 original duplicate IDs through relay shutdown/restart; all five nodes drained, output unchanged, 75 unique IVs
+PASS: custody stayed drained for six seconds on all running nodes after outage recovery
+PASS: 2-3 outage retained 9 custody records; relay 2 restarted with source stopped and completed transfer

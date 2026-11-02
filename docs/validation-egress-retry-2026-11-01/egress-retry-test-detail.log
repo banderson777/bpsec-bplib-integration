@@ -1,0 +1,24 @@
+25/37 Testing: storage_error_mark_egress_regression
+25/37 Test: storage_error_mark_egress_regression
+Command: "/tmp/bpsec-sql-ownership-20261101/build/integration/storage_error_regression" "mark_egress"
+Directory: /tmp/bpsec-sql-ownership-20261101/build/integration
+"storage_error_mark_egress_regression" start time: Nov 01 17:21 EST
+Output:
+----------------------------------------------------------
+mark failure: status=-302 flags=0 not-egressed=2
+retry local=0 fault=0 status=-302 count=0 batch=2 reader=2 flags=0
+retry local=0 fault=1 status=-302 count=0 batch=2 reader=2 flags=0
+retry local=0 fault=2 status=-302 count=0 batch=2 reader=2 flags=0
+retry local=0 fault=3 status=-302 count=0 batch=2 reader=2 flags=0
+retry local=1 fault=0 status=-302 count=0 batch=2 reader=2 flags=0
+retry local=1 fault=1 status=-302 count=0 batch=2 reader=2 flags=0
+retry local=1 fault=2 status=-302 count=0 batch=2 reader=2 flags=0
+PASS atomic error propagation, rollback, cleanup, accounting, and successful retry
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"storage_error_mark_egress_regression" end time: Nov 01 17:21 EST
+"storage_error_mark_egress_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+

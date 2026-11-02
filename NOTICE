@@ -1,0 +1,17 @@
+BPSec / BPLib Integration
+Maintained by banderson777.
+
+This integration contains local additions and modifications to components from:
+- NASA BPLib: https://github.com/nasa/bplib
+- NASA BPNode: https://github.com/nasa/bp
+- NASA Core Flight System and Core Flight Executive:
+  https://github.com/nasa/cFS and https://github.com/nasa/cFE
+- NASA AMMOS Bundle Protocol Security Library (BSL):
+  https://github.com/NASA-AMMOS/BSL
+
+Original copyright, license and notice files remain with each component.
+BSL includes work copyrighted by The Johns Hopkins University Applied Physics
+Laboratory LLC and performed for NASA/JPL under the notices in its source.
+Local modifications are described in docs/ and the component commit histories.
+Additional dependencies retain their own licenses and attribution.
+See THIRD_PARTY.md and DEPENDENCIES.lock.json for provenance.

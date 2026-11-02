@@ -1,0 +1,212 @@
+[  0%] Built target cfe-build-env
+[ 22%] Built target elf2cfetbl
+[ 33%] Built target cfeconfig_platformdata_native_default
+[ 77%] Built target cfeconfig_platformdata_tool
+[100%] Built target cfgtool-execute-native_default
+[100%] Built target cfe-module-version
+[100%] Built target mission-version
+[100%] Built target mission-prebuild
+[  1%] Built target osal_generic-linux_impl
+[ 33%] Built target config
+[150%] Built target osal_posix_impl
+[150%] Built target tblobj_cpu1_sch_lab.tblb5d1586935f6341ac5773a4efe94e407c1647409
+[216%] Built target es
+[250%] Built target evs
+[266%] Built target fs
+[300%] Built target time
+[333%] Built target sb
+[383%] Built target tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc
+[383%] Built target generate_table_cpu1_sch_lab_sch_lab_table
+[383%] Built target generate_table_cpu1_bpnode_bpnode_adup
+[450%] Built target tbl
+[466%] Built target generate_table_cpu1_bpnode_bpnode_channel
+[483%] Built target ram_notimpl
+[483%] Built target generate_table_cpu1_bpnode_bpnode_contacts
+[483%] Built target generate_table_cpu1_bpnode_bpnode_crs
+[500%] Built target psp-pc-linux-impl
+[500%] Built target generate_table_cpu1_bpnode_bpnode_custodia
+[516%] Built target generate_table_cpu1_bpnode_bpnode_custody
+[516%] Built target generate_table_cpu1_bpnode_bpnode_mib_pn
+[516%] Built target generate_table_cpu1_bpnode_bpnode_mib_ps
+[516%] Built target soft_timebase
+[516%] Built target generate_table_cpu1_bpnode_bpnode_reportto
+[533%] Built target timebase_posix_clock
+[550%] Built target psp-pc-linux-shared
+[566%] Built target generate_table_cpu1_bpnode_bpnode_src_auth
+[566%] Built target generate_table_cpu1_bpnode_bpnode_latency
+[566%] Built target generate_table_cpu1_bpnode_bpnode_storage
+[566%] Built target port_notimpl
+[566%] Built target eeprom_mmap_file
+[566%] Built target cfetables
+[100%] Built target native_default-cfetables
+[100%] Built target mission-cfetables
+Built target iodriver
+Built target linux_sysmon
+Built target endian_api
+Built target udpsock_intf
+Consolidate compiler generated dependencies of target bpnode
+Built target msg
+Built target bplib_rbt
+Built target resourceid
+Built target sbr
+Built target bplib_version
+Built target bplib_cla
+Table build completed
+[100%] Built target tabletool-execute
+Built target bplib_arp
+Built target bplib_fwp
+Built target bplib_nc
+Built target bplib_as
+Built target bplib_bi
+Built target bplib_ct
+Built target bplib_pdb
+Built target bplib_ebp
+Built target bplib_pi
+Built target bplib_stor
+Built target bplib_cbor
+Built target bplib_em
+Built target bpnode
+Built target bplib_pl
+Built target bplib_crc
+Built target bplib_eid
+Built target bplib_qm
+Built target osal_bsp
+Built target psp-pc-linux
+Built target bplib_mem
+Built target ut_assert
+Built target osal
+Generating cfe_build_env_table.c
+Consolidate compiler generated dependencies of target core-cpu1
+Built target sch_lab
+Building C object cpu1/CMakeFiles/core-cpu1.dir/cfe_build_env_table.c.o
+Built target ut_osapi_stubs
+Built target bplib_time
+Built target bplib
+Linking C executable core-cpu1
+Built target core-cpu1
+[100%] Built target native_default-all
+[ 22%] Built target tlm_recv
+[ 50%] Built target cmd_send
+[ 61%] Built target cfe_ts_crc
+[ 66%] Built target cfeconfig_platformdata_native_default
+[ 88%] Built target cfeconfig_platformdata_tool
+[100%] Built target elf2cfetbl
+Built target mission-all
+[ 22%] Built target elf2cfetbl
+[ 22%] Built target cfe-build-env
+[ 22%] Built target cfe-module-version
+[ 22%] Built target mission-version
+[ 33%] Built target cfeconfig_platformdata_native_default
+[ 77%] Built target cfeconfig_platformdata_tool
+[100%] Built target cfgtool-execute-native_default
+[100%] Built target mission-prebuild
+[  0%] Built target tblobj_cpu1_sch_lab.tblb5d1586935f6341ac5773a4efe94e407c1647409
+[  0%] Built target generate_table_cpu1_sch_lab_sch_lab_table
+[ 50%] Built target tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc
+[ 50%] Built target generate_table_cpu1_bpnode_bpnode_adup
+[ 66%] Built target generate_table_cpu1_bpnode_bpnode_channel
+[ 66%] Built target generate_table_cpu1_bpnode_bpnode_contacts
+[ 66%] Built target generate_table_cpu1_bpnode_bpnode_crs
+[ 66%] Built target generate_table_cpu1_bpnode_bpnode_custodia
+[ 83%] Built target generate_table_cpu1_bpnode_bpnode_custody
+[ 83%] Built target generate_table_cpu1_bpnode_bpnode_mib_pn
+[ 83%] Built target generate_table_cpu1_bpnode_bpnode_mib_ps
+[ 83%] Built target generate_table_cpu1_bpnode_bpnode_reportto
+[100%] Built target generate_table_cpu1_bpnode_bpnode_src_auth
+[100%] Built target generate_table_cpu1_bpnode_bpnode_latency
+[100%] Built target generate_table_cpu1_bpnode_bpnode_storage
+[100%] Built target cfetables
+[100%] Built target native_default-cfetables
+[100%] Built target mission-cfetables
+Table build completed
+[100%] Built target tabletool-execute
+[  1%] Built target osal_generic-linux_impl
+[  2%] Built target osal_bsp
+[ 12%] Built target osal_posix_impl
+[ 20%] Built target osal
+[ 23%] Built target ut_assert
+[ 38%] Built target ut_osapi_stubs
+[ 41%] Built target config
+[ 46%] Built target es
+[ 49%] Built target evs
+[ 50%] Built target fs
+[ 53%] Built target sb
+[ 58%] Built target tbl
+[ 61%] Built target time
+[ 63%] Built target ram_notimpl
+[ 64%] Built target psp-pc-linux-impl
+[ 65%] Built target psp-pc-linux-shared
+[ 65%] Built target soft_timebase
+[ 67%] Built target timebase_posix_clock
+[ 67%] Built target eeprom_mmap_file
+[ 67%] Built target port_notimpl
+[ 67%] Built target iodriver
+[ 68%] Built target linux_sysmon
+[ 69%] Built target endian_api
+[ 71%] Built target psp-pc-linux
+[ 73%] Built target msg
+[ 75%] Built target sbr
+[ 75%] Built target resourceid
+[ 75%] Built target udpsock_intf
+[ 82%] Built target bpnode
+[ 83%] Built target bplib_rbt
+[ 83%] Built target bplib_version
+[ 84%] Built target bplib_cla
+[ 84%] Built target bplib_arp
+[ 86%] Built target bplib_as
+[ 86%] Built target bplib_fwp
+[ 87%] Built target bplib_nc
+[ 87%] Built target bplib_bi
+[ 89%] Built target bplib_ct
+[ 89%] Built target bplib_ebp
+[ 89%] Built target bplib_pdb
+[ 89%] Built target bplib_pi
+[ 90%] Built target bplib_stor
+[ 93%] Built target bplib_cbor
+[ 93%] Built target bplib_em
+[ 94%] Built target bplib_mem
+[ 94%] Built target bplib_pl
+[ 94%] Built target bplib_qm
+[ 95%] Built target bplib_time
+[ 95%] Built target bplib_crc
+[ 95%] Built target bplib_eid
+[ 95%] Built target bplib
+[ 97%] Built target sch_lab
+Consolidate compiler generated dependencies of target core-cpu1
+[100%] Built target core-cpu1
+Install the project...
+-- Install configuration: ""
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/cpu1/cf/bpnode.so
+-- Installing: /tmp/bpsec-ccs-20261030/build/install/cpu1/cf/bplib.so
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/cpu1/cf/sch_lab.so
+-- Installing: /tmp/bpsec-ccs-20261030/build/install/cpu1/core-cpu1
+[100%] Built target native_default-install
+[  5%] Built target cfeconfig_platformdata_native_default
+[ 27%] Built target cfeconfig_platformdata_tool
+[ 38%] Built target cfe_ts_crc
+[ 66%] Built target cmd_send
+[ 88%] Built target tlm_recv
+[100%] Built target elf2cfetbl
+Install the project...
+-- Install configuration: ""
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/host/cfe_ts_crc
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/host/cmd_send
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/host/tlm_recv
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/.
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/./cpu1
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/./cpu1/cf
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/./cpu1/cf/bpnode_channel.tbl
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/./cpu1/cf/bpnode_src_auth.tbl
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/./cpu1/cf/bpnode_mib_pn.tbl
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/./cpu1/cf/bpnode_latency.tbl
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/./cpu1/cf/bpnode_reportto.tbl
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/./cpu1/cf/bpnode_crs.tbl
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/./cpu1/cf/bpnode_adup.tbl
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/./cpu1/cf/sch_lab_table.tbl
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/./cpu1/cf/bpnode_custodia.tbl
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/./cpu1/cf/bpnode_custody.tbl
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/./cpu1/cf/bpnode_contacts.tbl
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/./cpu1/cf/bpnode_storage.tbl
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/./cpu1/cf/bpnode_mib_ps.tbl
+-- Up-to-date: /tmp/bpsec-ccs-20261030/build/install/host/elf2cfetbl
+Built target mission-install

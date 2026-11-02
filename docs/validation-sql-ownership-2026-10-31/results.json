@@ -1,0 +1,115 @@
+[
+  {
+    "name": "duplicate-replay",
+    "run_dir": "/tmp/bpsec-sql-ownership-20261101/duplicate-replay",
+    "log": "/tmp/bpsec-sql-ownership-20261101/duplicate-replay.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node_faults.py",
+      "--build-dir",
+      "/tmp/bpsec-sql-ownership-20261101/build",
+      "--run-dir",
+      "/tmp/bpsec-sql-ownership-20261101/duplicate-replay",
+      "--port-base",
+      "31000",
+      "--timeout",
+      "90",
+      "--edge",
+      "2-3",
+      "--replay-retained-duplicates"
+    ],
+    "controller_file": "demo/test_five_node_faults.py",
+    "controller_sha256": "857eca644c9e464a44bf94c26b11633b62b59810a403216cdecb88d412659fec",
+    "exit_code": 0,
+    "seconds": 145.11
+  },
+  {
+    "name": "baseline",
+    "run_dir": "/tmp/bpsec-sql-ownership-20261101/baseline",
+    "log": "/tmp/bpsec-sql-ownership-20261101/baseline.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-sql-ownership-20261101/build",
+      "--run-dir",
+      "/tmp/bpsec-sql-ownership-20261101/baseline",
+      "--port-base",
+      "31020",
+      "--timeout",
+      "90"
+    ],
+    "controller_file": "demo/test_five_node.py",
+    "controller_sha256": "490e63395b5adb7b98c93df97a5dc187549c70a3cbeb58738833722e196a4e8a",
+    "exit_code": 0,
+    "seconds": 75.49
+  },
+  {
+    "name": "node5-restart",
+    "run_dir": "/tmp/bpsec-sql-ownership-20261101/node5-restart",
+    "log": "/tmp/bpsec-sql-ownership-20261101/node5-restart.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-sql-ownership-20261101/build",
+      "--run-dir",
+      "/tmp/bpsec-sql-ownership-20261101/node5-restart",
+      "--port-base",
+      "31040",
+      "--timeout",
+      "90",
+      "--restart-node5-after-receipt"
+    ],
+    "controller_file": "demo/test_five_node.py",
+    "controller_sha256": "490e63395b5adb7b98c93df97a5dc187549c70a3cbeb58738833722e196a4e8a",
+    "exit_code": 0,
+    "seconds": 88.43
+  },
+  {
+    "name": "lost-ccs",
+    "run_dir": "/tmp/bpsec-sql-ownership-20261101/lost-ccs",
+    "log": "/tmp/bpsec-sql-ownership-20261101/lost-ccs.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-sql-ownership-20261101/build",
+      "--run-dir",
+      "/tmp/bpsec-sql-ownership-20261101/lost-ccs",
+      "--port-base",
+      "31060",
+      "--timeout",
+      "90",
+      "--drop-ccs-node",
+      "2"
+    ],
+    "controller_file": "demo/test_five_node.py",
+    "controller_sha256": "490e63395b5adb7b98c93df97a5dc187549c70a3cbeb58738833722e196a4e8a",
+    "exit_code": 0,
+    "seconds": 48.48
+  },
+  {
+    "name": "storage-failure",
+    "run_dir": "/tmp/bpsec-sql-ownership-20261101/storage-failure",
+    "log": "/tmp/bpsec-sql-ownership-20261101/storage-failure.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-sql-ownership-20261101/build",
+      "--run-dir",
+      "/tmp/bpsec-sql-ownership-20261101/storage-failure",
+      "--port-base",
+      "31080",
+      "--timeout",
+      "90",
+      "--storage-fail-node",
+      "2"
+    ],
+    "controller_file": "demo/test_five_node.py",
+    "controller_sha256": "490e63395b5adb7b98c93df97a5dc187549c70a3cbeb58738833722e196a4e8a",
+    "exit_code": 0,
+    "seconds": 33.02
+  }
+]

@@ -1,0 +1,38 @@
+{
+  "scenario": "baseline",
+  "segments": [
+    {
+      "segment": 0,
+      "bytes": 9000,
+      "sha256": "e20408c373c54abf78de6635c3cc3ec08023bf94b58a6020d80a9122e7c9ab17"
+    },
+    {
+      "segment": 1,
+      "bytes": 17,
+      "sha256": "a9ce213e0c75b432a9e5c166e4f38e661ec95a3370cd111c72688ecb4b503205"
+    },
+    {
+      "segment": 2,
+      "bytes": 8000,
+      "sha256": "f0c3ea7b0a230b8a8b6d14ed6266f7767a4d4f86803045f0aea8e908bfb99387"
+    }
+  ],
+  "pending_custody": {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0
+  },
+  "module_matches": {
+    "1": true,
+    "2": true,
+    "3": true,
+    "4": true,
+    "5": true
+  },
+  "keys_present": [
+    1,
+    5
+  ]
+}

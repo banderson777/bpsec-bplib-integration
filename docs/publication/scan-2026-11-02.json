@@ -1,0 +1,7 @@
+{
+  "files_scanned": 698,
+  "bytes": 98665170,
+  "credential_findings": [],
+  "large_files": [],
+  "scope": "Root publication source/docs and changed upstream tracked files; excludes account/runtime/build folders. Provider-token, AWS-access-key and private-key patterns; not a proof that all secrets are absent."
+}

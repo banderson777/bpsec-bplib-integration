@@ -1,0 +1,2 @@
+UNEXPECTED COMMIT: rows=1 accepted=2 refused=0 pushed=2
+storage_commit_regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/storage_commit_regression.c:79: batch: Assertion `(status == BPLIB_SUCCESS) == success' failed.

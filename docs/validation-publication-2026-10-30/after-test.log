@@ -1,0 +1,2 @@
+DEMO segment=0 persisted
+PASS: directory-sync failure/retry, immutable replay, conflicting output rejection, and missing-output reconstruction

@@ -1,0 +1,214 @@
+--- /tmp/bpsec-custody-tx-20261031/cust-before.c	2026-10-31 20:54:44.995285442 -0400
++++ bplib/bpa/stor/src/bplib_stor_sql_cust.c	2026-10-31 20:57:43.483703900 -0400
+@@ -22,13 +22,6 @@
+ #include "bplib_inst.h"
+ #include <stdio.h>
+ 
+-sqlite3_stmt* SetRetransmitAllStmt;
+-sqlite3_stmt* TriggerRetransmitStmt;
+-sqlite3_stmt* MarkForDeletionStmt;
+-sqlite3_stmt* StopRetransmitStmt;
+-
+-char SetNewRetransmitTriggerSQL[BPLIB_SQL_MAX_STRLEN] = {0};
+-
+ const char* SetNewRetransmitTriggerBaseSQL =
+ "WITH to_update AS (\n"
+     "SELECT id FROM bundle_data INDEXED BY idx_egress_id WHERE (%s) \n"
+@@ -55,6 +48,7 @@
+     SQL_Status_t   SQLStatus;
+     sqlite3*       db;
+     char           WhereClause[BPLIB_SQL_MAX_STRLEN] = {0};
++    sqlite3_stmt  *SetRetransmitAllStmt = NULL;
+ 
+     (void)ContactId;
+     if (NumUpdated == NULL) return BPLIB_NULL_PTR_ERROR;
+@@ -81,10 +75,8 @@
+     ** sqlite to use the right index, otherwise it will try to use the much slower
+     ** egress_attempted index by default, which will result in worse performance.
+     */
+-    snprintf(SetNewRetransmitTriggerSQL, BPLIB_SQL_MAX_STRLEN, SetNewRetransmitTriggerBaseSQL,
+-            WhereClause);
+-
+-    SetNewRetransmitTriggerSQL[strlen(SetNewRetransmitTriggerSQL)] = '\0';
++    char *SetNewRetransmitTriggerSQL = sqlite3_mprintf(SetNewRetransmitTriggerBaseSQL, WhereClause);
++    if (SetNewRetransmitTriggerSQL == NULL) return BPLIB_STOR_SQL_NEW_RETRANSMIT_ERR;
+ 
+     /* Prepare Search Statements needed for this batch query */
+     SQLStatus = sqlite3_prepare_v2(db, SetNewRetransmitTriggerSQL, -1, &SetRetransmitAllStmt, 0);
+@@ -98,7 +90,7 @@
+     {
+         /* Run Batch Load Logic */
+         SQLStatus = BPLib_SQL_SetNewRetransmitTriggerImpl(db, DestEIDs, NumEIDs, 
+-                                                            RetransmitTrigger, NumUpdated);
++                                                            RetransmitTrigger, NumUpdated, SetRetransmitAllStmt);
+ 
+         if (SQLStatus != SQLITE_OK)
+         {
+@@ -108,18 +100,22 @@
+ 
+     /* Cleanup/Finalize */
+     sqlite3_finalize(SetRetransmitAllStmt);
+-    SetRetransmitAllStmt = NULL;
++    sqlite3_free(SetNewRetransmitTriggerSQL);
+     
+     return Status;
+ }
+ 
+ SQL_Status_t BPLib_SQL_SetNewRetransmitTriggerImpl(sqlite3* db, BPLib_EID_Pattern_t* DestEIDs, 
+-                            size_t NumEIDs, size_t RetransmitTrigger, size_t *NumUpdated)
++                            size_t NumEIDs, size_t RetransmitTrigger, size_t *NumUpdated, sqlite3_stmt *SetRetransmitAllStmt)
+ {
+     SQL_Status_t  SQLStatus;
+     size_t        i;
+     uint64_t      BindIndex;
+ 
++    *NumUpdated = 0;
++    SQLStatus = sqlite3_exec(db, "BEGIN;", NULL, NULL, NULL);
++    if (SQLStatus != SQLITE_OK) return SQLStatus;
++
+     /* Bind parameters for query */
+     sqlite3_reset(SetRetransmitAllStmt);
+ 
+@@ -136,7 +132,7 @@
+         if (SQLStatus != SQLITE_OK)
+         {
+             fprintf(stderr, "Failed to bind dest_node min: %s\n", sqlite3_errmsg(db));
+-            return SQLStatus;
++            goto rollback;
+         }
+ 
+         if (DestEIDs[i].MinNode != DestEIDs[i].MaxNode)
+@@ -145,7 +141,7 @@
+             if (SQLStatus != SQLITE_OK)
+             {
+                 fprintf(stderr, "Failed to bind dest_node max: %s\n", sqlite3_errmsg(db));
+-                return SQLStatus;
++                goto rollback;
+             }
+         }
+ 
+@@ -153,7 +149,7 @@
+         if (SQLStatus != SQLITE_OK)
+         {
+             fprintf(stderr, "Failed to bind dest_node min: %s\n", sqlite3_errmsg(db));
+-            return SQLStatus;
++            goto rollback;
+         }
+ 
+         if (DestEIDs[i].MinService != DestEIDs[i].MaxService)
+@@ -162,7 +158,7 @@
+             if (SQLStatus != SQLITE_OK)
+             {
+                 fprintf(stderr, "Failed to bind dest_node max: %s\n", sqlite3_errmsg(db));
+-                return SQLStatus;
++                goto rollback;
+             }
+         }
+ 
+@@ -173,7 +169,7 @@
+     if (SQLStatus != SQLITE_OK)
+     {
+         fprintf(stderr, "Failed to bind retransmit_trigger: %s\n", sqlite3_errmsg(db));
+-        return SQLStatus;
++        goto rollback;
+     }
+ 
+     /* Bind retransmit_time to automatically trigger retransmission */
+@@ -182,21 +178,22 @@
+     if (SQLStatus != SQLITE_OK)
+     {
+         fprintf(stderr, "Failed to bind retransmit_time: %s\n", sqlite3_errmsg(db));
+-        return SQLStatus;
++        goto rollback;
+     }
+ 
+     SQLStatus = sqlite3_step(SetRetransmitAllStmt);
+ 
+-    if (SQLStatus == SQLITE_DONE)
+-    {
+-        /* For consistency with other helpers, convert DONE to OK */
+-        SQLStatus = SQLITE_OK;
+-    }
+-
+-    if (SQLStatus == SQLITE_OK) *NumUpdated = sqlite3_changes(db);
+-
+-    /* Expecting SQLITE_OK */
+-    return SQLStatus;    
++    if (SQLStatus != SQLITE_DONE) goto rollback;
++    size_t Updated = sqlite3_changes(db);
++    SQLStatus = sqlite3_exec(db, "COMMIT;", NULL, NULL, NULL);
++    if (SQLStatus != SQLITE_OK) goto rollback;
++    *NumUpdated = Updated;
++    return SQLITE_OK;
++rollback:
++    sqlite3_reset(SetRetransmitAllStmt);
++    if (!sqlite3_get_autocommit(db) && sqlite3_exec(db, "ROLLBACK;", NULL, NULL, NULL) != SQLITE_OK)
++        fprintf(stderr, "Failed to roll back retransmit scheduling: %s\n", sqlite3_errmsg(db));
++    return SQLStatus;
+ }
+ 
+ BPLib_Status_t BPLib_SQL_UpdateCustodialBundles(BPLib_Instance_t *Inst, BPLib_STOR_CtUpdateBatch_t *Batch)
+@@ -206,28 +203,23 @@
+     if (Batch->Size == 0) return BPLIB_SUCCESS;
+     sqlite3 *db = Inst->BundleStorage.db;
+     size_t NumEgressed = 0;
+-    TriggerRetransmitStmt = NULL;
+-    StopRetransmitStmt = NULL;
+-    MarkForDeletionStmt = NULL;
+-    SQL_Status_t Status = sqlite3_prepare_v2(db, TriggerRetransmitSQL, -1, &TriggerRetransmitStmt, NULL);
++    BPLib_SQL_CustodyStatements_t Statements = {0};
++    SQL_Status_t Status = sqlite3_prepare_v2(db, TriggerRetransmitSQL, -1, &Statements.Start, NULL);
+     if (Status == SQLITE_OK)
+-        Status = sqlite3_prepare_v2(db, StopRetransmitSQL, -1, &StopRetransmitStmt, NULL);
++        Status = sqlite3_prepare_v2(db, StopRetransmitSQL, -1, &Statements.Stop, NULL);
+     if (Status == SQLITE_OK)
+-        Status = sqlite3_prepare_v2(db, MarkForDeletionSQL, -1, &MarkForDeletionStmt, NULL);
++        Status = sqlite3_prepare_v2(db, MarkForDeletionSQL, -1, &Statements.Delete, NULL);
+     if (Status == SQLITE_OK)
+-        Status = BPLib_SQL_UpdateCustodialBundlesImpl(db, Batch, &NumEgressed);
+-    sqlite3_finalize(MarkForDeletionStmt);
+-    sqlite3_finalize(StopRetransmitStmt);
+-    sqlite3_finalize(TriggerRetransmitStmt);
+-    MarkForDeletionStmt = NULL;
+-    StopRetransmitStmt = NULL;
+-    TriggerRetransmitStmt = NULL;
++        Status = BPLib_SQL_UpdateCustodialBundlesImpl(db, Batch, &NumEgressed, &Statements);
++    sqlite3_finalize(Statements.Delete);
++    sqlite3_finalize(Statements.Stop);
++    sqlite3_finalize(Statements.Start);
+     if (Status != SQLITE_OK) return BPLIB_SQL_CUSTODY_UPDATE_ERR;
+     Inst->BundleStorage.BundleCountNotEgressed -= NumEgressed;
+     return BPLIB_SUCCESS;
+ }
+ 
+-SQL_Status_t BPLib_SQL_UpdateCustodialBundlesImpl(sqlite3 *db, BPLib_STOR_CtUpdateBatch_t *Batch, size_t *NumEgressed)
++SQL_Status_t BPLib_SQL_UpdateCustodialBundlesImpl(sqlite3 *db, BPLib_STOR_CtUpdateBatch_t *Batch, size_t *NumEgressed, BPLib_SQL_CustodyStatements_t *Statements)
+ {
+     *NumEgressed = 0;
+     if (Batch->Size == 0) return SQLITE_OK;
+@@ -238,9 +230,9 @@
+         sqlite3_stmt *Statement;
+         switch (Batch->Ops[Row])
+         {
+-            case BPLIB_CT_MARK_DELETE: Statement = MarkForDeletionStmt; break;
+-            case BPLIB_CT_START_RETRANSMIT: Statement = TriggerRetransmitStmt; break;
+-            case BPLIB_CT_STOP_RETRANSMIT: Statement = StopRetransmitStmt; break;
++            case BPLIB_CT_MARK_DELETE: Statement = Statements->Delete; break;
++            case BPLIB_CT_START_RETRANSMIT: Statement = Statements->Start; break;
++            case BPLIB_CT_STOP_RETRANSMIT: Statement = Statements->Stop; break;
+             default: Status = SQLITE_MISUSE; goto rollback;
+         }
+         sqlite3_reset(Statement);
+@@ -261,9 +253,9 @@
+     if (Status != SQLITE_OK) goto rollback;
+     return SQLITE_OK;
+ rollback:
+-    sqlite3_reset(MarkForDeletionStmt);
+-    sqlite3_reset(StopRetransmitStmt);
+-    sqlite3_reset(TriggerRetransmitStmt);
++    sqlite3_reset(Statements->Delete);
++    sqlite3_reset(Statements->Stop);
++    sqlite3_reset(Statements->Start);
+     if (!sqlite3_get_autocommit(db) && sqlite3_exec(db, "ROLLBACK;", NULL, NULL, NULL) != SQLITE_OK)
+         fprintf(stderr, "Failed to roll back custody batch: %s\n", sqlite3_errmsg(db));
+     *NumEgressed = 0;

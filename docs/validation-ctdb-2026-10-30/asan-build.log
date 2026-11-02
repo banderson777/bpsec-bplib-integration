@@ -1,0 +1,24 @@
+Consolidate compiler generated dependencies of target custody_regression
+[ 33%] Building C object CMakeFiles/custody_regression.dir/custody_regression.c.o
+[ 66%] Building C object CMakeFiles/custody_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/ct/src/bplib_ct.c.o
+[100%] Linking C executable custody_regression
+[100%] Built target custody_regression
+[ 20%] Building C object CMakeFiles/custody_db_regression.dir/custody_db_regression.c.o
+[ 40%] Building C object CMakeFiles/custody_db_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/ct/src/bplib_ct_db.c.o
+[ 60%] Building C object CMakeFiles/custody_db_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/ci/rbt/src/bplib_rbt_api.c.o
+[ 80%] Building C object CMakeFiles/custody_db_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/ci/rbt/src/bplib_rbt_impl.c.o
+[100%] Linking C executable custody_db_regression
+[100%] Built target custody_db_regression
+Consolidate compiler generated dependencies of target storage_recovery_regression
+[  4%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/ct/src/bplib_ct_ccs.c.o
+[  9%] Linking C executable storage_recovery_regression
+[100%] Built target storage_recovery_regression
+Consolidate compiler generated dependencies of target storage_error_regression
+[ 12%] Building C object CMakeFiles/storage_error_regression.dir/storage_error_regression.c.o
+[ 25%] Building C object CMakeFiles/storage_error_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/ct/src/bplib_ct_ccs.c.o
+[ 37%] Linking C executable storage_error_regression
+[100%] Built target storage_error_regression
+Consolidate compiler generated dependencies of target demo_delivery_regression
+[ 50%] Building C object CMakeFiles/demo_delivery_regression.dir/demo_delivery_regression.c.o
+[100%] Linking C executable demo_delivery_regression
+[100%] Built target demo_delivery_regression

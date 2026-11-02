@@ -1,0 +1,15 @@
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/bpsec-ccs-20261030/integration
+Consolidate compiler generated dependencies of target demo_delivery_regression
+[ 50%] Building C object CMakeFiles/demo_delivery_regression.dir/demo_delivery_regression.c.o
+In file included from /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/demo_delivery_regression.c:2:
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/../bpnode/fsw/src/bpnode_demo.c: In function ‘deliver’:
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/../bpnode/fsw/src/bpnode_demo.c:378:47: warning: ‘.tmp’ directive output may be truncated writing 4 bytes into a region of size between 1 and 128 [-Wformat-truncation=]
+  378 |     snprintf(temporary, sizeof(temporary), "%s.tmp", output);
+      |                                               ^~~~
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/../bpnode/fsw/src/bpnode_demo.c:378:5: note: ‘snprintf’ output between 5 and 132 bytes into a destination of size 128
+  378 |     snprintf(temporary, sizeof(temporary), "%s.tmp", output);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[100%] Linking C executable demo_delivery_regression
+[100%] Built target demo_delivery_regression

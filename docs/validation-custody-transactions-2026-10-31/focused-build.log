@@ -1,0 +1,5 @@
+Consolidate compiler generated dependencies of target custody_parallel_regression
+[ 25%] Building C object CMakeFiles/custody_parallel_regression.dir/custody_parallel_regression.c.o
+[ 50%] Building C object CMakeFiles/custody_parallel_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_cust.c.o
+[ 75%] Linking C executable custody_parallel_regression
+[100%] Built target custody_parallel_regression

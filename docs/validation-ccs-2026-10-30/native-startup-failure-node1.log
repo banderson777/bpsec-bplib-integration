@@ -1,0 +1,35 @@
+OS_BSP_Initialize():Maximum user msg queue depth = 10
+CFE_PSP: CPU ID: 1
+CFE_PSP: CPU Name: node1
+CFE_PSP: Default Reset SubType = 1
+CFE_PSP: Default Spacecraft ID = 185
+OS_Posix_GetSchedulerParams():208:Policy 1: available, min-max: 1-99
+OS_Posix_GetSchedulerParams():208:Policy 2: available, min-max: 1-99
+OS_Posix_TaskAPI_Impl_Init():401:Selected policy 2 for RT tasks, root task = 99
+OS_Posix_TaskAPI_Impl_Init():419:Could not setschedparam in main thread: Operation not permitted (1)
+CFE_PSP: initializing module 'soft_timebase' with ID 0110ff00
+CFE_PSP: Instantiated software timebase 'cFS-Master' running at 10000 usec
+CFE_PSP: initializing module 'timebase_posix_clock' with ID 0110ff01
+CFE_PSP: Using POSIX monotonic clock as CFE timebase
+CFE_PSP: initializing module 'eeprom_mmap_file' with ID 0110ff02
+CFE_PSP: Using MMAP simulated EEPROM implementation
+CFE_PSP: initializing module 'port_notimpl' with ID 0110ff03
+CFE_PSP: I/O Port access not implemented
+CFE_PSP: initializing module 'iodriver' with ID 0110ff04
+CFE_PSP: initializing module 'linux_sysmon' with ID 0110ff05
+CFE_PSP: initializing module 'endian_api' with ID 0110ff06
+CFE_PSP: Host CPU Endian=LITTLE
+CFE_PSP: initializing module 'ram_notimpl' with ID 0110ff07
+CFE_PSP: Physical RAM access not implemented
+CFE_PSP: initializing module 'udpsock_intf' with ID 01100000
+CFE_PSP: EEPROM Range (2) created: Start Address = 72F868280000, Size = 00080000 Status = 0
+CFE_PSP: Initializing udpsock_intf interface
+CFE_PSP: Starting the cFE with a POWER ON reset.
+CFE_PSP: Clearing out CFE CDS Shared memory segment.
+CFE_PSP: Clearing out CFE Reset Shared memory segment.
+CFE_PSP: Clearing out CFE User Reserved Shared memory segment.
+1980-001-00:23:33.23086 CFE_ES_SetupResetVariables: POWER ON RESET due to Power Cycle (Power Cycle).
+1980-001-00:23:33.23094 CFE_ES_Main: CFE_ES_Main in EARLY_INIT state
+OS_FileSysMountVolume_Impl():258:ERROR: Cannot create mount point /dev/shm/osal:RAM: File exists1980-001-00:23:33.23106 CFE_ES_InitializeFileSystems: Error Mounting Volatile(RAM) Volume. EC = -17
+CFE_PSP_Panic called with error code = 0x00000002. Exiting.
+The cFE could not start.

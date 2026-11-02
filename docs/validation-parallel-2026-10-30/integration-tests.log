@@ -1,0 +1,74 @@
+Internal ctest changing into directory: /tmp/bpsec-ccs-20261030/integration
+Test project /tmp/bpsec-ccs-20261030/integration
+      Start  1: video_security_regression
+ 1/34 Test  #1: video_security_regression ...................   Passed    1.54 sec
+      Start  2: deployment_health_regression
+ 2/34 Test  #2: deployment_health_regression ................   Passed    0.14 sec
+      Start  3: bpsec_bplib_smoke
+ 3/34 Test  #3: bpsec_bplib_smoke ...........................   Passed    0.16 sec
+      Start  4: bplib_tcp_cla_smoke
+ 4/34 Test  #4: bplib_tcp_cla_smoke .........................   Passed    0.00 sec
+      Start  5: tcpclv4_chain_smoke
+ 5/34 Test  #5: tcpclv4_chain_smoke .........................   Passed    0.00 sec
+      Start  6: tcpclv4_stcp_chain_smoke
+ 6/34 Test  #6: tcpclv4_stcp_chain_smoke ....................   Passed    0.00 sec
+      Start  7: tcpclv4_stcp_hdtn_chain_smoke
+ 7/34 Test  #7: tcpclv4_stcp_hdtn_chain_smoke ...............   Passed    0.00 sec
+      Start  8: tcp_cla_regression
+ 8/34 Test  #8: tcp_cla_regression ..........................   Passed    0.48 sec
+      Start  9: memory_regression
+ 9/34 Test  #9: memory_regression ...........................   Passed    0.00 sec
+      Start 10: bpnode_ingress_regression
+10/34 Test #10: bpnode_ingress_regression ...................   Passed    0.00 sec
+      Start 11: video_sink_regression
+11/34 Test #11: video_sink_regression .......................   Passed    0.00 sec
+      Start 12: custody_regression
+12/34 Test #12: custody_regression ..........................   Passed    0.00 sec
+      Start 13: custody_db_regression
+13/34 Test #13: custody_db_regression .......................   Passed    0.00 sec
+      Start 14: custody_admission_regression
+14/34 Test #14: custody_admission_regression ................   Passed    0.00 sec
+      Start 15: demo_delivery_regression
+15/34 Test #15: demo_delivery_regression ....................   Passed    0.09 sec
+      Start 16: cbor_bounds_regression
+16/34 Test #16: cbor_bounds_regression ......................   Passed    0.02 sec
+      Start 17: storage_init_regression
+17/34 Test #17: storage_init_regression .....................   Passed    1.22 sec
+      Start 18: storage_commit_regression
+18/34 Test #18: storage_commit_regression ...................   Passed    0.00 sec
+      Start 19: storage_parallel_regression
+19/34 Test #19: storage_parallel_regression .................   Passed    0.02 sec
+      Start 20: storage_error_discard_expired_regression
+20/34 Test #20: storage_error_discard_expired_regression ....   Passed    0.00 sec
+      Start 21: storage_error_discard_egressed_regression
+21/34 Test #21: storage_error_discard_egressed_regression ...   Passed    0.00 sec
+      Start 22: storage_error_mark_egress_regression
+22/34 Test #22: storage_error_mark_egress_regression ........   Passed    0.00 sec
+      Start 23: storage_error_custody_update_regression
+23/34 Test #23: storage_error_custody_update_regression .....   Passed    0.00 sec
+      Start 24: storage_error_load_regression
+24/34 Test #24: storage_error_load_regression ...............   Passed    0.00 sec
+      Start 25: storage_error_custody_queue_regression
+25/34 Test #25: storage_error_custody_queue_regression ......   Passed    0.03 sec
+      Start 26: storage_error_lookup_regression
+26/34 Test #26: storage_error_lookup_regression .............   Passed    0.00 sec
+      Start 27: storage_error_ccs_ranges_regression
+27/34 Test #27: storage_error_ccs_ranges_regression .........   Passed    0.00 sec
+      Start 28: endpoint_security_regression
+28/34 Test #28: endpoint_security_regression ................   Passed    0.24 sec
+      Start 29: storage_recovery_regression
+29/34 Test #29: storage_recovery_regression .................   Passed    0.08 sec
+      Start 30: storage_durability_regression
+30/34 Test #30: storage_durability_regression ...............   Passed    0.07 sec
+      Start 31: storage_constructed_regression
+31/34 Test #31: storage_constructed_regression ..............   Passed    0.05 sec
+      Start 32: storage_ccs_parse_regression
+32/34 Test #32: storage_ccs_parse_regression ................   Passed    0.05 sec
+      Start 33: storage_ccs_sender_regression
+33/34 Test #33: storage_ccs_sender_regression ...............   Passed    0.05 sec
+      Start 34: crc_regression
+34/34 Test #34: crc_regression ..............................   Passed    0.02 sec
+
+100% tests passed, 0 tests failed out of 34
+
+Total Test time (real) =   4.33 sec

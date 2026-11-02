@@ -1,0 +1,118 @@
+--- /tmp/bpsec-admission-20261030/ct-before.c	2026-10-30 11:34:38.151829165 -0400
++++ bplib/bpa/ct/src/bplib_ct.c	2026-10-30 11:39:30.091233400 -0400
+@@ -32,6 +32,7 @@
+ #include "bplib_inst.h"
+ #include "bplib_nc.h"
+ #include "bplib_bi.h"
++#include <errno.h>
+ 
+ 
+ /*
+@@ -201,49 +202,79 @@
+ 
+     pthread_mutex_lock(&Inst->Ct.Lock);
+ 
+-    /* Reject custody due to lack of storage */
+-    /* Check if there's storage left (TotalBytes includes the deserialized bundle) */
+-    if (Inst->BundleStorage.BytesStorageInUse + Bundle->Meta.TotalBytes >= BPLIB_MAX_STORED_BUNDLE_BYTES)
+-    {
+-        BPLib_EM_SendEvent(BPLIB_CT_NO_STOR_ERR_EID, BPLib_EM_EventType_ERROR,
+-                            "Cannot process and accept bundle, not enough storage (%ld bytes remaining). %s.",
+-                            (BPLIB_MAX_STORED_BUNDLE_BYTES - Inst->BundleStorage.BytesStorageInUse), BundleInfo);
+-        BPLib_AS_Increment(BPLIB_EID_INSTANCE, BUNDLE_COUNT_DEPLETED, 1);
+-        Status = BPLIB_CT_CUSTODY_REFUSED_ERR;
+-    }
+-    /* Reject custody when CTDB is full */
+-    else if (Inst->Ct.CurrDbSize >= BPLIB_CT_DB_MAX_ENTRIES)
+-    {
+-        BPLib_EM_SendEvent(BPLIB_CT_NO_MEM_ERR_EID, BPLib_EM_EventType_ERROR,
+-                            "Cannot accept bundle, CTDB is full. %s", BundleInfo);
+-        BPLib_AS_Increment(BPLIB_EID_INSTANCE, BUNDLE_COUNT_DEPLETED, 1);
+-        Status = BPLIB_CT_CUSTODY_REFUSED_ERR;
+-    }
+-    /* Duplicate bundles are accepted but discarded */
+-    else if (BPLib_CT_GetEntryFromCtdbWithId(&(Inst->Ct),
+-                    Bundle->blocks.PrimaryBlock.BundleId, &DbEntry) == BPLIB_SUCCESS)
++    /* Resolve existing custody before resource refusal: refusing a duplicate
++     * must never remove the already-owned original entry. */
++    BPLib_Status_t LookupStatus = BPLib_CT_GetEntryFromCtdbWithId(&Inst->Ct,
++                                                Bundle->blocks.PrimaryBlock.BundleId, &DbEntry);
++    if (LookupStatus == BPLIB_SUCCESS)
+     {
++        if (DbEntry == NULL)
++        {
++            pthread_mutex_unlock(&Inst->Ct.Lock);
++            return BPLIB_NOT_FOUND_ERR;
++        }
+         BPLib_AS_Increment(BPLIB_EID_INSTANCE, BUNDLE_COUNT_REDUNDANT, 1);
+         DispCode = BPLib_CT_CustodyAccepted;
+         Status = BPLIB_CT_DUPLICATE_ERR;
+         StoreBundle = false;
+         if (DbEntry->State == BPLib_CT_Initialized)
+         {
+-            /* The original is still awaiting a durable storage commit. Do not
+-             * acknowledge this duplicate or remove the original CTDB entry. */
++            /* The original still awaits a durable commit. Keep its entry and
++             * withhold an acknowledgement regardless of resource pressure. */
+             pthread_mutex_unlock(&Inst->Ct.Lock);
+             return Status;
+         }
+     }
+-
+-    /* Custody accepted! */
+-    else if (BPLib_PDB_AcceptCustody(Bundle) == BPLIB_SUCCESS)
++    else if (LookupStatus != BPLIB_NOT_FOUND_ERR)
+     {
+-        DispCode = BPLib_CT_CustodyAccepted;
++        pthread_mutex_unlock(&Inst->Ct.Lock);
++        return LookupStatus;
+     }
+     else
+     {
+-        Status = BPLIB_CT_CUSTODY_REFUSED_ERR;
++        /* Advisory snapshot only. Never block under Ct.Lock on storage, whose
++         * cleanup may need Ct.Lock. StoreBundle rechecks under its own lock. */
++        size_t StorageUsed = 0;
++        int LockStatus = pthread_mutex_trylock(&Inst->BundleStorage.lock);
++        if (LockStatus == 0)
++        {
++            StorageUsed = Inst->BundleStorage.BytesStorageInUse;
++            pthread_mutex_unlock(&Inst->BundleStorage.lock);
++        }
++        else if (LockStatus != EBUSY)
++        {
++            pthread_mutex_unlock(&Inst->Ct.Lock);
++            return BPLIB_ERROR;
++        }
++        /* Subtract only after checking usage, preserving the existing exact-limit
++         * refusal policy without allowing a size_t addition to wrap. */
++        if (StorageUsed >= BPLIB_MAX_STORED_BUNDLE_BYTES ||
++                 Bundle->Meta.TotalBytes >= BPLIB_MAX_STORED_BUNDLE_BYTES - StorageUsed)
++        {
++            size_t Remaining = StorageUsed < BPLIB_MAX_STORED_BUNDLE_BYTES
++                ? BPLIB_MAX_STORED_BUNDLE_BYTES - StorageUsed : 0;
++            BPLib_EM_SendEvent(BPLIB_CT_NO_STOR_ERR_EID, BPLib_EM_EventType_ERROR,
++                                "Cannot process and accept bundle, not enough storage (%zu bytes remaining). %s.",
++                                Remaining, BundleInfo);
++            BPLib_AS_Increment(BPLIB_EID_INSTANCE, BUNDLE_COUNT_DEPLETED, 1);
++            Status = BPLIB_CT_CUSTODY_REFUSED_ERR;
++        }
++        else if (Inst->Ct.CurrDbSize >= BPLIB_CT_DB_MAX_ENTRIES)
++        {
++            BPLib_EM_SendEvent(BPLIB_CT_NO_MEM_ERR_EID, BPLib_EM_EventType_ERROR,
++                                "Cannot accept bundle, CTDB is full. %s", BundleInfo);
++            BPLib_AS_Increment(BPLIB_EID_INSTANCE, BUNDLE_COUNT_DEPLETED, 1);
++            Status = BPLIB_CT_CUSTODY_REFUSED_ERR;
++        }
++        /* Custody accepted! */
++        else if (BPLib_PDB_AcceptCustody(Bundle) == BPLIB_SUCCESS)
++        {
++            DispCode = BPLib_CT_CustodyAccepted;
++        }
++        else
++        {
++            Status = BPLIB_CT_CUSTODY_REFUSED_ERR;
++        }
+     }
+ 
+     if (Status == BPLIB_SUCCESS)

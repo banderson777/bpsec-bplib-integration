@@ -1,0 +1,2 @@
+recovery fault step=1 status=9 stored=2 pending=92 bytes=93
+before-regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/storage_init_regression.c:40: preserved: Assertion `instance.BundleStorage.BundleCountStored==91' failed.

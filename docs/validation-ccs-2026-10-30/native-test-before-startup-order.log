@@ -1,0 +1,11 @@
+Prepared 3 segments / 7 records in /tmp/bpsec-ccs-20261030/lost-ccs/runtime
+Traceback (most recent call last):
+  File "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py", line 228, in <module>
+    main()
+  File "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py", line 90, in main
+    wait_for_nodes({5 - i: process for i, process in enumerate(processes)}, run)
+  File "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/five_node.py", line 136, in wait_for_nodes
+    while not check_nodes(processes, log_directory):
+  File "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/five_node.py", line 120, in check_nodes
+    raise RuntimeError(f'node {number} exited with {process.returncode}; inspect {log_directory}')
+RuntimeError: node 1 exited with -6; inspect /tmp/bpsec-ccs-20261030/lost-ccs

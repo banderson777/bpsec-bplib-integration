@@ -1,0 +1,68 @@
+[OUTPUT] 
+Internal ctest changing into directory: /tmp/bpsec-ccs-20261030/integration
+
+[HANDLER_OUTPUT] 
+Test project /tmp/bpsec-ccs-20261030/integration
+
+      Start  1: video_security_regression
+ 1/29 Test  #1: video_security_regression ...................   Passed    6.08 sec
+      Start  2: deployment_health_regression
+ 2/29 Test  #2: deployment_health_regression ................   Passed    0.38 sec
+      Start  3: bpsec_bplib_smoke
+ 3/29 Test  #3: bpsec_bplib_smoke ...........................   Passed    0.57 sec
+      Start  4: bplib_tcp_cla_smoke
+ 4/29 Test  #4: bplib_tcp_cla_smoke .........................   Passed    0.01 sec
+      Start  5: tcpclv4_chain_smoke
+ 5/29 Test  #5: tcpclv4_chain_smoke .........................   Passed    0.01 sec
+      Start  6: tcpclv4_stcp_chain_smoke
+ 6/29 Test  #6: tcpclv4_stcp_chain_smoke ....................   Passed    0.01 sec
+      Start  7: tcpclv4_stcp_hdtn_chain_smoke
+ 7/29 Test  #7: tcpclv4_stcp_hdtn_chain_smoke ...............   Passed    0.01 sec
+      Start  8: tcp_cla_regression
+ 8/29 Test  #8: tcp_cla_regression ..........................   Passed    0.55 sec
+      Start  9: memory_regression
+ 9/29 Test  #9: memory_regression ...........................   Passed    0.01 sec
+      Start 10: bpnode_ingress_regression
+10/29 Test #10: bpnode_ingress_regression ...................   Passed    0.00 sec
+      Start 11: video_sink_regression
+11/29 Test #11: video_sink_regression .......................   Passed    0.01 sec
+      Start 12: custody_regression
+12/29 Test #12: custody_regression ..........................   Passed    0.00 sec
+      Start 13: cbor_bounds_regression
+13/29 Test #13: cbor_bounds_regression ......................   Passed    0.12 sec
+      Start 14: storage_init_regression
+14/29 Test #14: storage_init_regression .....................   Passed    1.48 sec
+      Start 15: storage_commit_regression
+15/29 Test #15: storage_commit_regression ...................   Passed    0.01 sec
+      Start 16: storage_error_discard_expired_regression
+16/29 Test #16: storage_error_discard_expired_regression ....   Passed    0.01 sec
+      Start 17: storage_error_discard_egressed_regression
+17/29 Test #17: storage_error_discard_egressed_regression ...   Passed    0.01 sec
+      Start 18: storage_error_mark_egress_regression
+18/29 Test #18: storage_error_mark_egress_regression ........   Passed    0.00 sec
+      Start 19: storage_error_custody_update_regression
+19/29 Test #19: storage_error_custody_update_regression .....   Passed    0.00 sec
+      Start 20: storage_error_load_regression
+20/29 Test #20: storage_error_load_regression ...............   Passed    0.01 sec
+      Start 21: storage_error_custody_queue_regression
+21/29 Test #21: storage_error_custody_queue_regression ......   Passed    0.04 sec
+      Start 22: storage_error_lookup_regression
+22/29 Test #22: storage_error_lookup_regression .............   Passed    0.01 sec
+      Start 23: storage_error_ccs_ranges_regression
+23/29 Test #23: storage_error_ccs_ranges_regression .........   Passed    0.00 sec
+      Start 24: endpoint_security_regression
+24/29 Test #24: endpoint_security_regression ................   Passed    0.52 sec
+      Start 25: storage_recovery_regression
+25/29 Test #25: storage_recovery_regression .................   Passed    0.47 sec
+      Start 26: storage_durability_regression
+26/29 Test #26: storage_durability_regression ...............   Passed    0.58 sec
+      Start 27: storage_constructed_regression
+27/29 Test #27: storage_constructed_regression ..............   Passed    0.42 sec
+      Start 28: storage_ccs_parse_regression
+28/29 Test #28: storage_ccs_parse_regression ................   Passed    0.39 sec
+      Start 29: crc_regression
+29/29 Test #29: crc_regression ..............................   Passed    0.02 sec
+
+100% tests passed, 0 tests failed out of 29
+
+Total Test time (real) =  11.76 sec

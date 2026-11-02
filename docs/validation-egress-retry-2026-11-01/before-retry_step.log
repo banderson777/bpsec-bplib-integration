@@ -1,0 +1,2 @@
+retry local=0 fault=1 status=-302 count=0 batch=0 reader=0 flags=0
+before-regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/storage_error_regression.c:184: egress_retry: Assertion `batch->Size==2 && batch->ReadIndex==2 && batch->BundleRowIDs[0]==1 && batch->BundleRowIDs[1]==2' failed.

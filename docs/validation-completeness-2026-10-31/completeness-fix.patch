@@ -1,0 +1,128 @@
+--- /tmp/bpsec-complete-20261031/store-before.c	2026-10-31 20:36:57.332843971 -0400
++++ bplib/bpa/stor/src/bplib_stor_sql_store.c	2026-10-31 20:38:26.415400000 -0400
+@@ -238,6 +238,8 @@
+     if (SQLStatus == SQLITE_OK)
+         SQLStatus = sqlite3_bind_blob(InsertBlobStmt, 2, Chunk, (int)ChunkSize, SQLITE_STATIC);
+     if (SQLStatus == SQLITE_OK) SQLStatus = sqlite3_step(InsertBlobStmt);
++    if (SQLStatus == SQLITE_DONE && sqlite3_changes(sqlite3_db_handle(InsertBlobStmt)) != 1)
++        SQLStatus = SQLITE_CORRUPT;
+ 
+     /* SQLITE_STATIC borrows the caller's memory. Release it before StoreBundle
+      * frees the encoded wire buffer, on both success and failure. */
+@@ -280,6 +282,7 @@
+     Bundle->Meta.TotalBytes = WireBytes + sizeof(BPLib_BBlocks_t);
+     SQLStatus = BPLib_SQL_StoreMetadata(Bundle, Statements->Metadata);
+     if (SQLStatus != SQLITE_DONE) goto done;
++    if (sqlite3_changes(db) != 1) { SQLStatus = SQLITE_CORRUPT; goto done; }
+     sqlite3_int64 BundleRowID = sqlite3_last_insert_rowid(db);
+     sqlite3_stmt *RecoveryStmt = NULL;
+     SQLStatus = sqlite3_prepare_v2(db,
+@@ -292,6 +295,7 @@
+     if (SQLStatus == SQLITE_OK) SQLStatus = sqlite3_bind_int64(RecoveryStmt, 5, Bundle->blocks.PrimaryBlock.MonoTime.Time);
+     if (SQLStatus == SQLITE_OK) SQLStatus = sqlite3_bind_int64(RecoveryStmt, 6, Bundle->blocks.PrimaryBlock.MonoTime.BootEra);
+     if (SQLStatus == SQLITE_OK) SQLStatus = sqlite3_step(RecoveryStmt);
++    if (SQLStatus == SQLITE_DONE && sqlite3_changes(db) != 1) SQLStatus = SQLITE_CORRUPT;
+     sqlite3_finalize(RecoveryStmt);
+     if (SQLStatus != SQLITE_DONE) goto done;
+     for (size_t Offset = 0; Offset < WireBytes;)
+@@ -308,6 +312,28 @@
+     return SQLStatus;
+ }
+ 
++/* Detect an already-present ID before attempting any writes. Later constraints
++ * are write failures, never evidence that the new bundle is redundant. */
++static SQL_Status_t BPLib_SQL_BundleExists(sqlite3_stmt *Statement, uint32_t BundleId, bool *Exists)
++{
++    *Exists = false;
++    SQL_Status_t Status = sqlite3_reset(Statement);
++    SQL_Status_t Clear = sqlite3_clear_bindings(Statement);
++    if (Status != SQLITE_OK) return Status;
++    if (Clear != SQLITE_OK) return Clear;
++    Status = sqlite3_bind_int64(Statement, 1, BundleId);
++    if (Status == SQLITE_OK) Status = sqlite3_step(Statement);
++    bool Found = false;
++    if (Status == SQLITE_ROW) { Found = sqlite3_column_int(Statement, 0) != 0; Status = SQLITE_OK; }
++    else if (Status == SQLITE_DONE) Status = SQLITE_CORRUPT;
++    SQL_Status_t Reset = sqlite3_reset(Statement);
++    Clear = sqlite3_clear_bindings(Statement);
++    if (Status == SQLITE_OK && Reset != SQLITE_OK) Status = Reset;
++    if (Status == SQLITE_OK && Clear != SQLITE_OK) Status = Clear;
++    if (Status == SQLITE_OK) *Exists = Found;
++    return Status;
++}
++
+ SQL_Status_t BPLib_SQL_StoreImpl(BPLib_Instance_t* Inst, size_t *TotalBytesStored,
+                                 size_t *DuplicateBundlesIgnored, size_t *CustodialBundles,
+                                 BPLib_SQL_StoreStatements_t *Statements)
+@@ -338,14 +364,25 @@
+     /* Perform an insert for every bundle */
+     for (i = 0; i < Inst->BundleStorage.InsertBatchSize; i++)
+     {
+-        /* Check that inserting the bundle won't cause the storage limit to be exceeded */
++        bool Exists;
++        SQLStatus = BPLib_SQL_BundleExists(Statements->Lookup,
++            Inst->BundleStorage.InsertBatch[i]->blocks.PrimaryBlock.BundleId, &Exists);
++        if (SQLStatus != SQLITE_OK) break;
++        if (Exists)
++        {
++            (*DuplicateBundlesIgnored)++;
++            SQLStatus = SQLITE_DONE;
++            continue;
++        }
+         NewBundleBytes = Inst->BundleStorage.InsertBatch[i]->Meta.TotalBytes;
+-        if (Inst->BundleStorage.BytesStorageInUse + *TotalBytesStored + NewBundleBytes > BPLIB_MAX_STORED_BUNDLE_BYTES)
++        if (NewBundleBytes > BPLIB_MAX_STORED_BUNDLE_BYTES ||
++            Inst->BundleStorage.BytesStorageInUse > BPLIB_MAX_STORED_BUNDLE_BYTES - NewBundleBytes ||
++            *TotalBytesStored > BPLIB_MAX_STORED_BUNDLE_BYTES - NewBundleBytes - Inst->BundleStorage.BytesStorageInUse)
+         {
+             SQLStatus = SQLITE_FULL;
+             break;
+         }
+-        
++
+         SQLStatus = BPLib_SQL_StoreBundle(db, Inst->BundleStorage.InsertBatch[i], Statements);
+         if (SQLStatus == SQLITE_DONE)
+         {
+@@ -363,17 +400,9 @@
+         }
+         else
+         {
+-            if (SQLStatus == SQLITE_CONSTRAINT && sqlite3_extended_errcode(db) == SQLITE_CONSTRAINT_UNIQUE)
+-            {
+-                /* Duplicate bundle detected, ignore error */
+-                SQLStatus = SQLITE_DONE;
+-                (*DuplicateBundlesIgnored)++;
+-            }
+-            else
+-            {
+-                /* If there was an error, don't keep trying to construsct the SQL INSERT */
+-                break;
+-            }
++            /* Any write failure rolls back the batch, including UNIQUE errors
++             * unrelated to an existing bundle ID and trigger-suppressed writes. */
++            break;
+         }
+     }
+ 
+@@ -438,6 +467,13 @@
+ 
+     if (Status == BPLIB_SUCCESS)
+     {
++        SQLStatus = sqlite3_prepare_v2(db,
++            "SELECT EXISTS(SELECT 1 FROM bundle_data WHERE bundle_id=?);", -1, &Statements.Lookup, NULL);
++        if (SQLStatus != SQLITE_OK) Status = BPLIB_STOR_SQL_STORAGE_ERR;
++    }
++
++    if (Status == BPLIB_SUCCESS)
++    {
+         /* Run the batch storage logic */
+         SQLStatus = BPLib_SQL_StoreImpl(Inst, TotalBytesStored, DuplicateBundlesIgnored, CustodialBundles, &Statements);
+         if (SQLStatus == SQLITE_FULL)
+@@ -453,6 +489,7 @@
+     /* Finalize */
+     sqlite3_finalize(Statements.Metadata);
+     sqlite3_finalize(Statements.Blob);
++    sqlite3_finalize(Statements.Lookup);
+ 
+     return Status;
+ }

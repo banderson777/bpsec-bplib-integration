@@ -1,0 +1,876 @@
+-- The C compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/bpsec-sql-ownership-20261101/build/integration
+[  0%] Building C object CMakeFiles/bplib_bsl_security.dir/bplib_bsl_security.c.o
+[100%] Linking C shared library libbplib_bsl_security.so
+[100%] Built target bplib_bsl_security
+-- The C compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- OMIT_DEPRECATED=false: Deprecated elements included in build
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Search path for modules: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration;/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/psp_mod;/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps;/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/libs;/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/psp/fsw/modules;/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules;apps;libs;psp/fsw/modules;cfe/modules;apps/bpnode/psp_mod
+-- Module 'core_api' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_api
+-- Module 'core_private' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_private
+-- Module 'bpnode' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode
+-- Module 'bplib' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib
+-- Module 'sch_lab' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab
+-- Module 'config' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/config
+-- Module 'es' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es
+-- Module 'evs' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs
+-- Module 'fs' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/fs
+-- Module 'sb' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb
+-- Module 'tbl' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl
+-- Module 'time' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time
+-- Module 'osal' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal
+-- Module 'psp' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/psp
+-- Module 'msg' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/msg
+-- Module 'sbr' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sbr
+-- Module 'resourceid' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/resourceid
+-- Module 'udpsock_intf' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/psp_mod/udpsock_intf
+-- OSAL_SYSTEM_BSPTYPE not defined, no OSAL implementation will be compiled
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_api/config/default_cfe_core_api_interface_cfg_values.h for cfe_core_api_interface_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_api/config/default_cfe_core_api_msgid_mapping.h for cfe_core_api_msgid_mapping.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_api/config/default_cfe_mission_cfg.h for cfe_mission_cfg.h
+-- Using file: /tmp/bpsec-sql-ownership-20261101/build/mission/cfe_perfids.h for cfe_perfids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_fcncodes.h for bpnode_fcncodes.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_interface_cfg.h for bpnode_interface_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_mission_cfg.h for bpnode_mission_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_perfids.h for bpnode_perfids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_msg.h for bpnode_msg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_msgdefs.h for bpnode_msgdefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_msgstruct.h for bpnode_msgstruct.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_tbl.h for bpnode_tbl.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_tbldefs.h for bpnode_tbldefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_tblstruct.h for bpnode_tblstruct.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_topicids.h for bpnode_topicids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_interface_cfg_values.h for sch_lab_interface_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_mission_cfg.h for sch_lab_mission_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_perfids.h for sch_lab_perfids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_tbl.h for sch_lab_tbl.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_tbldefs.h for sch_lab_tbldefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_tblstruct.h for sch_lab_tblstruct.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_mission_cfg.h for cfe_es_mission_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_interface_cfg_values.h for cfe_es_interface_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_memaddress.h for cfe_es_memaddress.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_extern_typedefs.h for cfe_es_extern_typedefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_fcncode_values.h for cfe_es_fcncode_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_msgdefs.h for cfe_es_msgdefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_msg.h for cfe_es_msg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_msgstruct.h for cfe_es_msgstruct.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_topicid_values.h for cfe_es_topicid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_mission_cfg.h for cfe_evs_mission_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_interface_cfg_values.h for cfe_evs_interface_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_extern_typedefs.h for cfe_evs_extern_typedefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_fcncode_values.h for cfe_evs_fcncode_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_msgdefs.h for cfe_evs_msgdefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_msg.h for cfe_evs_msg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_msgstruct.h for cfe_evs_msgstruct.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_topicid_values.h for cfe_evs_topicid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/fs/config/default_cfe_fs_mission_cfg.h for cfe_fs_mission_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/fs/config/default_cfe_fs_interface_cfg_values.h for cfe_fs_interface_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/fs/config/default_cfe_fs_filedef.h for cfe_fs_filedef.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/fs/config/default_cfe_fs_extern_typedefs.h for cfe_fs_extern_typedefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_mission_cfg.h for cfe_sb_mission_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_interface_cfg_values.h for cfe_sb_interface_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_extern_typedefs.h for cfe_sb_extern_typedefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_fcncode_values.h for cfe_sb_fcncode_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_msgdefs.h for cfe_sb_msgdefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_msg.h for cfe_sb_msg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_msgstruct.h for cfe_sb_msgstruct.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_topicid_values.h for cfe_sb_topicid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_mission_cfg.h for cfe_tbl_mission_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_interface_cfg_values.h for cfe_tbl_interface_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_extern_typedefs.h for cfe_tbl_extern_typedefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_fcncode_values.h for cfe_tbl_fcncode_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_msgdefs.h for cfe_tbl_msgdefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_msg.h for cfe_tbl_msg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_msgstruct.h for cfe_tbl_msgstruct.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_topicid_values.h for cfe_tbl_topicid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_mission_cfg.h for cfe_time_mission_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_interface_cfg_values.h for cfe_time_interface_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_extern_typedefs.h for cfe_time_extern_typedefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_fcncode_values.h for cfe_time_fcncode_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_msgdefs.h for cfe_time_msgdefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_msg.h for cfe_time_msg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_msgstruct.h for cfe_time_msgstruct.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_topicid_values.h for cfe_time_topicid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/msg/option_inc/default_cfe_msg_hdr_pri.h for cfe_msg_hdr.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/msg/option_inc/default_cfe_msg_sechdr.h for cfe_msg_sechdr.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/resourceid/option_inc/cfe_resourceid_simple.h for cfe_resourceid_typedef.h
+-- Configuring for system arch: native/default
+-- The C compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- OMIT_DEPRECATED=false: Deprecated elements included in build
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_api/config/default_cfe_core_api_base_msgid_values.h for cfe_core_api_base_msgid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_api/config/default_cfe_msgids.h for cfe_msgids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_private/config/default_cfe_platform_cfg.h for platform_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_private/config/default_cfe_core_private_internal_cfg.h for cfe_core_private_internal_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_internal_cfg.h for bpnode_internal_cfg.h
+-- Using file: /tmp/bpsec-sql-ownership-20261101/build/mission/bpnode_platform_cfg.h for bpnode_platform_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_perfids.h for bpnode_perfids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_msgids.h for bpnode_msgids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_internal_cfg_values.h for sch_lab_internal_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_platform_cfg.h for sch_lab_platform_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_perfids.h for sch_lab_perfids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_internal_cfg_values.h for cfe_es_internal_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_msgid_values.h for cfe_es_msgid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_msgids.h for cfe_es_msgids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_platform_cfg.h for cfe_es_platform_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_internal_cfg_values.h for cfe_evs_internal_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_msgid_values.h for cfe_evs_msgid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_msgids.h for cfe_evs_msgids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_platform_cfg.h for cfe_evs_platform_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_internal_cfg_values.h for cfe_sb_internal_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_msgid_values.h for cfe_sb_msgid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_msgids.h for cfe_sb_msgids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_platform_cfg.h for cfe_sb_platform_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_internal_cfg_values.h for cfe_tbl_internal_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_msgid_values.h for cfe_tbl_msgid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_msgids.h for cfe_tbl_msgids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_platform_cfg.h for cfe_tbl_platform_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_internal_cfg_values.h for cfe_time_internal_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_msgid_values.h for cfe_time_msgid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_msgids.h for cfe_time_msgids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_platform_cfg.h for cfe_time_platform_cfg.h
+-- BSP Selection: generic-linux at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/bsp/generic-linux
+-- OSAL Selection: posix at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/posix
+-- OSAL Compile Definitions: _XOPEN_SOURCE=600;_POSIX_OS_
+-- PSP Selection: pc-linux
+-- Building Core Module: core_api
+-- Building Core Module: core_private
+-- Building Core Module: config
+-- Building Core Module: es
+-- Building Core Module: evs
+-- Building Core Module: fs
+-- Building Core Module: sb
+-- Building Core Module: tbl
+-- Building Core Module: time
+-- Building Core Module: psp
+-- Building Core Module: msg
+-- CCSDS primary header included in message header (not including CCSDS extended header)
+-- Message Id version 1 in use (MsgId V1)
+-- Building Core Module: sbr
+-- Using hashed map software bus routing implementation
+-- Building Core Module: resourceid
+-- Building PSP Module: udpsock_intf
+-- Building Dynamic App: bpnode targets=cpu1
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_adup.c for bpnode_adup.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_channel.c for bpnode_channel.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_contacts.c for bpnode_contacts.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_crs.c for bpnode_crs.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_custodia.c for bpnode_custodia.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_custody.c for bpnode_custody.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_mib_pn.c for bpnode_mib_pn.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_mib_ps.c for bpnode_mib_ps.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_reportto.c for bpnode_reportto.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_src_auth.c for bpnode_src_auth.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_latency.c for bpnode_latency.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_storage.c for bpnode_storage.c
+-- Building Dynamic App: bplib targets=cpu1
+-- Using cFE memory pool allocator
+-- Building Dynamic App: sch_lab targets=cpu1
+-- Using file: /tmp/bpsec-sql-ownership-20261101/build/mission/tables/sch_lab_table.c for sch_lab_table.c
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/bpsec-sql-ownership-20261101/build/cfs/native/default
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/bpsec-sql-ownership-20261101/build/cfs
+[ 11%] Building C object cfeconfig_platformdata_tool/CMakeFiles/cfeconfig_platformdata_native_default.dir/cfeconfig_platformdata_table.c.o
+[ 22%] Building C object tools/elf2cfetbl/CMakeFiles/elf2cfetbl.dir/elf2cfetbl.c.o
+[ 22%] Built target cfe-build-env
+[ 22%] Built target cfe-module-version
+[ 22%] Built target mission-version
+[ 22%] Built target cfeconfig_platformdata_native_default
+[ 33%] Building C object cfeconfig_platformdata_tool/CMakeFiles/cfeconfig_platformdata_tool.dir/__/src/cfe_configid_nametable.c.o
+[ 44%] Building C object cfeconfig_platformdata_tool/CMakeFiles/cfeconfig_platformdata_tool.dir/cfeconfig_platformdata_tool.c.o
+[ 55%] Building C object cfeconfig_platformdata_tool/CMakeFiles/cfeconfig_platformdata_tool.dir/__/src/cfe_platform_list.c.o
+[ 66%] Linking C executable elf2cfetbl
+[ 66%] Built target elf2cfetbl
+[ 77%] Linking C executable cfeconfig_platformdata_tool
+[ 77%] Built target cfeconfig_platformdata_tool
+[ 88%] Generating ../src/cfeconfig_platformdata_native_default.c
+[100%] Generating ../src/cfeconfig_platformdata_native_default.list
+[100%] Built target cfgtool-execute-native_default
+[100%] Built target mission-prebuild
+[  0%] Generating ../src/cfe_platformcfg_tables.c
+[  0%] Building C object osal/generic-linux_impl/CMakeFiles/osal_generic-linux_impl.dir/src/bsp_start.c.o
+[  0%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-binsem.c.o
+[  0%] Building C object config/CMakeFiles/config.dir/fsw/src/cfe_config_init.c.o
+[  0%] Building C object apps/sch_lab/CMakeFiles/tblobj_cpu1_sch_lab.tblb5d1586935f6341ac5773a4efe94e407c1647409.dir/tmp/bpsec-sql-ownership-20261101/build/mission/tables/sch_lab_table.c.o
+[ 16%] Building C object osal/generic-linux_impl/CMakeFiles/osal_generic-linux_impl.dir/src/bsp_console.c.o
+[ 16%] Built target osal_generic-linux_impl
+[ 16%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_api.c.o
+[ 16%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-common.c.o
+[ 16%] Building C object config/CMakeFiles/config.dir/fsw/src/cfe_config_lookup.c.o
+[ 16%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-console.c.o
+[ 16%] Linking C static library libtblobj_cpu1_sch_lab.tblb5d1586935f6341ac5773a4efe94e407c1647409.a
+[ 16%] Built target tblobj_cpu1_sch_lab.tblb5d1586935f6341ac5773a4efe94e407c1647409
+[ 16%] Building C object apps/bpnode/CMakeFiles/tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.dir/fsw/tables/bpnode_adup.c.o
+[ 33%] Building C object config/CMakeFiles/config.dir/fsw/src/cfe_config_get.c.o
+[ 33%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-condvar.c.o
+[ 33%] Building C object config/CMakeFiles/config.dir/fsw/src/cfe_config_set.c.o
+[ 33%] Building C object config/CMakeFiles/config.dir/fsw/src/cfe_config_objtab.c.o
+[ 50%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-countsem.c.o
+[ 50%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_appctrl.c.o
+[ 50%] Building C object config/CMakeFiles/config.dir/fsw/src/cfe_config_eds_disabled.c.o
+[ 66%] Building C object config/CMakeFiles/config.dir/tmp/bpsec-sql-ownership-20261101/build/cfs/src/cfe_configid_nametable.c.o
+[ 66%] Building C object config/CMakeFiles/config.dir/__/src/cfe_platformcfg_tables.c.o
+[ 66%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-dirs.c.o
+[ 66%] Linking C static library libconfig.a
+[ 66%] Built target config
+[ 66%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-errors.c.o
+[ 83%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_apps.c.o
+[ 83%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-files.c.o
+[ 83%] Building C object evs/CMakeFiles/evs.dir/fsw/src/cfe_evs.c.o
+[100%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-filesys.c.o
+[100%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-heap.c.o
+[100%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_backgroundtask.c.o
+[100%] Building C object apps/bpnode/CMakeFiles/tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.dir/fsw/tables/bpnode_channel.c.o
+[100%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-idmap.c.o
+[100%] Building C object evs/CMakeFiles/evs.dir/fsw/src/cfe_evs_log.c.o
+[100%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-mutex.c.o
+[100%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-queues.c.o
+[100%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_cds.c.o
+[116%] Building C object evs/CMakeFiles/evs.dir/fsw/src/cfe_evs_task.c.o
+[133%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-tasks.c.o
+[133%] Building C object apps/bpnode/CMakeFiles/tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.dir/fsw/tables/bpnode_contacts.c.o
+[133%] Building C object evs/CMakeFiles/evs.dir/fsw/src/cfe_evs_utils.c.o
+[133%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_cds_mempool.c.o
+[133%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-timebase.c.o
+[133%] Building C object evs/CMakeFiles/evs.dir/fsw/src/cfe_evs_objtab.c.o
+[133%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/portable/os-impl-posix-gettime.c.o
+[150%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_crc.c.o
+[150%] Building C object evs/CMakeFiles/evs.dir/fsw/src/cfe_evs_dispatch.c.o
+[150%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/portable/os-impl-posix-gettime-monotonic.c.o
+[150%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/portable/os-impl-console-bsp.c.o
+[166%] Building C object apps/bpnode/CMakeFiles/tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.dir/fsw/tables/bpnode_crs.c.o
+[166%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_erlog.c.o
+[183%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/portable/os-impl-bsd-select.c.o
+[200%] Linking C static library libevs.a
+[200%] Built target evs
+[200%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/portable/os-impl-posix-io.c.o
+[216%] Building C object fs/CMakeFiles/fs.dir/fsw/src/cfe_fs_api.c.o
+[216%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/portable/os-impl-posix-files.c.o
+[216%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/portable/os-impl-posix-file-allocate.c.o
+[233%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/portable/os-impl-posix-dirs.c.o
+[233%] Building C object fs/CMakeFiles/fs.dir/fsw/src/cfe_fs_priv.c.o
+[233%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_generic_pool.c.o
+[233%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/portable/os-impl-no-shell.c.o
+[233%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-loader.c.o
+[233%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/portable/os-impl-posix-dl-loader.c.o
+[233%] Building C object fs/CMakeFiles/fs.dir/fsw/src/cfe_fs_objtab.c.o
+[233%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/portable/os-impl-posix-dl-symtab.c.o
+[233%] Linking C static library libfs.a
+[233%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_mempool.c.o
+[233%] Building C object apps/bpnode/CMakeFiles/tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.dir/fsw/tables/bpnode_custodia.c.o
+[233%] Built target fs
+[250%] Building C object sb/CMakeFiles/sb.dir/fsw/src/cfe_sb_api.c.o
+[266%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/portable/os-impl-bsd-sockets.c.o
+[266%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/portable/os-impl-posix-network-gethostname.c.o
+[266%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_objtab.c.o
+[283%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_perf.c.o
+[283%] Building C object sb/CMakeFiles/sb.dir/fsw/src/cfe_sb_buf.c.o
+[283%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/portable/os-impl-posix-network-gethostid.c.o
+[283%] Building C object apps/bpnode/CMakeFiles/tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.dir/fsw/tables/bpnode_custody.c.o
+[283%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/portable/os-impl-bsd-sockets-no-dns.c.o
+[300%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-rwlock.c.o
+[300%] Building C object sb/CMakeFiles/sb.dir/fsw/src/cfe_sb_init.c.o
+[300%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_resource.c.o
+[300%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/portable/os-impl-pthread-no-affinity-np.c.o
+[300%] Built target osal_posix_impl
+[300%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_api.c.o
+[300%] Building C object sb/CMakeFiles/sb.dir/fsw/src/cfe_sb_priv.c.o
+[300%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_start.c.o
+[300%] Building C object sb/CMakeFiles/sb.dir/fsw/src/cfe_sb_task.c.o
+[300%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_accdesc.c.o
+[300%] Building C object apps/bpnode/CMakeFiles/tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.dir/fsw/tables/bpnode_mib_pn.c.o
+[300%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_startupscript.c.o
+[316%] Building C object sb/CMakeFiles/sb.dir/fsw/src/cfe_sb_util.c.o
+[333%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_load.c.o
+[333%] Building C object sb/CMakeFiles/sb.dir/fsw/src/cfe_sb_objtab.c.o
+[350%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_syslog.c.o
+[350%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_loadbuff.c.o
+[350%] Building C object sb/CMakeFiles/sb.dir/fsw/src/cfe_sb_dispatch.c.o
+[366%] Building C object apps/bpnode/CMakeFiles/tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.dir/fsw/tables/bpnode_mib_ps.c.o
+[366%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_registry.c.o
+[366%] Building C object sb/CMakeFiles/sb.dir/fsw/src/cfe_sb_msg_id_util.c.o
+[366%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_task.c.o
+[366%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_regrec.c.o
+[366%] Linking C static library libsb.a
+[366%] Built target sb
+[366%] Building C object es/CMakeFiles/es.dir/fsw/src/cfe_es_dispatch.c.o
+[383%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_dump.c.o
+[383%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_dumpctl.c.o
+[383%] Building C object apps/bpnode/CMakeFiles/tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.dir/fsw/tables/bpnode_reportto.c.o
+[383%] Linking C static library libes.a
+[383%] Built target es
+[383%] Building C object apps/bpnode/CMakeFiles/tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.dir/fsw/tables/bpnode_src_auth.c.o
+[383%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_handlelink.c.o
+[383%] Building C object apps/bpnode/CMakeFiles/tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.dir/fsw/tables/bpnode_latency.c.o
+[383%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_valresult.c.o
+[383%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_internal.c.o
+[383%] Building C object apps/bpnode/CMakeFiles/tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.dir/fsw/tables/bpnode_storage.c.o
+[400%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_transaction.c.o
+[400%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_task.c.o
+[400%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_task_cmds.c.o
+[400%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_objtab.c.o
+[416%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_passthru_codec.c.o
+[416%] Building C object tbl/CMakeFiles/tbl.dir/fsw/src/cfe_tbl_dispatch.c.o
+[416%] Building C object time/CMakeFiles/time.dir/fsw/src/cfe_time_api.c.o
+[416%] Building C object time/CMakeFiles/time.dir/fsw/src/cfe_time_task.c.o
+[416%] Linking C static library libtbl.a
+[416%] Built target tbl
+[416%] Building C object psp/ram_notimpl-pc-linux-impl/CMakeFiles/ram_notimpl.dir/cfe_psp_ram_notimpl.c.o
+[433%] Linking C static library libtblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.a
+[433%] Built target tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc
+[433%] Generating /tmp/bpsec-sql-ownership-20261101/build/cfs/tables/cpu1_sch_lab.tblb5d1586935f6341ac5773a4efe94e407c1647409.sch_lab_table.d
+[433%] Built target generate_table_cpu1_sch_lab_sch_lab_table
+[433%] Generating /tmp/bpsec-sql-ownership-20261101/build/cfs/tables/cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.bpnode_adup.d
+[433%] Built target generate_table_cpu1_bpnode_bpnode_adup
+[450%] Generating /tmp/bpsec-sql-ownership-20261101/build/cfs/tables/cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.bpnode_channel.d
+[450%] Built target generate_table_cpu1_bpnode_bpnode_channel
+[450%] Generating /tmp/bpsec-sql-ownership-20261101/build/cfs/tables/cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.bpnode_contacts.d
+[450%] Built target generate_table_cpu1_bpnode_bpnode_contacts
+[450%] Generating /tmp/bpsec-sql-ownership-20261101/build/cfs/tables/cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.bpnode_crs.d
+[450%] Built target generate_table_cpu1_bpnode_bpnode_crs
+[466%] Linking C static library libram_notimpl.a
+[466%] Generating /tmp/bpsec-sql-ownership-20261101/build/cfs/tables/cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.bpnode_custodia.d
+[466%] Built target ram_notimpl
+[483%] Generating /tmp/bpsec-sql-ownership-20261101/build/cfs/tables/cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.bpnode_custody.d
+[483%] Built target generate_table_cpu1_bpnode_bpnode_custodia
+[483%] Built target generate_table_cpu1_bpnode_bpnode_custody
+[483%] Building C object psp/pc-linux-impl/CMakeFiles/psp-pc-linux-impl.dir/src/cfe_psp_exception.c.o
+[483%] Generating /tmp/bpsec-sql-ownership-20261101/build/cfs/tables/cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.bpnode_mib_pn.d
+[483%] Built target generate_table_cpu1_bpnode_bpnode_mib_pn
+[483%] Generating /tmp/bpsec-sql-ownership-20261101/build/cfs/tables/cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.bpnode_mib_ps.d
+[483%] Built target generate_table_cpu1_bpnode_bpnode_mib_ps
+[483%] Generating /tmp/bpsec-sql-ownership-20261101/build/cfs/tables/cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.bpnode_reportto.d
+[483%] Built target generate_table_cpu1_bpnode_bpnode_reportto
+[500%] Generating /tmp/bpsec-sql-ownership-20261101/build/cfs/tables/cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.bpnode_src_auth.d
+[500%] Built target generate_table_cpu1_bpnode_bpnode_src_auth
+[500%] Generating /tmp/bpsec-sql-ownership-20261101/build/cfs/tables/cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.bpnode_latency.d
+[500%] Built target generate_table_cpu1_bpnode_bpnode_latency
+[500%] Generating /tmp/bpsec-sql-ownership-20261101/build/cfs/tables/cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc.bpnode_storage.d
+[500%] Built target generate_table_cpu1_bpnode_bpnode_storage
+[500%] Built target cfetables
+[100%] Built target native_default-cfetables
+Building C object psp/pc-linux-impl/CMakeFiles/psp-pc-linux-impl.dir/src/cfe_psp_memory.c.o
+[100%] Built target mission-cfetables
+Building C object time/CMakeFiles/time.dir/fsw/src/cfe_time_tone.c.o
+Building C object time/CMakeFiles/time.dir/fsw/src/cfe_time_utils.c.o
+mkdir: created directory 'elf'
+mkdir: created directory 'elf/cpu1/'
+Building C object psp/pc-linux-impl/CMakeFiles/psp-pc-linux-impl.dir/src/cfe_psp_ssr.c.o
+mkdir: created directory 'staging/cpu1'
+mkdir: created directory 'staging/cpu1/cf/'
+Table build completed
+[100%] Built target tabletool-execute
+Building C object time/CMakeFiles/time.dir/fsw/src/cfe_time_objtab.c.o
+Building C object time/CMakeFiles/time.dir/fsw/src/cfe_time_dispatch.c.o
+Building C object psp/pc-linux-shared/CMakeFiles/psp-pc-linux-shared.dir/src/cfe_psp_error.c.o
+Building C object psp/pc-linux-impl/CMakeFiles/psp-pc-linux-impl.dir/src/cfe_psp_start.c.o
+Building C object psp/pc-linux-shared/CMakeFiles/psp-pc-linux-shared.dir/src/cfe_psp_exceptionstorage.c.o
+Building C object psp/pc-linux-shared/CMakeFiles/psp-pc-linux-shared.dir/src/cfe_psp_memrange.c.o
+Building C object psp/pc-linux-shared/CMakeFiles/psp-pc-linux-shared.dir/src/cfe_psp_memutils.c.o
+Building C object psp/pc-linux-shared/CMakeFiles/psp-pc-linux-shared.dir/src/cfe_psp_module.c.o
+Building C object psp/pc-linux-impl/CMakeFiles/psp-pc-linux-impl.dir/src/cfe_psp_support.c.o
+Building C object psp/pc-linux-shared/CMakeFiles/psp-pc-linux-shared.dir/src/cfe_psp_version.c.o
+Building C object psp/pc-linux-impl/CMakeFiles/psp-pc-linux-impl.dir/src/cfe_psp_watchdog.c.o
+Building C object psp/soft_timebase-pc-linux-impl/CMakeFiles/soft_timebase.dir/cfe_psp_soft_timebase.c.o
+Built target psp-pc-linux-shared
+Building C object psp/timebase_posix_clock-pc-linux-impl/CMakeFiles/timebase_posix_clock.dir/cfe_psp_timebase_posix_clock.c.o
+Linking C static library libtime.a
+Built target time
+Building C object psp/eeprom_mmap_file-pc-linux-impl/CMakeFiles/eeprom_mmap_file.dir/cfe_psp_eeprom_mmap_file.c.o
+Built target psp-pc-linux-impl
+Building C object psp/port_notimpl-pc-linux-impl/CMakeFiles/port_notimpl.dir/cfe_psp_port_notimpl.c.o
+Linking C static library libtimebase_posix_clock.a
+Built target timebase_posix_clock
+Building C object psp/iodriver-pc-linux-impl/CMakeFiles/iodriver.dir/src/iodriver.c.o
+Linking C static library libsoft_timebase.a
+Built target soft_timebase
+Building C object psp/linux_sysmon-pc-linux-impl/CMakeFiles/linux_sysmon.dir/linux_sysmon.c.o
+Linking C static library libeeprom_mmap_file.a
+Built target eeprom_mmap_file
+Building C object psp/endian_api-pc-linux-impl/CMakeFiles/endian_api.dir/cfe_psp_endian_common.c.o
+Linking C static library libport_notimpl.a
+Built target port_notimpl
+Building C object msg/CMakeFiles/msg.dir/fsw/src/cfe_msg_ccsdspri.c.o
+Linking C static library libiodriver.a
+Built target iodriver
+Building C object sbr/CMakeFiles/sbr.dir/fsw/src/cfe_sbr_map_hash.c.o
+Building C object psp/endian_api-pc-linux-impl/CMakeFiles/endian_api.dir/cfe_psp_endian_wrappers.c.o
+Linking C static library liblinux_sysmon.a
+Built target linux_sysmon
+Building C object resourceid/CMakeFiles/resourceid.dir/fsw/src/cfe_resourceid_api.c.o
+Linking C static library libendian_api.a
+Built target endian_api
+Building C object psp/udpsock_intf/CMakeFiles/udpsock_intf.dir/udpsock_intf.c.o
+Building C object msg/CMakeFiles/msg.dir/fsw/src/cfe_msg_init.c.o
+Linking C static library libudpsock_intf.a
+Built target udpsock_intf
+Building C object sbr/CMakeFiles/sbr.dir/fsw/src/cfe_sbr_route_unsorted.c.o
+Building C object msg/CMakeFiles/msg.dir/fsw/src/cfe_msg_integrity.c.o
+Building C object resourceid/CMakeFiles/resourceid.dir/fsw/src/cfe_resourceid_objtab.c.o
+Linking C static library libresourceid.a
+Built target resourceid
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/src/bpnode_app.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/src/bpnode_task.c.o
+Building C object msg/CMakeFiles/msg.dir/fsw/src/cfe_msg_msgid_shared.c.o
+Building C object sbr/CMakeFiles/sbr.dir/fsw/src/cfe_sbr_objtab.c.o
+Linking C static library libsbr.a
+Built target sbr
+Building C object msg/CMakeFiles/msg.dir/fsw/src/cfe_msg_sechdr_checksum.c.o
+Building C object msg/CMakeFiles/msg.dir/fsw/src/cfe_msg_sechdr_fc.c.o
+Building C object apps/bplib/ci/rbt/CMakeFiles/bplib_rbt.dir/src/bplib_rbt_impl.c.o
+Building C object msg/CMakeFiles/msg.dir/fsw/src/cfe_msg_sechdr_time.c.o
+Building C object apps/bplib/ci/rbt/CMakeFiles/bplib_rbt.dir/src/bplib_rbt_iterator.c.o
+Building C object apps/bplib/ci/rbt/CMakeFiles/bplib_rbt.dir/src/bplib_rbt_api.c.o
+Building C object msg/CMakeFiles/msg.dir/fsw/src/cfe_msg_objtab.c.o
+Building C object msg/CMakeFiles/msg.dir/fsw/src/cfe_msg_initdefaulthdr_pri.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/src/bpnode_adu_out.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/src/bpnode_adu_in.c.o
+Built target bplib_rbt
+Building C object apps/bplib/version/CMakeFiles/bplib_version.dir/src/bplib_version.c.o
+Building C object msg/CMakeFiles/msg.dir/fsw/src/cfe_msg_msgid_v1.c.o
+Built target bplib_version
+Building C object apps/bplib/cla/CMakeFiles/bplib_cla.dir/src/bplib_cla.c.o
+Linking C static library libmsg.a
+Built target msg
+Building C object apps/bplib/cla/CMakeFiles/bplib_cla.dir/src/bplib_cla_internal.c.o
+Building C object apps/bplib/aa/arp/CMakeFiles/bplib_arp.dir/src/bplib_arp.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/src/bpnode_cla_in.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/src/bpnode_cla_out.c.o
+Built target bplib_cla
+Building C object apps/bplib/aa/as/CMakeFiles/bplib_as.dir/src/bplib_as.c.o
+Built target bplib_arp
+Building C object apps/bplib/aa/fwp/CMakeFiles/bplib_fwp.dir/src/bplib_fwp.c.o
+Building C object apps/bplib/aa/as/CMakeFiles/bplib_as.dir/src/bplib_as_internal.c.o
+Built target bplib_fwp
+Building C object apps/bplib/aa/nc/CMakeFiles/bplib_nc.dir/src/bplib_nc.c.o
+Building C object apps/bplib/aa/nc/CMakeFiles/bplib_nc.dir/src/bplib_nc_directives.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/src/bpnode_video_sink.c.o
+Built target bplib_as
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/src/bpnode_gen_worker.c.o
+Building C object apps/bplib/aa/nc/CMakeFiles/bplib_nc.dir/src/bplib_nc_rwlock.c.o
+Building C object apps/bplib/aa/nc/CMakeFiles/bplib_nc.dir/src/bplib_nc_internal.c.o
+Building C object apps/bplib/bpa/bi/CMakeFiles/bplib_bi.dir/src/bplib_bi.c.o
+Building C object apps/bplib/bpa/ct/CMakeFiles/bplib_ct.dir/src/bplib_ct.c.o
+Built target bplib_nc
+Building C object apps/bplib/bpa/ct/CMakeFiles/bplib_ct.dir/src/bplib_ct_ccs.c.o
+Built target bplib_bi
+Building C object apps/bplib/bpa/ebp/CMakeFiles/bplib_ebp.dir/src/bplib_ebp.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/src/bpnode_notif.c.o
+Building C object apps/bplib/bpa/ct/CMakeFiles/bplib_ct.dir/src/bplib_ct_db.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/src/bpnode_maint.c.o
+Built target bplib_ebp
+Building C object apps/bplib/bpa/pdb/CMakeFiles/bplib_pdb.dir/src/bplib_pdb.c.o
+Built target bplib_ct
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/fwp/fwp_timep.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/fwp/fwp_tablep.c.o
+Built target bplib_pdb
+Building C object apps/bplib/bpa/pi/CMakeFiles/bplib_pi.dir/src/bplib_pi.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/fwp/fwp_evp.c.o
+Built target bplib_pi
+Building C object apps/bplib/bpa/stor/CMakeFiles/bplib_stor.dir/src/bplib_stor.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/fwp/fwp_adup.c.o
+Building C object apps/bplib/bpa/stor/CMakeFiles/bplib_stor.dir/src/bplib_stor_sql.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/fwp/fwp_perflogp.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/fwp/fwp_dp.c.o
+Building C object apps/bplib/bpa/stor/CMakeFiles/bplib_stor.dir/src/bplib_stor_sql_store.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/fwp/fwp_tlmp.c.o
+Building C object apps/bplib/bpa/stor/CMakeFiles/bplib_stor.dir/src/bplib_stor_sql_load.c.o
+Building C object apps/bplib/ci/cbor/CMakeFiles/bplib_cbor.dir/src/bplib_cbor_decode_bundle.c.o
+Building C object apps/bplib/ci/em/CMakeFiles/bplib_em.dir/src/bplib_em.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/fwp/fwp_utils.c.o
+Building C object apps/bplib/bpa/stor/CMakeFiles/bplib_stor.dir/src/bplib_stor_loadbatch.c.o
+Building C object apps/bplib/ci/cbor/CMakeFiles/bplib_cbor.dir/src/bplib_cbor_decode_types.c.o
+Built target bplib_em
+Building C object apps/bplib/ci/cbor/CMakeFiles/bplib_cbor.dir/src/bplib_cbor_decode_primary.c.o
+Building C object apps/bplib/bpa/stor/CMakeFiles/bplib_stor.dir/src/bplib_stor_sql_cust.c.o
+Building C object apps/bplib/ci/cbor/CMakeFiles/bplib_cbor.dir/src/bplib_cbor_decode_canonical.c.o
+Building C object apps/bplib/ci/cbor/CMakeFiles/bplib_cbor.dir/src/bplib_cbor_encode_bundle.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/fwp/fwp_clap.c.o
+Built target bplib_stor
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/bplib_tcp_cla.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/bplib_tcp_cla_bplib.c.o
+Building C object apps/bplib/ci/cbor/CMakeFiles/bplib_cbor.dir/src/bplib_cbor_encode_primary.c.o
+Building C object apps/bplib/ci/cbor/CMakeFiles/bplib_cbor.dir/src/bplib_cbor_encode_extension.c.o
+Building C object apps/bplib/ci/cbor/CMakeFiles/bplib_cbor.dir/src/bplib_cbor_encode_payload.c.o
+Building C object apps/bpnode/CMakeFiles/bpnode.dir/fsw/src/bpnode_demo.c.o
+Building C object apps/bplib/ci/cbor/CMakeFiles/bplib_cbor.dir/src/bplib_cbor_encode_types.c.o
+Building C object apps/bplib/ci/cbor/CMakeFiles/bplib_cbor.dir/src/bplib_cbor_crc.c.o
+Building C object apps/bplib/ci/mem/CMakeFiles/bplib_mem.dir/src/bplib_mem.c.o
+Building C object apps/bplib/ci/mem/CMakeFiles/bplib_mem.dir/src/bplib_cfe_allocator.c.o
+Built target bplib_cbor
+Building C object apps/bplib/ci/pl/CMakeFiles/bplib_pl.dir/src/bplib_pl.c.o
+Building C object apps/bplib/ci/qm/CMakeFiles/bplib_qm.dir/src/bplib_qm.c.o
+Built target bplib_mem
+Building C object apps/bplib/ci/crc/CMakeFiles/bplib_crc.dir/src/bplib_crc.c.o
+Built target bplib_pl
+Building C object apps/bplib/ci/eid/CMakeFiles/bplib_eid.dir/src/bplib_eid.c.o
+Built target bplib_crc
+Building C object apps/bplib/ci/qm/CMakeFiles/bplib_qm.dir/src/bplib_qm_job.c.o
+Linking C shared module bpnode.so
+Built target bpnode
+Building C object apps/bplib/ci/qm/CMakeFiles/bplib_qm.dir/src/bplib_qm_waitqueue.c.o
+Building C object apps/sch_lab/CMakeFiles/sch_lab.dir/fsw/src/sch_lab_app.c.o
+Built target bplib_eid
+Building C object osal/CMakeFiles/osal_bsp.dir/src/bsp/shared/src/osapi-bsp.c.o
+Building C object osal/CMakeFiles/osal_bsp.dir/src/bsp/shared/src/bsp_default_app_run.c.o
+Building C object osal/CMakeFiles/osal_bsp.dir/src/bsp/shared/src/bsp_default_app_startup.c.o
+Building C object osal/CMakeFiles/osal_bsp.dir/src/bsp/shared/src/bsp_default_symtab.c.o
+Building C object osal/CMakeFiles/osal_bsp.dir/src/bsp/shared/src/bsp_default_resourcecfg.c.o
+Linking C static library libosal_bsp.a
+Built target osal_bsp
+Building C object psp/CMakeFiles/psp-pc-linux.dir/pc-linux_module_list.c.o
+Linking C shared module sch_lab.so
+Built target sch_lab
+Building C object osal/ut_assert/CMakeFiles/ut_assert.dir/src/utassert.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-binsem.c.o
+Linking C static library libpsp-pc-linux.a
+Built target psp-pc-linux
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-clock.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-common.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-condvar.c.o
+Building C object osal/ut_assert/CMakeFiles/ut_assert.dir/src/utlist.c.o
+Building C object osal/ut_assert/CMakeFiles/ut_assert.dir/src/utstubs.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-countsem.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-dir.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-errors.c.o
+Building C object osal/ut_assert/CMakeFiles/ut_assert.dir/src/uttest.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-file.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-filesys.c.o
+Built target bplib_qm
+Building C object osal/ut_assert/CMakeFiles/ut_assert.dir/src/uttools.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-heap.c.o
+Building C object osal/ut_assert/CMakeFiles/ut_assert.dir/src/utbsp.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-idmap.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-module.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-mutex.c.o
+Linking C static library libut_assert.a
+Built target ut_assert
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-network.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-printf.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-task-affinity.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-queue.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-rwlock.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-select.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-shell.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-sockets.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-task.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-timebase.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-time.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-version.c.o
+Building C object osal/CMakeFiles/osal.dir/src/os/shared/src/osapi-debug.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/utstub-helpers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-binsem-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-binsem-handlers.c.o
+Linking C static library libosal.a
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-clock-stubs.c.o
+Built target osal
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-clock-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-common-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-common-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-condvar-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-countsem-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-countsem-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-dir-stubs.c.o
+Building C object apps/bplib/ci/time/CMakeFiles/bplib_time.dir/src/bplib_time.c.o
+Building C object apps/bplib/ci/time/CMakeFiles/bplib_time.dir/src/bplib_time_internal.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-dir-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-error-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-error-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-file-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-file-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-filesys-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-filesys-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-heap-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-heap-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-idmap-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-idmap-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-module-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-module-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-mutex-stubs.c.o
+Generating cfe_module_version_table.c
+Generating cfe_build_env_table.c
+Building C object cpu1/CMakeFiles/core-cpu1.dir/tmp/bpsec-sql-ownership-20261101/build/cfs/src/cfe_mission_strings.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-mutex-handlers.c.o
+Building C object cpu1/CMakeFiles/core-cpu1.dir/cfe_module_version_table.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-network-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-network-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-printf-stubs.c.o
+Building C object cpu1/CMakeFiles/core-cpu1.dir/cfe_build_env_table.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-printf-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-queue-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-queue-handlers.c.o
+Building C object cpu1/CMakeFiles/core-cpu1.dir/cfe_psp_module_list.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-rwlock-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-rwlock-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-select-stubs.c.o
+Building C object cpu1/CMakeFiles/core-cpu1.dir/cfe_static_symbol_list.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-shell-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-sockets-stubs.c.o
+Built target bplib_time
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-sockets-handlers.c.o
+Building C object cpu1/CMakeFiles/core-cpu1.dir/cfe_static_module_list.c.o
+Building C object cpu1/CMakeFiles/core-cpu1.dir/src/target_config.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-task-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-task-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-task-affinity-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-task-affinity-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-timer-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-timer-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-timebase-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-timebase-handlers.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-version-stubs.c.o
+Building C object osal/ut-stubs/CMakeFiles/ut_osapi_stubs.dir/osapi-version-handlers.c.o
+Linking C shared module bplib.so
+Built target bplib
+Linking C static library libut_osapi_stubs.a
+Built target ut_osapi_stubs
+Linking C executable core-cpu1
+Built target core-cpu1
+[100%] Built target native_default-all
+Consolidate compiler generated dependencies of target cfeconfig_platformdata_native_default
+[  5%] Building C object tools/commandline-tools/CMakeFiles/cmd_send.dir/src/cmd_send.c.o
+[ 11%] Building C object tools/tblCRCTool/CMakeFiles/cfe_ts_crc.dir/cfe_ts_crc.c.o
+[ 16%] Building C object tools/commandline-tools/CMakeFiles/tlm_recv.dir/src/tlm_recv.c.o
+[ 22%] Built target cfeconfig_platformdata_native_default
+Consolidate compiler generated dependencies of target elf2cfetbl
+[ 33%] Built target elf2cfetbl
+Consolidate compiler generated dependencies of target cfeconfig_platformdata_tool
+[ 55%] Built target cfeconfig_platformdata_tool
+[ 61%] Building C object tools/commandline-tools/CMakeFiles/cmd_send.dir/src/send_udp.c.o
+[ 66%] Building C object tools/commandline-tools/CMakeFiles/tlm_recv.dir/src/console_utils.c.o
+[ 72%] Linking C executable cfe_ts_crc
+[ 72%] Built target cfe_ts_crc
+[ 77%] Building C object tools/commandline-tools/CMakeFiles/tlm_recv.dir/src/passthru_decode.c.o
+[ 83%] Building C object tools/commandline-tools/CMakeFiles/cmd_send.dir/src/console_utils.c.o
+[ 88%] Building C object tools/commandline-tools/CMakeFiles/cmd_send.dir/src/passthru_encode.c.o
+[ 94%] Linking C executable tlm_recv
+[ 94%] Built target tlm_recv
+[100%] Linking C executable cmd_send
+[100%] Built target cmd_send
+Built target mission-all
+[ 22%] Built target elf2cfetbl
+[ 22%] Built target cfe-build-env
+[ 22%] Built target cfe-module-version
+[ 22%] Built target mission-version
+[ 33%] Built target cfeconfig_platformdata_native_default
+[ 77%] Built target cfeconfig_platformdata_tool
+[100%] Built target cfgtool-execute-native_default
+[100%] Built target mission-prebuild
+Consolidate compiler generated dependencies of target tblobj_cpu1_sch_lab.tblb5d1586935f6341ac5773a4efe94e407c1647409
+[  0%] Built target tblobj_cpu1_sch_lab.tblb5d1586935f6341ac5773a4efe94e407c1647409
+[  0%] Built target generate_table_cpu1_sch_lab_sch_lab_table
+Consolidate compiler generated dependencies of target tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc
+[ 50%] Built target tblobj_cpu1_bpnode.tbl5a27aaa4fdfe4698e1f2bab50325b819d6c905cc
+[ 50%] Built target generate_table_cpu1_bpnode_bpnode_adup
+[ 66%] Built target generate_table_cpu1_bpnode_bpnode_channel
+[ 66%] Built target generate_table_cpu1_bpnode_bpnode_contacts
+[ 66%] Built target generate_table_cpu1_bpnode_bpnode_crs
+[ 66%] Built target generate_table_cpu1_bpnode_bpnode_custodia
+[ 83%] Built target generate_table_cpu1_bpnode_bpnode_custody
+[ 83%] Built target generate_table_cpu1_bpnode_bpnode_mib_pn
+[ 83%] Built target generate_table_cpu1_bpnode_bpnode_mib_ps
+[ 83%] Built target generate_table_cpu1_bpnode_bpnode_reportto
+[100%] Built target generate_table_cpu1_bpnode_bpnode_src_auth
+[100%] Built target generate_table_cpu1_bpnode_bpnode_latency
+[100%] Built target generate_table_cpu1_bpnode_bpnode_storage
+[100%] Built target cfetables
+[100%] Built target native_default-cfetables
+[100%] Built target mission-cfetables
+Table build completed
+[100%] Built target tabletool-execute
+Consolidate compiler generated dependencies of target osal_generic-linux_impl
+[  1%] Built target osal_generic-linux_impl
+Consolidate compiler generated dependencies of target osal_bsp
+[  2%] Built target osal_bsp
+Consolidate compiler generated dependencies of target osal_posix_impl
+[ 12%] Built target osal_posix_impl
+Consolidate compiler generated dependencies of target osal
+[ 20%] Built target osal
+Consolidate compiler generated dependencies of target ut_assert
+[ 23%] Built target ut_assert
+Consolidate compiler generated dependencies of target ut_osapi_stubs
+[ 38%] Built target ut_osapi_stubs
+Consolidate compiler generated dependencies of target config
+[ 41%] Built target config
+Consolidate compiler generated dependencies of target es
+[ 46%] Built target es
+Consolidate compiler generated dependencies of target evs
+[ 49%] Built target evs
+Consolidate compiler generated dependencies of target fs
+[ 50%] Built target fs
+Consolidate compiler generated dependencies of target sb
+[ 53%] Built target sb
+Consolidate compiler generated dependencies of target tbl
+[ 58%] Built target tbl
+Consolidate compiler generated dependencies of target time
+[ 61%] Built target time
+Consolidate compiler generated dependencies of target ram_notimpl
+[ 63%] Built target ram_notimpl
+Consolidate compiler generated dependencies of target psp-pc-linux-impl
+[ 64%] Built target psp-pc-linux-impl
+Consolidate compiler generated dependencies of target psp-pc-linux-shared
+[ 65%] Built target psp-pc-linux-shared
+Consolidate compiler generated dependencies of target soft_timebase
+[ 65%] Built target soft_timebase
+Consolidate compiler generated dependencies of target timebase_posix_clock
+[ 67%] Built target timebase_posix_clock
+Consolidate compiler generated dependencies of target eeprom_mmap_file
+[ 67%] Built target eeprom_mmap_file
+Consolidate compiler generated dependencies of target port_notimpl
+[ 67%] Built target port_notimpl
+Consolidate compiler generated dependencies of target iodriver
+[ 67%] Built target iodriver
+Consolidate compiler generated dependencies of target linux_sysmon
+[ 68%] Built target linux_sysmon
+Consolidate compiler generated dependencies of target endian_api
+[ 69%] Built target endian_api
+Consolidate compiler generated dependencies of target psp-pc-linux
+[ 71%] Built target psp-pc-linux
+Consolidate compiler generated dependencies of target msg
+[ 73%] Built target msg
+Consolidate compiler generated dependencies of target sbr
+[ 75%] Built target sbr
+Consolidate compiler generated dependencies of target resourceid
+[ 75%] Built target resourceid
+Consolidate compiler generated dependencies of target udpsock_intf
+[ 75%] Built target udpsock_intf
+Consolidate compiler generated dependencies of target bpnode
+[ 82%] Built target bpnode
+Consolidate compiler generated dependencies of target bplib_rbt
+[ 83%] Built target bplib_rbt
+Consolidate compiler generated dependencies of target bplib_version
+[ 83%] Built target bplib_version
+Consolidate compiler generated dependencies of target bplib_cla
+[ 84%] Built target bplib_cla
+Consolidate compiler generated dependencies of target bplib_arp
+[ 84%] Built target bplib_arp
+Consolidate compiler generated dependencies of target bplib_as
+[ 86%] Built target bplib_as
+Consolidate compiler generated dependencies of target bplib_fwp
+[ 86%] Built target bplib_fwp
+Consolidate compiler generated dependencies of target bplib_nc
+[ 87%] Built target bplib_nc
+Consolidate compiler generated dependencies of target bplib_bi
+[ 87%] Built target bplib_bi
+Consolidate compiler generated dependencies of target bplib_ct
+[ 89%] Built target bplib_ct
+Consolidate compiler generated dependencies of target bplib_ebp
+[ 89%] Built target bplib_ebp
+Consolidate compiler generated dependencies of target bplib_pdb
+[ 89%] Built target bplib_pdb
+Consolidate compiler generated dependencies of target bplib_pi
+[ 89%] Built target bplib_pi
+Consolidate compiler generated dependencies of target bplib_stor
+[ 90%] Built target bplib_stor
+Consolidate compiler generated dependencies of target bplib_cbor
+[ 93%] Built target bplib_cbor
+Consolidate compiler generated dependencies of target bplib_em
+[ 93%] Built target bplib_em
+Consolidate compiler generated dependencies of target bplib_mem
+[ 94%] Built target bplib_mem
+Consolidate compiler generated dependencies of target bplib_pl
+[ 94%] Built target bplib_pl
+Consolidate compiler generated dependencies of target bplib_qm
+[ 94%] Built target bplib_qm
+Consolidate compiler generated dependencies of target bplib_time
+[ 95%] Built target bplib_time
+Consolidate compiler generated dependencies of target bplib_crc
+[ 95%] Built target bplib_crc
+Consolidate compiler generated dependencies of target bplib_eid
+[ 95%] Built target bplib_eid
+[ 95%] Built target bplib
+Consolidate compiler generated dependencies of target sch_lab
+[ 97%] Built target sch_lab
+[ 97%] Generating cfe_build_env_table.c
+Consolidate compiler generated dependencies of target core-cpu1
+[ 97%] Building C object cpu1/CMakeFiles/core-cpu1.dir/cfe_build_env_table.c.o
+[ 97%] Linking C executable core-cpu1
+[100%] Built target core-cpu1
+Install the project...
+-- Install configuration: ""
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/cpu1/cf/bpnode.so
+-- Set runtime path of "/tmp/bpsec-sql-ownership-20261101/build/install/cpu1/cf/bpnode.so" to ""
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/cpu1/cf/bplib.so
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/cpu1/cf/sch_lab.so
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/cpu1/core-cpu1
+[100%] Built target native_default-install
+[  5%] Built target cfeconfig_platformdata_native_default
+[ 27%] Built target cfeconfig_platformdata_tool
+Consolidate compiler generated dependencies of target cfe_ts_crc
+[ 38%] Built target cfe_ts_crc
+Consolidate compiler generated dependencies of target cmd_send
+[ 66%] Built target cmd_send
+Consolidate compiler generated dependencies of target tlm_recv
+[ 88%] Built target tlm_recv
+[100%] Built target elf2cfetbl
+Install the project...
+-- Install configuration: ""
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/host/cfe_ts_crc
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/host/cmd_send
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/host/tlm_recv
+-- Up-to-date: /tmp/bpsec-sql-ownership-20261101/build/install/.
+-- Up-to-date: /tmp/bpsec-sql-ownership-20261101/build/install/./cpu1
+-- Up-to-date: /tmp/bpsec-sql-ownership-20261101/build/install/./cpu1/cf
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/./cpu1/cf/bpnode_channel.tbl
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/./cpu1/cf/bpnode_src_auth.tbl
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/./cpu1/cf/bpnode_mib_pn.tbl
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/./cpu1/cf/bpnode_latency.tbl
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/./cpu1/cf/bpnode_reportto.tbl
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/./cpu1/cf/bpnode_crs.tbl
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/./cpu1/cf/bpnode_adup.tbl
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/./cpu1/cf/sch_lab_table.tbl
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/./cpu1/cf/bpnode_custodia.tbl
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/./cpu1/cf/bpnode_custody.tbl
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/./cpu1/cf/bpnode_contacts.tbl
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/./cpu1/cf/bpnode_storage.tbl
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/./cpu1/cf/bpnode_mib_ps.tbl
+-- Installing: /tmp/bpsec-sql-ownership-20261101/build/install/host/elf2cfetbl
+Built target mission-install

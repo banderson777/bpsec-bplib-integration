@@ -1,0 +1,8 @@
+{
+  "local-egress": -6,
+  "expired-discard": -6,
+  "local-selection": -6,
+  "stored-count": -6,
+  "egressed-count": -11,
+  "byte-count": -6
+}

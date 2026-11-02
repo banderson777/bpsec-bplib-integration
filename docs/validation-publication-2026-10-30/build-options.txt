@@ -1,0 +1,12 @@
+Integration build: /tmp/bpsec-ccs-20261030/integration, configured with checkout cfs-build headers.
+Target: demo_delivery_regression; GNU linker option -Wl,--wrap=fsync (test only).
+Full suite: ctest --test-dir /tmp/bpsec-ccs-20261030/integration --output-on-failure
+ASan/UBSan build: /tmp/bpsec-ccs-20261030/asan
+C flags: -fsanitize=address,undefined -fno-omit-frame-pointer -fno-pie
+Link flags: -fsanitize=address,undefined -no-pie
+Environment: ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1
+Native incremental build: GIT_DIR=/dev/null cmake --build /tmp/bpsec-ccs-20261030/build/cfs --target mission-all -j4
+Native install: GIT_DIR=/dev/null cmake --build /tmp/bpsec-ccs-20261030/build/cfs --target mission-install
+Restore mission/cfe_es_startup.scr to install/cpu1/cf/cfe_es_startup.scr after install.
+Native cases: cases.json, three fresh runtimes, pinned binaries/sources.
+The first sanitizer execution request timed out in automatic permission review without running; the authorized retry passed.

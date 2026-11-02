@@ -1,0 +1,1 @@
+custody_admission_regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/custody_admission_regression.c:73: main: Assertion `BPLib_CT_ProcessNewBundle(&inst,&bundle)==BPLIB_CT_DUPLICATE_ERR' failed.

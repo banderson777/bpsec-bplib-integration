@@ -1,0 +1,6 @@
+[ 20%] Building C object CMakeFiles/custody_db_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/ct/src/bplib_ct_db.c.o
+[ 40%] Building C object CMakeFiles/custody_db_regression.dir/custody_db_regression.c.o
+[ 60%] Building C object CMakeFiles/custody_db_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/ci/rbt/src/bplib_rbt_impl.c.o
+[ 80%] Building C object CMakeFiles/custody_db_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/ci/rbt/src/bplib_rbt_api.c.o
+[100%] Linking C executable custody_db_regression
+[100%] Built target custody_db_regression

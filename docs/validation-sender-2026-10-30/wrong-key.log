@@ -1,0 +1,2 @@
+Prepared 3 segments / 7 records in /tmp/bpsec-sender-20261030/wrong-key/runtime
+PASS: node 5 rejected a different endpoint key; no output, node 4 retains 7 record(s)

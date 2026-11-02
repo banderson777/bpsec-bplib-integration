@@ -1,0 +1,53 @@
+Consolidate compiler generated dependencies of target tcpclv4_stcp_chain_smoke
+Consolidate compiler generated dependencies of target bpsec_bplib_smoke
+Consolidate compiler generated dependencies of target bplib_tcp_cla_smoke
+Consolidate compiler generated dependencies of target tcpclv4_chain_smoke
+[  3%] Built target tcpclv4_stcp_chain_smoke
+[  7%] Built target bplib_tcp_cla_smoke
+[ 10%] Built target tcpclv4_chain_smoke
+Consolidate compiler generated dependencies of target bplib_tcp_cla
+Consolidate compiler generated dependencies of target tcp_cla_regression
+Consolidate compiler generated dependencies of target tcpclv4_stcp_hdtn_chain_smoke
+[ 14%] Built target tcp_cla_regression
+[ 17%] Built target bpsec_bplib_smoke
+[ 20%] Built target bplib_tcp_cla
+[ 23%] Built target tcpclv4_stcp_hdtn_chain_smoke
+Consolidate compiler generated dependencies of target bpnode_ingress_regression
+Consolidate compiler generated dependencies of target memory_regression
+Consolidate compiler generated dependencies of target demo_delivery_regression
+Consolidate compiler generated dependencies of target video_sink_regression
+[ 27%] Built target memory_regression
+Consolidate compiler generated dependencies of target custody_db_regression
+[ 28%] Building C object CMakeFiles/custody_db_regression.dir/custody_db_regression.c.o
+[ 32%] Built target video_sink_regression
+Consolidate compiler generated dependencies of target custody_regression
+[ 33%] Building C object CMakeFiles/custody_regression.dir/custody_regression.c.o
+[ 36%] Built target bpnode_ingress_regression
+[ 38%] Building C object CMakeFiles/demo_delivery_regression.dir/demo_delivery_regression.c.o
+[ 39%] Building C object CMakeFiles/custody_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/ct/src/bplib_ct.c.o
+[ 40%] Building C object CMakeFiles/custody_db_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/ct/src/bplib_ct_db.c.o
+[ 41%] Linking C executable custody_regression
+[ 41%] Built target custody_regression
+Consolidate compiler generated dependencies of target cbor_bounds_regression
+[ 45%] Built target cbor_bounds_regression
+Consolidate compiler generated dependencies of target storage_init_regression
+[ 48%] Built target storage_init_regression
+Consolidate compiler generated dependencies of target storage_commit_regression
+[ 54%] Built target storage_commit_regression
+Consolidate compiler generated dependencies of target storage_error_regression
+[ 55%] Building C object CMakeFiles/storage_error_regression.dir/storage_error_regression.c.o
+Consolidate compiler generated dependencies of target bplib_bsl_security
+[ 58%] Built target bplib_bsl_security
+Consolidate compiler generated dependencies of target storage_recovery_regression
+[ 59%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/ct/src/bplib_ct_ccs.c.o
+[ 60%] Linking C executable storage_recovery_regression
+[ 83%] Built target storage_recovery_regression
+Consolidate compiler generated dependencies of target crc_regression
+[ 86%] Built target crc_regression
+[ 88%] Building C object CMakeFiles/storage_error_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/ct/src/bplib_ct_ccs.c.o
+[ 89%] Linking C executable custody_db_regression
+[ 91%] Built target custody_db_regression
+[ 92%] Linking C executable demo_delivery_regression
+[ 92%] Built target demo_delivery_regression
+[ 94%] Linking C executable storage_error_regression
+[100%] Built target storage_error_regression

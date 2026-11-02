@@ -1,0 +1,2 @@
+scalar completion kind=0 status=0 value=1
+before-regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/storage_init_regression.c:143: scalar_checks: Assertion `status==SQLITE_INTERRUPT && value==77 && sqlite3_next_stmt(db,NULL)==NULL' failed.

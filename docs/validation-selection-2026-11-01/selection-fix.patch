@@ -1,0 +1,31 @@
+--- before/bplib_stor_sql_load.c
++++ after/bplib_stor_sql_load.c
+@@ -82,6 +82,11 @@
+         return BPLIB_NULL_PTR_ERROR;
+     }
+ 
++    /* Appended IDs become visible only if the complete selection succeeds.
++     * Keep the configurable batch array off the stack; restoring its logical
++     * bounds is sufficient because AddID never overwrites existing entries. */
++    size_t InitialSize = Batch->Size;
++    size_t InitialReadIndex = Batch->ReadIndex;
+     db = Inst->BundleStorage.db;
+ 
+     if ((NumEIDs == 0) || (NumEIDs > BPLIB_MAX_CONTACT_DEST_EIDS))
+@@ -131,8 +136,15 @@
+     }
+ 
+     /* Cleanup/Finalize */
+-    sqlite3_finalize(FindForEgressIDStmt);
++    int FinalStatus = sqlite3_finalize(FindForEgressIDStmt);
+     sqlite3_free(FindForEgressIdSQL);
++    if (Status == BPLIB_SUCCESS && FinalStatus != SQLITE_OK)
++        Status = BPLIB_STOR_SQL_LOAD_IDS_ERR;
++    if (Status != BPLIB_SUCCESS)
++    {
++        Batch->Size = InitialSize;
++        Batch->ReadIndex = InitialReadIndex;
++    }
+ 
+     return Status;
+ }

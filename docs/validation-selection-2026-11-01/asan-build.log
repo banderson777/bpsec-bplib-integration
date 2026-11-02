@@ -1,0 +1,5 @@
+Consolidate compiler generated dependencies of target sql_ownership_regression
+[ 20%] Building C object CMakeFiles/sql_ownership_regression.dir/sql_ownership_regression.c.o
+[ 40%] Building C object CMakeFiles/sql_ownership_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_load.c.o
+[ 60%] Linking C executable sql_ownership_regression
+[100%] Built target sql_ownership_regression

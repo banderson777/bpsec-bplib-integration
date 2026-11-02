@@ -1,0 +1,1 @@
+demo_delivery_regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/demo_delivery_regression.c:64: main: Assertion `deliver(empty_session, sizeof(empty_session)) != 0' failed.

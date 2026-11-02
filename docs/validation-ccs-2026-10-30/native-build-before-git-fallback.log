@@ -1,0 +1,261 @@
+-- The C compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/bpsec-ccs-20261030/build/integration
+[ 50%] Building C object CMakeFiles/bplib_bsl_security.dir/bplib_bsl_security.c.o
+[100%] Linking C shared library libbplib_bsl_security.so
+[100%] Built target bplib_bsl_security
+-- The C compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- OMIT_DEPRECATED=false: Deprecated elements included in build
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Search path for modules: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration;/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/psp_mod;/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps;/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/libs;/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/psp/fsw/modules;/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules;apps;libs;psp/fsw/modules;cfe/modules;apps/bpnode/psp_mod
+-- Module 'core_api' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_api
+-- Module 'core_private' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_private
+-- Module 'bpnode' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode
+-- Module 'bplib' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib
+-- Module 'sch_lab' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab
+-- Module 'config' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/config
+-- Module 'es' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es
+-- Module 'evs' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs
+-- Module 'fs' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/fs
+-- Module 'sb' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb
+-- Module 'tbl' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl
+-- Module 'time' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time
+-- Module 'osal' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal
+-- Module 'psp' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/psp
+-- Module 'msg' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/msg
+-- Module 'sbr' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sbr
+-- Module 'resourceid' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/resourceid
+-- Module 'udpsock_intf' found at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/psp_mod/udpsock_intf
+-- OSAL_SYSTEM_BSPTYPE not defined, no OSAL implementation will be compiled
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_api/config/default_cfe_core_api_interface_cfg_values.h for cfe_core_api_interface_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_api/config/default_cfe_core_api_msgid_mapping.h for cfe_core_api_msgid_mapping.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_api/config/default_cfe_mission_cfg.h for cfe_mission_cfg.h
+-- Using file: /tmp/bpsec-ccs-20261030/build/mission/cfe_perfids.h for cfe_perfids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_fcncodes.h for bpnode_fcncodes.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_interface_cfg.h for bpnode_interface_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_mission_cfg.h for bpnode_mission_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_perfids.h for bpnode_perfids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_msg.h for bpnode_msg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_msgdefs.h for bpnode_msgdefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_msgstruct.h for bpnode_msgstruct.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_tbl.h for bpnode_tbl.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_tbldefs.h for bpnode_tbldefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_tblstruct.h for bpnode_tblstruct.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_topicids.h for bpnode_topicids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_interface_cfg_values.h for sch_lab_interface_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_mission_cfg.h for sch_lab_mission_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_perfids.h for sch_lab_perfids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_tbl.h for sch_lab_tbl.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_tbldefs.h for sch_lab_tbldefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_tblstruct.h for sch_lab_tblstruct.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_mission_cfg.h for cfe_es_mission_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_interface_cfg_values.h for cfe_es_interface_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_memaddress.h for cfe_es_memaddress.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_extern_typedefs.h for cfe_es_extern_typedefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_fcncode_values.h for cfe_es_fcncode_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_msgdefs.h for cfe_es_msgdefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_msg.h for cfe_es_msg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_msgstruct.h for cfe_es_msgstruct.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_topicid_values.h for cfe_es_topicid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_mission_cfg.h for cfe_evs_mission_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_interface_cfg_values.h for cfe_evs_interface_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_extern_typedefs.h for cfe_evs_extern_typedefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_fcncode_values.h for cfe_evs_fcncode_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_msgdefs.h for cfe_evs_msgdefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_msg.h for cfe_evs_msg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_msgstruct.h for cfe_evs_msgstruct.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_topicid_values.h for cfe_evs_topicid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/fs/config/default_cfe_fs_mission_cfg.h for cfe_fs_mission_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/fs/config/default_cfe_fs_interface_cfg_values.h for cfe_fs_interface_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/fs/config/default_cfe_fs_filedef.h for cfe_fs_filedef.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/fs/config/default_cfe_fs_extern_typedefs.h for cfe_fs_extern_typedefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_mission_cfg.h for cfe_sb_mission_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_interface_cfg_values.h for cfe_sb_interface_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_extern_typedefs.h for cfe_sb_extern_typedefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_fcncode_values.h for cfe_sb_fcncode_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_msgdefs.h for cfe_sb_msgdefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_msg.h for cfe_sb_msg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_msgstruct.h for cfe_sb_msgstruct.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_topicid_values.h for cfe_sb_topicid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_mission_cfg.h for cfe_tbl_mission_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_interface_cfg_values.h for cfe_tbl_interface_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_extern_typedefs.h for cfe_tbl_extern_typedefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_fcncode_values.h for cfe_tbl_fcncode_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_msgdefs.h for cfe_tbl_msgdefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_msg.h for cfe_tbl_msg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_msgstruct.h for cfe_tbl_msgstruct.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_topicid_values.h for cfe_tbl_topicid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_mission_cfg.h for cfe_time_mission_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_interface_cfg_values.h for cfe_time_interface_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_extern_typedefs.h for cfe_time_extern_typedefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_fcncode_values.h for cfe_time_fcncode_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_msgdefs.h for cfe_time_msgdefs.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_msg.h for cfe_time_msg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_msgstruct.h for cfe_time_msgstruct.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_topicid_values.h for cfe_time_topicid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/msg/option_inc/default_cfe_msg_hdr_pri.h for cfe_msg_hdr.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/msg/option_inc/default_cfe_msg_sechdr.h for cfe_msg_sechdr.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/resourceid/option_inc/cfe_resourceid_simple.h for cfe_resourceid_typedef.h
+-- Configuring for system arch: native/default
+-- The C compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- OMIT_DEPRECATED=false: Deprecated elements included in build
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Performing Test IS_OPTION_SUPPORTED
+-- Performing Test IS_OPTION_SUPPORTED - Success
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_api/config/default_cfe_core_api_base_msgid_values.h for cfe_core_api_base_msgid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_api/config/default_cfe_msgids.h for cfe_msgids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_private/config/default_cfe_platform_cfg.h for platform_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/core_private/config/default_cfe_core_private_internal_cfg.h for cfe_core_private_internal_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_internal_cfg.h for bpnode_internal_cfg.h
+-- Using file: /tmp/bpsec-ccs-20261030/build/mission/bpnode_platform_cfg.h for bpnode_platform_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_perfids.h for bpnode_perfids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/config/default_bpnode_msgids.h for bpnode_msgids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_internal_cfg_values.h for sch_lab_internal_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_platform_cfg.h for sch_lab_platform_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/apps/sch_lab/config/default_sch_lab_perfids.h for sch_lab_perfids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_internal_cfg_values.h for cfe_es_internal_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_msgid_values.h for cfe_es_msgid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_msgids.h for cfe_es_msgids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/es/config/default_cfe_es_platform_cfg.h for cfe_es_platform_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_internal_cfg_values.h for cfe_evs_internal_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_msgid_values.h for cfe_evs_msgid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_msgids.h for cfe_evs_msgids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/evs/config/default_cfe_evs_platform_cfg.h for cfe_evs_platform_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_internal_cfg_values.h for cfe_sb_internal_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_msgid_values.h for cfe_sb_msgid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_msgids.h for cfe_sb_msgids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/sb/config/default_cfe_sb_platform_cfg.h for cfe_sb_platform_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_internal_cfg_values.h for cfe_tbl_internal_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_msgid_values.h for cfe_tbl_msgid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_msgids.h for cfe_tbl_msgids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/tbl/config/default_cfe_tbl_platform_cfg.h for cfe_tbl_platform_cfg.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_internal_cfg_values.h for cfe_time_internal_cfg_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_msgid_values.h for cfe_time_msgid_values.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_msgids.h for cfe_time_msgids.h
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/cfe/modules/time/config/default_cfe_time_platform_cfg.h for cfe_time_platform_cfg.h
+-- BSP Selection: generic-linux at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/bsp/generic-linux
+-- OSAL Selection: posix at /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-bundle/osal/src/os/posix
+-- OSAL Compile Definitions: _XOPEN_SOURCE=600;_POSIX_OS_
+-- PSP Selection: pc-linux
+-- Building Core Module: core_api
+-- Building Core Module: core_private
+-- Building Core Module: config
+-- Building Core Module: es
+-- Building Core Module: evs
+-- Building Core Module: fs
+-- Building Core Module: sb
+-- Building Core Module: tbl
+-- Building Core Module: time
+-- Building Core Module: psp
+-- Building Core Module: msg
+-- CCSDS primary header included in message header (not including CCSDS extended header)
+-- Message Id version 1 in use (MsgId V1)
+-- Building Core Module: sbr
+-- Using hashed map software bus routing implementation
+-- Building Core Module: resourceid
+-- Building PSP Module: udpsock_intf
+-- Building Dynamic App: bpnode targets=cpu1
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_adup.c for bpnode_adup.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_channel.c for bpnode_channel.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_contacts.c for bpnode_contacts.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_crs.c for bpnode_crs.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_custodia.c for bpnode_custodia.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_custody.c for bpnode_custody.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_mib_pn.c for bpnode_mib_pn.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_mib_ps.c for bpnode_mib_ps.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_reportto.c for bpnode_reportto.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_src_auth.c for bpnode_src_auth.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_latency.c for bpnode_latency.c
+-- Using file: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bpnode/fsw/tables/bpnode_storage.c for bpnode_storage.c
+-- Building Dynamic App: bplib targets=cpu1
+-- Using cFE memory pool allocator
+-- Building Dynamic App: sch_lab targets=cpu1
+-- Using file: /tmp/bpsec-ccs-20261030/build/mission/tables/sch_lab_table.c for sch_lab_table.c
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/bpsec-ccs-20261030/build/cfs/native/default
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/bpsec-ccs-20261030/build/cfs
+[ 11%] Building C object tools/elf2cfetbl/CMakeFiles/elf2cfetbl.dir/elf2cfetbl.c.o
+[ 22%] Building C object cfeconfig_platformdata_tool/CMakeFiles/cfeconfig_platformdata_native_default.dir/cfeconfig_platformdata_table.c.o
+[ 22%] Built target cfe-build-env
+[ 22%] Built target cfeconfig_platformdata_native_default
+[ 33%] Building C object cfeconfig_platformdata_tool/CMakeFiles/cfeconfig_platformdata_tool.dir/cfeconfig_platformdata_tool.c.o
+[ 44%] Building C object cfeconfig_platformdata_tool/CMakeFiles/cfeconfig_platformdata_tool.dir/__/src/cfe_configid_nametable.c.o
+[ 55%] Building C object cfeconfig_platformdata_tool/CMakeFiles/cfeconfig_platformdata_tool.dir/__/src/cfe_platform_list.c.o
+[ 66%] Linking C executable cfeconfig_platformdata_tool
+[ 66%] Built target cfeconfig_platformdata_tool
+[ 77%] Generating ../src/cfeconfig_platformdata_native_default.c
+[ 88%] Generating ../src/cfeconfig_platformdata_native_default.list
+[ 88%] Built target cfgtool-execute-native_default
+[100%] Linking C executable elf2cfetbl
+[100%] Built target elf2cfetbl
+[100%] Built target cfe-module-version
+[100%] Built target mission-version
+[100%] Built target mission-prebuild
+[  0%] Generating ../src/cfe_platformcfg_tables.c
+[  0%] Building C object osal/generic-linux_impl/CMakeFiles/osal_generic-linux_impl.dir/src/bsp_start.c.o
+[  0%] Building C object osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-binsem.c.o
+[  0%] Building C object config/CMakeFiles/config.dir/fsw/src/cfe_config_init.c.o
+[  0%] Building C object apps/sch_lab/CMakeFiles/tblobj_cpu1_sch_lab.tblb5d1586935f6341ac5773a4efe94e407c1647409.dir/tmp/bpsec-ccs-20261030/build/mission/tables/sch_lab_table.c.o
+[ 16%] Building C object osal/generic-linux_impl/CMakeFiles/osal_generic-linux_impl.dir/src/bsp_console.c.o
+gmake[7]: *** [apps/sch_lab/CMakeFiles/tblobj_cpu1_sch_lab.tblb5d1586935f6341ac5773a4efe94e407c1647409.dir/build.make:76: apps/sch_lab/CMakeFiles/tblobj_cpu1_sch_lab.tblb5d1586935f6341ac5773a4efe94e407c1647409.dir/tmp/bpsec-ccs-20261030/build/mission/tables/sch_lab_table.c.o] Terminated
+gmake[6]: *** wait: No child processes.  Stop.
+gmake[6]: *** Waiting for unfinished jobs....
+gmake[6]: *** wait: No child processes.  Stop.
+gmake[6]: *** [osal/posix_impl/CMakeFiles/osal_posix_impl.dir/build.make:76: osal/posix_impl/CMakeFiles/osal_posix_impl.dir/src/os-impl-binsem.c.o] Terminated
+gmake[6]: *** [CMakeFiles/Makefile2:3226: apps/sch_lab/CMakeFiles/tblobj_cpu1_sch_lab.tblb5d1586935f6341ac5773a4efe94e407c1647409.dir/all] Terminated
+gmake[3]: *** [CMakeFiles/native_default-cfetables.dir/build.make:70: CMakeFiles/native_default-cfetables] Terminated
+gmake[3]: *** [CMakeFiles/native_default-all.dir/build.make:70: CMakeFiles/native_default-all] Terminated
+gmake[5]: *** [CMakeFiles/Makefile2:1114: CMakeFiles/cfetables.dir/rule] Terminated
+gmake[4]: *** [Makefile:179: cfetables] Terminated
+gmake[6]: *** [config/CMakeFiles/config.dir/build.make:83: config/CMakeFiles/config.dir/fsw/src/cfe_config_init.c.o] Terminated
+gmake[5]: *** [CMakeFiles/Makefile2:1324: osal/generic-linux_impl/CMakeFiles/osal_generic-linux_impl.dir/all] Error 2
+gmake[5]: *** [CMakeFiles/Makefile2:1350: osal/posix_impl/CMakeFiles/osal_posix_impl.dir/all] Terminated
+gmake[5]: *** [CMakeFiles/Makefile2:1428: config/CMakeFiles/config.dir/all] Terminated
+gmake[2]: *** [CMakeFiles/Makefile2:598: CMakeFiles/native_default-cfetables.dir/all] Terminated
+gmake[4]: *** [Makefile:146: all] Terminated
+gmake[1]: *** [CMakeFiles/Makefile2:234: CMakeFiles/mission-all.dir/rule] Terminated
+gmake: *** [Makefile:179: mission-all] Terminated

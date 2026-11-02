@@ -1,0 +1,4 @@
+Prepared 3 segments / 7 records in /tmp/bpsec-sender-20261030/source-iv-restart/runtime
+PASS: 3 segments match source byte for byte
+PASS: 15 protected bundles used unique 96-bit source IVs across node 1 restart
+PASS: all five nodes released accepted custody after CCS processing

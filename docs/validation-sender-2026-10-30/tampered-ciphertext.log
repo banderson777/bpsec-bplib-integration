@@ -1,0 +1,2 @@
+Prepared 3 segments / 7 records in /tmp/bpsec-sender-20261030/tampered-ciphertext/runtime
+PASS: node 5 rejected altered ciphertext after valid BP CRC verification; no tampered segment or completion, node 4 retains 7 record(s)

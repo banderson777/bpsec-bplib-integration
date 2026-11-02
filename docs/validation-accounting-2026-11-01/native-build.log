@@ -1,0 +1,29 @@
+[  4%] Built target bplib_rbt
+[  8%] Built target bplib_cla
+[  8%] Built target bplib_arp
+[  8%] Built target bplib_version
+[  8%] Built target bplib_fwp
+[ 12%] Built target bplib_nc
+[ 12%] Built target bplib_bi
+[ 16%] Built target bplib_as
+[ 16%] Built target bplib_pdb
+Consolidate compiler generated dependencies of target bplib_stor
+[ 20%] Built target bplib_ct
+[ 20%] Built target bplib_ebp
+[ 20%] Built target bplib_pi
+[ 20%] Built target bplib_em
+[ 20%] Building C object apps/bplib/bpa/stor/CMakeFiles/bplib_stor.dir/src/bplib_stor_sql.c.o
+[ 28%] Built target bplib_cbor
+[ 28%] Built target bplib_pl
+[ 28%] Built target bplib_qm
+[ 32%] Built target osal_generic-linux_impl
+[ 32%] Built target bplib_crc
+[ 32%] Built target bplib_eid
+[ 36%] Built target osal_bsp
+[ 40%] Built target bplib_mem
+[ 68%] Built target osal_posix_impl
+[ 92%] Built target osal
+[ 96%] Built target bplib_time
+[100%] Built target bplib_stor
+[100%] Linking C shared module bplib.so
+[100%] Built target bplib

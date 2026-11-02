@@ -1,0 +1,6 @@
+{
+  "initial_sha256": "44c03198d5c6eb4ff1ef975acac7ed748f7a62409d931bbe22bdb85c2306eea5",
+  "rerun_case": "node5-restart",
+  "reason": "completion preceded receiver restart; gate source feeding until stopped incomplete-receipt checkpoint",
+  "final_sha256": "490e63395b5adb7b98c93df97a5dc187549c70a3cbeb58738833722e196a4e8a"
+}

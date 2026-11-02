@@ -1,0 +1,7 @@
+{
+  "install/cpu1/core-cpu1": "9ed818b23ef97af81f46cdb2dc3e4d2fd7f144a111c38387fa6115249e106f59",
+  "install/cpu1/cf/bplib.so": "da21d00602293e982df8b1f3d8e871be6daee11b13b3afefd27ee640876a2d34",
+  "install/cpu1/cf/bpnode.so": "b5f0477f7885f4ac5f0bcdcb8532c64ebf93befa1ca64c08246b867ffdfe8419",
+  "integration/libbplib_bsl_security.so": "1f4ef802d4bfa4a68a3895d04e30297645e96c6e0144ddb84858362dde001c9c",
+  "install/cpu1/cf/cfe_es_startup.scr": "123e5e8cef6e83b37619317f2b2d1145a2be515511d68c1a8df239b3c7e061da"
+}

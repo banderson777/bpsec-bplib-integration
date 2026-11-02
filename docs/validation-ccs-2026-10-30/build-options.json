@@ -1,0 +1,20 @@
+{
+  "integration": {
+    "CFS_BUILD": "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-build",
+    "CMAKE_C_COMPILER": "/usr/bin/cc",
+    "CMAKE_C_FLAGS": "",
+    "CMAKE_EXE_LINKER_FLAGS": ""
+  },
+  "asan": {
+    "CFS_BUILD": "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-build",
+    "CMAKE_C_COMPILER": "/usr/bin/cc",
+    "CMAKE_C_FLAGS": "-fsanitize=address,undefined -fno-omit-frame-pointer -fno-pie",
+    "CMAKE_EXE_LINKER_FLAGS": "-fsanitize=address,undefined -no-pie"
+  },
+  "cap8": {
+    "CFS_BUILD": "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/../cfs-build",
+    "CMAKE_C_COMPILER": "/usr/bin/cc",
+    "CMAKE_C_FLAGS": "-DBPLIB_CT_MAX_CCS_SEQUENCE_SPAN=8",
+    "CMAKE_EXE_LINKER_FLAGS": ""
+  }
+}

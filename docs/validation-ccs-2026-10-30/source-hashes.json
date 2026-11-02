@@ -1,0 +1,11 @@
+{
+  "bplib/bpa/ct/inc/bplib_ct.h": "c2b38ce31dbdc8af404c076b458cf44b603eed94d4fb949f19127be597661a5d",
+  "bplib/bpa/ct/src/bplib_ct_ccs.c": "c17d4dc5ed38e96ec792336b413d604c750c1f658f336dad48f82fedd925e66e",
+  "bplib/ci/cbor/src/bplib_cbor_decode_types.c": "2c9c61b2298293282324a46e8a25bfd9dc046c18e17569bbdd8e7044dd496b16",
+  "integration/storage_error_regression.c": "60c41cb9fa35f0042c7dbb42dc4e5236a2822048f0a68672aee025aeca92d261",
+  "integration/storage_recovery_regression.c": "926984cfd319f66ce2e32a17404cae041634fed360a9ee7a42afd533834aee18",
+  "integration/CMakeLists.txt": "12d1d7577c8632f948b7824855445ce50dce83d5e1cfcd80a51b1a4c7eea1270",
+  "demo/test_five_node.py": "44c03198d5c6eb4ff1ef975acac7ed748f7a62409d931bbe22bdb85c2306eea5",
+  "demo/test_five_node_faults.py": "cf4ad5149b67cfa7e2b2eb01fe61cd26c7e3b0f65fc1681dd398cf8c2ac3d1a5",
+  "bplib/inc/bplib_cfg.h": "616b63ad54ef0fd4f05d8fa6ec86761b2df3922eebf747d4a5935008f71781fc"
+}

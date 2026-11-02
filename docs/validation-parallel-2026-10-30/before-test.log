@@ -1,0 +1,10 @@
+Failed to bind bundle_id in store_meta
+Failed to bind action_timestamp in store_meta
+Failed to bind retransmit_timestamp in store_meta
+Failed to bind retransmit_trigger in store_meta
+Failed to bind dest_node in store_meta
+Failed to bind dest_service in store_meta
+Failed to bind is_custodial in store_meta
+Failed to bind bundle_size in store_meta
+Batch commit failed, RC=0
+storage_parallel_regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/storage_parallel_regression.c:87: overlap: Assertion `first.status==BPLIB_SUCCESS' failed.

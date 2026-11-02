@@ -1,0 +1,17 @@
+--- before/bplib_stor.c
++++ after/bplib_stor.c
+@@ -471,8 +471,12 @@
+         /* Mark the batch as egressed */
+         Status = BPLib_SQL_MarkBatchEgressed(Inst, LoadBatch, LocalDelivery);
+ 
+-        /* Clear the batch */
+-        (void) BPLib_STOR_LoadBatch_Reset(LoadBatch);
++        /* Retain the consumed batch on failure so the next poll retries the
++         * database marking operation without reloading delivered bundles. */
++        if (Status == BPLIB_SUCCESS)
++        {
++            (void) BPLib_STOR_LoadBatch_Reset(LoadBatch);
++        }
+     }
+     else
+     { /* There are bundles in the current batch that need to be egressed */

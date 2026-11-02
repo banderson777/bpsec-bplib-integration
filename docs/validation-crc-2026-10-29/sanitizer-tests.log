@@ -1,0 +1,67 @@
+Start testing: Oct 29 19:31 EDT
+----------------------------------------------------------
+24/27 Testing: storage_recovery_regression
+24/27 Test: storage_recovery_regression
+Command: "/tmp/bpsec-storage-followup-20261029-asan/storage_recovery_regression" "recovery"
+Directory: /tmp/bpsec-storage-followup-20261029-asan
+"storage_recovery_regression" start time: Oct 29 19:31 EDT
+Output:
+----------------------------------------------------------
+PASS portable administrative-record recovery and synchronous custody durability
+<end of output>
+Test time =   0.15 sec
+----------------------------------------------------------
+Test Passed.
+"storage_recovery_regression" end time: Oct 29 19:31 EDT
+"storage_recovery_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/27 Testing: storage_durability_regression
+25/27 Test: storage_durability_regression
+Command: "/tmp/bpsec-storage-followup-20261029-asan/storage_recovery_regression" "durability"
+Directory: /tmp/bpsec-storage-followup-20261029-asan
+"storage_durability_regression" start time: Oct 29 19:31 EDT
+Output:
+----------------------------------------------------------
+PASS portable administrative-record recovery and synchronous custody durability
+<end of output>
+Test time =   0.13 sec
+----------------------------------------------------------
+Test Passed.
+"storage_durability_regression" end time: Oct 29 19:31 EDT
+"storage_durability_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/27 Testing: storage_constructed_regression
+26/27 Test: storage_constructed_regression
+Command: "/tmp/bpsec-storage-followup-20261029-asan/storage_recovery_regression" "constructed"
+Directory: /tmp/bpsec-storage-followup-20261029-asan
+"storage_constructed_regression" start time: Oct 29 19:31 EDT
+Output:
+----------------------------------------------------------
+PASS portable administrative-record recovery and synchronous custody durability
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"storage_constructed_regression" end time: Oct 29 19:31 EDT
+"storage_constructed_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/27 Testing: crc_regression
+27/27 Test: crc_regression
+Command: "/tmp/bpsec-storage-followup-20261029-asan/crc_regression"
+Directory: /tmp/bpsec-storage-followup-20261029-asan
+"crc_regression" start time: Oct 29 19:31 EDT
+Output:
+----------------------------------------------------------
+PASS known CRC vectors and 712 differential checks, empty/unaligned inputs, and reinitialization
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"crc_regression" end time: Oct 29 19:31 EDT
+"crc_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 29 19:31 EDT

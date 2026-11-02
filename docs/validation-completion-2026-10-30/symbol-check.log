@@ -1,0 +1,2 @@
+                 U fsync@GLIBC_2.2.5
+PASS: no test fault-injection wrapper in final installed BPNode.

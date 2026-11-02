@@ -1,0 +1,44 @@
+[ 25%] Building C object CMakeFiles/custody_parallel_regression.dir/custody_parallel_regression.c.o
+[ 50%] Building C object CMakeFiles/custody_parallel_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_cust.c.o
+[ 75%] Building C object CMakeFiles/custody_parallel_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql.c.o
+[100%] Linking C executable custody_parallel_regression
+[100%] Built target custody_parallel_regression
+Consolidate compiler generated dependencies of target storage_binding_regression
+[100%] Built target storage_binding_regression
+Consolidate compiler generated dependencies of target storage_parallel_regression
+[100%] Built target storage_parallel_regression
+Consolidate compiler generated dependencies of target custody_admission_regression
+[100%] Built target custody_admission_regression
+Consolidate compiler generated dependencies of target custody_regression
+[100%] Built target custody_regression
+Consolidate compiler generated dependencies of target custody_db_regression
+[100%] Built target custody_db_regression
+Consolidate compiler generated dependencies of target storage_commit_regression
+[ 20%] Building C object CMakeFiles/storage_commit_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c.o
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c: In function ‘BPLib_STOR_StorageTblValidateFunc’:
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c:257:56: warning: unused parameter ‘TblData’ [-Wunused-parameter]
+  257 | BPLib_Status_t BPLib_STOR_StorageTblValidateFunc(void *TblData)
+      |                                                  ~~~~~~^~~~~~~
+[ 40%] Linking C executable storage_commit_regression
+[100%] Built target storage_commit_regression
+Consolidate compiler generated dependencies of target storage_recovery_regression
+[  4%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c.o
+[  9%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_cust.c.o
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c: In function ‘BPLib_STOR_StorageTblValidateFunc’:
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c:257:56: warning: unused parameter ‘TblData’ [-Wunused-parameter]
+  257 | BPLib_Status_t BPLib_STOR_StorageTblValidateFunc(void *TblData)
+      |                                                  ~~~~~~^~~~~~~
+[ 14%] Linking C executable storage_recovery_regression
+[100%] Built target storage_recovery_regression
+Consolidate compiler generated dependencies of target storage_error_regression
+[ 12%] Building C object CMakeFiles/storage_error_regression.dir/storage_error_regression.c.o
+[ 25%] Building C object CMakeFiles/storage_error_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c.o
+[ 37%] Building C object CMakeFiles/storage_error_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_cust.c.o
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c: In function ‘BPLib_STOR_StorageTblValidateFunc’:
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c:257:56: warning: unused parameter ‘TblData’ [-Wunused-parameter]
+  257 | BPLib_Status_t BPLib_STOR_StorageTblValidateFunc(void *TblData)
+      |                                                  ~~~~~~^~~~~~~
+[ 50%] Linking C executable storage_error_regression
+[100%] Built target storage_error_regression
+Consolidate compiler generated dependencies of target demo_delivery_regression
+[100%] Built target demo_delivery_regression

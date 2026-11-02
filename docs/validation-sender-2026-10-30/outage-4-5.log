@@ -1,0 +1,4 @@
+Prepared 1 segments / 9 records in /tmp/bpsec-sender-20261030/outage-4-5/runtime
+PASS: 1 segments match source byte for byte
+PASS: custody stayed drained for six seconds on all running nodes after outage recovery
+PASS: 4-5 outage retained 9 custody records; relay 4 restarted with source stopped and completed transfer

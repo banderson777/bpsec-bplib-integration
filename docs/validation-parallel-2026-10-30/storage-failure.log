@@ -1,0 +1,2 @@
+Prepared 3 segments / 7 records in /tmp/bpsec-parallel-20261030/storage-failure/runtime
+PASS: node 2 storage failure withheld custody; node 1 retains 7 record(s)

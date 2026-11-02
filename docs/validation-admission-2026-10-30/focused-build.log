@@ -1,0 +1,7 @@
+Consolidate compiler generated dependencies of target custody_admission_regression
+[ 16%] Building C object CMakeFiles/custody_admission_regression.dir/custody_admission_regression.c.o
+[ 33%] Building C object CMakeFiles/custody_admission_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/ct/src/bplib_ct.c.o
+[ 50%] Linking C executable custody_admission_regression
+[100%] Built target custody_admission_regression
+Consolidate compiler generated dependencies of target storage_commit_regression
+[100%] Built target storage_commit_regression

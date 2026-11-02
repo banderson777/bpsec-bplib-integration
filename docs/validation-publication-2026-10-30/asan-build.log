@@ -1,0 +1,7 @@
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/bpsec-ccs-20261030/asan
+Consolidate compiler generated dependencies of target demo_delivery_regression
+[ 50%] Building C object CMakeFiles/demo_delivery_regression.dir/demo_delivery_regression.c.o
+[100%] Linking C executable demo_delivery_regression
+[100%] Built target demo_delivery_regression

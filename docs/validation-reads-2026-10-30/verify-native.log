@@ -1,0 +1,54 @@
+[
+  {
+    "name": "duplicate-replay",
+    "exit_code": 0,
+    "seconds": 152.42,
+    "complete": true,
+    "custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "keys_present": [
+      1,
+      5
+    ]
+  },
+  {
+    "name": "baseline",
+    "exit_code": 0,
+    "seconds": 43.57,
+    "complete": true,
+    "custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "keys_present": [
+      1,
+      5
+    ]
+  },
+  {
+    "name": "node5-restart",
+    "exit_code": 0,
+    "seconds": 71.09,
+    "complete": true,
+    "custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "keys_present": [
+      1,
+      5
+    ]
+  }
+]
+Verified all 3 native cases, 15 runtimes, output hashes, custody/restart checkpoints, immutable replay, endpoint keys and pinned binaries/sources.

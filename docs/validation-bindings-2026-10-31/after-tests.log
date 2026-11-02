@@ -1,0 +1,10 @@
+Internal ctest changing into directory: /tmp/bpsec-ccs-20261030/integration
+Test project /tmp/bpsec-ccs-20261030/integration
+    Start 18: storage_commit_regression
+1/2 Test #18: storage_commit_regression ........   Passed    0.01 sec
+    Start 19: storage_binding_regression
+2/2 Test #19: storage_binding_regression .......   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.03 sec

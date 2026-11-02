@@ -1,0 +1,12 @@
+duplicate-replay 0 160.26
+outage-2-3 0 71.26
+storage-failure 0 26.71
+source-iv-restart 0 43.45
+baseline 0 42.18
+outage-3-4 0 87.83
+outage-4-5 0 58.56
+lost-ccs 0 74.87
+node5-restart 0 42.9
+wrong-key 0 20.18
+tampered-ciphertext 0 20.98
+missing-bcb 0 20.39

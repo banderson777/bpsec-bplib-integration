@@ -1,0 +1,16 @@
+[submodule "bplib"]
+	path = bplib
+	url = https://github.com/banderson777/bplib_and_BSL.git
+	branch = codex/integration
+[submodule "bpnode"]
+	path = bpnode
+	url = https://github.com/banderson777/bp.git
+	branch = codex/integration
+[submodule "BSL"]
+	path = BSL
+	url = https://github.com/banderson777/BSL.git
+	branch = codex/integration
+[submodule "cfs-bundle"]
+	path = cfs-bundle
+	url = https://github.com/banderson777/cFS.git
+	branch = codex/integration

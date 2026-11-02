@@ -1,0 +1,4 @@
+[ 33%] Building C object CMakeFiles/storage_binding_regression.dir/storage_binding_regression.c.o
+[ 66%] Building C object CMakeFiles/storage_binding_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_store.c.o
+[100%] Linking C executable storage_binding_regression
+[100%] Built target storage_binding_regression

@@ -1,0 +1,110 @@
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/bpsec-ccs-20261030/integration
+Consolidate compiler generated dependencies of target bpsec_bplib_smoke
+Consolidate compiler generated dependencies of target bplib_tcp_cla_smoke
+Consolidate compiler generated dependencies of target tcpclv4_chain_smoke
+Consolidate compiler generated dependencies of target tcpclv4_stcp_chain_smoke
+[  3%] Built target tcpclv4_chain_smoke
+[  7%] Built target bplib_tcp_cla_smoke
+Consolidate compiler generated dependencies of target tcpclv4_stcp_hdtn_chain_smoke
+Consolidate compiler generated dependencies of target bplib_tcp_cla
+[ 11%] Built target tcpclv4_stcp_chain_smoke
+Consolidate compiler generated dependencies of target tcp_cla_regression
+[ 13%] Built target bplib_tcp_cla
+[ 17%] Built target tcpclv4_stcp_hdtn_chain_smoke
+Consolidate compiler generated dependencies of target memory_regression
+Consolidate compiler generated dependencies of target bpnode_ingress_regression
+[ 21%] Built target tcp_cla_regression
+[ 25%] Built target bpsec_bplib_smoke
+Consolidate compiler generated dependencies of target video_sink_regression
+[ 29%] Built target memory_regression
+[ 30%] Building C object CMakeFiles/demo_delivery_regression.dir/demo_delivery_regression.c.o
+Consolidate compiler generated dependencies of target custody_regression
+[ 31%] Building C object CMakeFiles/custody_regression.dir/custody_regression.c.o
+[ 35%] Built target video_sink_regression
+Consolidate compiler generated dependencies of target cbor_bounds_regression
+[ 36%] Building C object CMakeFiles/cbor_bounds_regression.dir/cbor_bounds_regression.c.o
+[ 40%] Built target bpnode_ingress_regression
+[ 41%] Building C object CMakeFiles/custody_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/ct/src/bplib_ct.c.o
+[ 43%] Building C object CMakeFiles/cbor_bounds_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/ci/cbor/src/bplib_cbor_decode_canonical.c.o
+Consolidate compiler generated dependencies of target storage_init_regression
+[ 44%] Building C object CMakeFiles/storage_init_regression.dir/storage_init_regression.c.o
+[ 45%] Linking C executable custody_regression
+[ 45%] Built target custody_regression
+Consolidate compiler generated dependencies of target storage_commit_regression
+[ 46%] Building C object CMakeFiles/storage_commit_regression.dir/storage_commit_regression.c.o
+[ 48%] Linking C executable cbor_bounds_regression
+[ 48%] Built target cbor_bounds_regression
+Consolidate compiler generated dependencies of target storage_error_regression
+[ 49%] Building C object CMakeFiles/storage_error_regression.dir/storage_error_regression.c.o
+[ 50%] Building C object CMakeFiles/storage_init_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql.c.o
+[ 51%] Building C object CMakeFiles/storage_commit_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c.o
+In file included from /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/demo_delivery_regression.c:2:
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/../bpnode/fsw/src/bpnode_demo.c: In function ‘deliver’:
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/../bpnode/fsw/src/bpnode_demo.c:378:47: warning: ‘.tmp’ directive output may be truncated writing 4 bytes into a region of size between 1 and 128 [-Wformat-truncation=]
+  378 |     snprintf(temporary, sizeof(temporary), "%s.tmp", output);
+      |                                               ^~~~
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/../bpnode/fsw/src/bpnode_demo.c:378:5: note: ‘snprintf’ output between 5 and 132 bytes into a destination of size 128
+  378 |     snprintf(temporary, sizeof(temporary), "%s.tmp", output);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ 53%] Linking C executable demo_delivery_regression
+[ 53%] Built target demo_delivery_regression
+Consolidate compiler generated dependencies of target bplib_bsl_security
+[ 55%] Built target bplib_bsl_security
+Consolidate compiler generated dependencies of target storage_recovery_regression
+[ 56%] Building C object CMakeFiles/storage_recovery_regression.dir/storage_recovery_regression.c.o
+[ 58%] Building C object CMakeFiles/storage_error_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c.o
+[ 59%] Linking C executable storage_init_regression
+[ 59%] Built target storage_init_regression
+Consolidate compiler generated dependencies of target crc_regression
+[ 63%] Built target crc_regression
+[ 64%] Building C object CMakeFiles/storage_commit_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql.c.o
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c: In function ‘BPLib_STOR_StorageTblValidateFunc’:
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c:257:56: warning: unused parameter ‘TblData’ [-Wunused-parameter]
+  257 | BPLib_Status_t BPLib_STOR_StorageTblValidateFunc(void *TblData)
+      |                                                  ~~~~~~^~~~~~~
+[ 65%] Building C object CMakeFiles/storage_error_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql.c.o
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c: In function ‘BPLib_STOR_StorageTblValidateFunc’:
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c:257:56: warning: unused parameter ‘TblData’ [-Wunused-parameter]
+  257 | BPLib_Status_t BPLib_STOR_StorageTblValidateFunc(void *TblData)
+      |                                                  ~~~~~~^~~~~~~
+[ 67%] Building C object CMakeFiles/storage_commit_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_store.c.o
+[ 68%] Building C object CMakeFiles/storage_error_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_load.c.o
+[ 69%] Building C object CMakeFiles/storage_error_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_cust.c.o
+[ 70%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/ct/src/bplib_ct_ccs.c.o
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_store.c: In function ‘BPLib_SQL_StoreMetadata’:
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_store.c:87:83: warning: unused parameter ‘BundleCache’ [-Wunused-parameter]
+   87 | SQL_Status_t BPLib_SQL_StoreMetadata(BPLib_Bundle_t* Bundle, BPLib_BundleCache_t* BundleCache)
+      |                                                              ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+[ 72%] Linking C executable storage_commit_regression
+[ 72%] Built target storage_commit_regression
+[ 73%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c.o
+[ 74%] Building C object CMakeFiles/storage_error_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/ct/src/bplib_ct_ccs.c.o
+[ 75%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql.c.o
+[ 77%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_store.c.o
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c: In function ‘BPLib_STOR_StorageTblValidateFunc’:
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor.c:257:56: warning: unused parameter ‘TblData’ [-Wunused-parameter]
+  257 | BPLib_Status_t BPLib_STOR_StorageTblValidateFunc(void *TblData)
+      |                                                  ~~~~~~^~~~~~~
+[ 78%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_load.c.o
+[ 79%] Linking C executable storage_error_regression
+[ 81%] Built target storage_error_regression
+[ 82%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_cust.c.o
+[ 83%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/ci/mem/src/bplib_mem.c.o
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_store.c: In function ‘BPLib_SQL_StoreMetadata’:
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_store.c:87:83: warning: unused parameter ‘BundleCache’ [-Wunused-parameter]
+   87 | SQL_Status_t BPLib_SQL_StoreMetadata(BPLib_Bundle_t* Bundle, BPLib_BundleCache_t* BundleCache)
+      |                                                              ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+[ 84%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/ci/cbor/src/bplib_cbor_decode_bundle.c.o
+[ 86%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/ci/cbor/src/bplib_cbor_decode_primary.c.o
+[ 87%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/ci/cbor/src/bplib_cbor_decode_canonical.c.o
+[ 88%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/ci/cbor/src/bplib_cbor_decode_types.c.o
+[ 89%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/ci/cbor/src/bplib_cbor_crc.c.o
+[ 91%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/ci/cbor/src/bplib_cbor_encode_bundle.c.o
+[ 92%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/ci/cbor/src/bplib_cbor_encode_primary.c.o
+[ 93%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/ci/cbor/src/bplib_cbor_encode_extension.c.o
+[ 94%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/ci/cbor/src/bplib_cbor_encode_payload.c.o
+[ 96%] Building C object CMakeFiles/storage_recovery_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/ci/cbor/src/bplib_cbor_encode_types.c.o
+[ 97%] Linking C executable storage_recovery_regression
+[100%] Built target storage_recovery_regression

@@ -1,0 +1,37 @@
+19/37 Testing: sql_ownership_regression
+19/37 Test: sql_ownership_regression
+Command: "/tmp/bpsec-sql-ownership-20261101/build/integration/sql_ownership_regression"
+Directory: /tmp/bpsec-sql-ownership-20261101/build/integration
+"sql_ownership_regression" start time: Nov 01 15:47 EST
+Output:
+----------------------------------------------------------
+Programming Error: FindForEgressIdSQL prepare failed, error=access to bundle_data.id is prohibited
+Programming Error: FindForEgressIdSQL prepare failed, error=access to bundle_data.id is prohibited
+Failed to prepare statement: not authorized
+Failed to prepare statement: access to bundle_data.egress_attempted is prohibited
+Error code access to bundle_data.bundle_bytes is prohibited, received while preparing SQL statement: SELECT SUM(bundle_bytes) AS TotalBytes FROM bundle_data;
+page_size=512 pages=2 reported=1024 expected=1024
+page_size=1024 pages=2 reported=2048 expected=2048
+page_size=2048 pages=2 reported=4096 expected=4096
+page_size=4096 pages=2 reported=8192 expected=8192
+page_size=8192 pages=2 reported=16384 expected=16384
+page_size=16384 pages=2 reported=32768 expected=32768
+page_size=32768 pages=2 reported=65536 expected=65536
+page_size=65536 pages=2 reported=131072 expected=131072
+interrupted PRAGMA page_count; status=-1 reported=0
+interrupted PRAGMA page_size; status=-1 reported=0
+selection local=0 capacity=0 status=-301 size=0 original=0 reader=0
+selection local=0 capacity=0 status=-301 size=1 original=1 reader=1
+selection local=1 capacity=0 status=-301 size=0 original=0 reader=0
+selection local=1 capacity=0 status=-301 size=1 original=1 reader=1
+selection local=0 capacity=1 status=-301 size=59999 original=59999 reader=59999
+selection local=1 capacity=1 status=-301 size=59999 original=59999 reader=59999
+PASS: isolated SQL loading, egress, counts and discard statements, rollback accounting and cleanup
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"sql_ownership_regression" end time: Nov 01 15:47 EST
+"sql_ownership_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+

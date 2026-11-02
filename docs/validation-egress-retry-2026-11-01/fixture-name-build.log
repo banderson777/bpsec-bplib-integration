@@ -1,0 +1,16 @@
+Consolidate compiler generated dependencies of target storage_error_regression
+[ 12%] Building C object CMakeFiles/storage_error_regression.dir/storage_error_regression.c.o
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/storage_error_regression.c: In function ‘egress_retry’:
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/storage_error_regression.c:180:47: warning: implicit declaration of function ‘BPLib_STOR_EgressFromStorage’; did you mean ‘BPLib_STOR_EgressForID’? [-Wimplicit-function-declaration]
+  180 |         size_t count=99;BPLib_Status_t status=BPLib_STOR_EgressFromStorage(&instance,0,local,&count);
+      |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                               BPLib_STOR_EgressForID
+[ 25%] Linking C executable storage_error_regression
+/usr/bin/ld: CMakeFiles/storage_error_regression.dir/storage_error_regression.c.o: in function `egress_retry':
+storage_error_regression.c:(.text.egress_retry+0x194): undefined reference to `BPLib_STOR_EgressFromStorage'
+/usr/bin/ld: storage_error_regression.c:(.text.egress_retry+0x500): undefined reference to `BPLib_STOR_EgressFromStorage'
+collect2: error: ld returned 1 exit status
+gmake[3]: *** [CMakeFiles/storage_error_regression.dir/build.make:193: storage_error_regression] Error 1
+gmake[2]: *** [CMakeFiles/Makefile2:677: CMakeFiles/storage_error_regression.dir/all] Error 2
+gmake[1]: *** [CMakeFiles/Makefile2:684: CMakeFiles/storage_error_regression.dir/rule] Error 2
+gmake: *** [Makefile:407: storage_error_regression] Error 2

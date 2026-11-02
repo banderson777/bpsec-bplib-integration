@@ -1,0 +1,1156 @@
+Start testing: Oct 29 19:30 EDT
+----------------------------------------------------------
+1/27 Testing: video_security_regression
+1/27 Test: video_security_regression
+Command: "/usr/bin/python3.10" "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/../client-test/test_security.py"
+Directory: /tmp/bpsec-storage-followup-20261029
+"video_security_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+test_all_demo_entrypoints_roundtrip (__main__.SecurityTests) ... ok
+test_all_fields_and_controls_authenticated (__main__.SecurityTests) ... ok
+test_continuous_eof_schema (__main__.SecurityTests) ... ok
+test_continuous_missing_segments (__main__.SecurityTests) ... ok
+test_continuous_reordering_duplicates_and_empty_segment (__main__.SecurityTests) ... ok
+test_custody_end_to_end_with_lost_ack (__main__.SecurityTests) ... ok
+test_matching_ack_releases_only_pending_transfer (__main__.SecurityTests) ... ok
+test_new_keys_and_nonces_across_runs (__main__.SecurityTests) ... ok
+test_path_traversal_and_unknown_ack_cannot_delete (__main__.SecurityTests) ... ok
+test_previous_run_records_rejected (__main__.SecurityTests) ... ok
+test_recovery_missing_part_and_duplicate (__main__.SecurityTests) ... ok
+test_restart_sessions_do_not_collide (__main__.SecurityTests) ... ok
+test_storage_failure_prevents_ack_and_relay_recovery (__main__.SecurityTests) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 1.774s
+
+OK
+[ground] continuous feed stopped after 0 segments
+[ground] continuous feed stopped after 0 segments
+[ground] continuous feed stopped after 0 segments
+[ground] continuous feed stopped after 0 segments
+[ground] continuous feed stopped after 0 segments
+[ground] continuous feed stopped after 0 segments
+[ground] segment 1 complete (1 bytes), displayed live
+[ground] segment 2 complete (1 bytes), displayed live
+[ground] continuous feed stopped after 2 segments
+[ground] segment 0 complete (1 bytes), displayed live
+[ground] segment 2 complete (1 bytes), displayed live
+[ground] continuous feed stopped after 2 segments
+[ground] segment 0 complete (1 bytes), displayed live
+[ground] segment 1 complete (1 bytes), displayed live
+[ground] continuous feed stopped after 2 segments
+[ground] continuous feed stopped after 0 segments
+[ground] continuous feed stopped after 0 segments
+[ground] segment 0 complete (1 bytes), displayed live
+[ground] segment 1 complete (1 bytes), displayed live
+[ground] segment 3 complete (1 bytes), displayed live
+[ground] continuous feed stopped after 3 segments
+[moon] segment 0 chunk 0/1 encrypted
+[moon] segment 0 chunk 1/1 encrypted
+[moon] segment 1 chunk 0/0 encrypted
+[ground] segment 1 complete (0 bytes), displayed live
+[ground] segment 0 complete (6 bytes), displayed live
+[ground] continuous feed stopped after 2 segments
+<end of output>
+Test time =   2.46 sec
+----------------------------------------------------------
+Test Passed.
+"video_security_regression" end time: Oct 29 19:30 EDT
+"video_security_regression" time elapsed: 00:00:02
+----------------------------------------------------------
+
+2/27 Testing: deployment_health_regression
+2/27 Test: deployment_health_regression
+Command: "/usr/bin/python3.10" "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/../demo/test_node_health.py"
+Directory: /tmp/bpsec-storage-followup-20261029
+"deployment_health_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+test_live_host_with_failed_application (__main__.NodeHealth) ... ok
+test_restart_requires_current_application_readiness (__main__.NodeHealth) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.002s
+
+OK
+<end of output>
+Test time =   0.21 sec
+----------------------------------------------------------
+Test Passed.
+"deployment_health_regression" end time: Oct 29 19:30 EDT
+"deployment_health_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/27 Testing: bpsec_bplib_smoke
+3/27 Test: bpsec_bplib_smoke
+Command: "/tmp/bpsec-storage-followup-20261029/bpsec_bplib_smoke"
+Directory: /tmp/bpsec-storage-followup-20261029
+"bpsec_bplib_smoke" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+2026-10-29T23:30:40.139440Z T:40C74268267C0000 <DEBUG> [decode.c:400:bsl_mock_decode_bundle] decoding primary block...
+2026-10-29T23:30:40.139562Z T:40C74268267C0000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 29)...
+2026-10-29T23:30:40.139570Z T:40C74268267C0000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 122)...
+2026-10-29T23:30:40.139575Z T:40C74268267C0000 <DEBUG> [decode.c:461:bsl_mock_decode_bundle] exiting array (at 165)
+2026-10-29T23:30:40.139586Z T:40C74268267C0000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:40.139589Z T:40C74268267C0000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:40.139591Z T:40C74268267C0000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:40.139595Z T:40C74268267C0000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 165
+2026-10-29T23:30:40.139599Z T:40C74268267C0000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:40.139601Z T:40C74268267C0000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:40.139604Z T:40C74268267C0000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:40.139606Z T:40C74268267C0000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:40.139608Z T:40C74268267C0000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:40.139610Z T:40C74268267C0000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:40.139613Z T:40C74268267C0000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 165
+2026-10-29T23:30:40.139617Z T:40C74268267C0000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 2
+2026-10-29T23:30:40.139619Z T:40C74268267C0000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 1
+BPLib version: 7.0.5
+BPSec adapter encoded payload (61 bytes): 42504C6962207061796C6F6164202D3E2042505365632061646170746572
+<end of output>
+Test time =   0.25 sec
+----------------------------------------------------------
+Test Passed.
+"bpsec_bplib_smoke" end time: Oct 29 19:30 EDT
+"bpsec_bplib_smoke" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/27 Testing: bplib_tcp_cla_smoke
+4/27 Test: bplib_tcp_cla_smoke
+Command: "/tmp/bpsec-storage-followup-20261029/bplib_tcp_cla_smoke"
+Directory: /tmp/bpsec-storage-followup-20261029
+"bplib_tcp_cla_smoke" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+TCP CLA STCP and TCPCLv4 round trips succeeded
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"bplib_tcp_cla_smoke" end time: Oct 29 19:30 EDT
+"bplib_tcp_cla_smoke" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/27 Testing: tcpclv4_chain_smoke
+5/27 Test: tcpclv4_chain_smoke
+Command: "/tmp/bpsec-storage-followup-20261029/tcpclv4_chain_smoke"
+Directory: /tmp/bpsec-storage-followup-20261029
+"tcpclv4_chain_smoke" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+TCPCLv4 moon-relay-ground forwarding succeeded
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"tcpclv4_chain_smoke" end time: Oct 29 19:30 EDT
+"tcpclv4_chain_smoke" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/27 Testing: tcpclv4_stcp_chain_smoke
+6/27 Test: tcpclv4_stcp_chain_smoke
+Command: "/tmp/bpsec-storage-followup-20261029/tcpclv4_stcp_chain_smoke"
+Directory: /tmp/bpsec-storage-followup-20261029
+"tcpclv4_stcp_chain_smoke" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+Mixed TCPCLv4 moon-relay to Hardy STCP ground forwarding succeeded
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"tcpclv4_stcp_chain_smoke" end time: Oct 29 19:30 EDT
+"tcpclv4_stcp_chain_smoke" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/27 Testing: tcpclv4_stcp_hdtn_chain_smoke
+7/27 Test: tcpclv4_stcp_hdtn_chain_smoke
+Command: "/tmp/bpsec-storage-followup-20261029/tcpclv4_stcp_hdtn_chain_smoke"
+Directory: /tmp/bpsec-storage-followup-20261029
+"tcpclv4_stcp_hdtn_chain_smoke" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+TCPCLv4 moon-relay, STCP Hardy, TCPCLv4 HDTN forwarding succeeded
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"tcpclv4_stcp_hdtn_chain_smoke" end time: Oct 29 19:30 EDT
+"tcpclv4_stcp_hdtn_chain_smoke" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/27 Testing: tcp_cla_regression
+8/27 Test: tcp_cla_regression
+Command: "/tmp/bpsec-storage-followup-20261029/tcp_cla_regression"
+Directory: /tmp/bpsec-storage-followup-20261029
+"tcp_cla_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+PASS interrupted receive/accept preserve deadlines and zero-timeout receive works
+PASS idle timeout preserves stream; every partial frame closes stream
+PASS cumulative transfer MRU; closed peer returns error without SIGPIPE
+PASS 50 simultaneous bidirectional transfers with concurrent ingress/egress
+PASS TCPCL ACK may arrive after a later peer task wakeup
+PASS failed accept/handshake clean up, allow retry, and restore configured limits
+<end of output>
+Test time =   0.52 sec
+----------------------------------------------------------
+Test Passed.
+"tcp_cla_regression" end time: Oct 29 19:30 EDT
+"tcp_cla_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/27 Testing: memory_regression
+9/27 Test: memory_regression
+Command: "/tmp/bpsec-storage-followup-20261029/memory_regression"
+Directory: /tmp/bpsec-storage-followup-20261029
+"memory_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+PASS pool initialization respects supplied buffer length
+PASS blob bounds, unchanged output on failure, cross-block reads, reader bounds
+PASS zero-length and injected allocation failures: valid frees, no outstanding allocations
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"memory_regression" end time: Oct 29 19:30 EDT
+"memory_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/27 Testing: bpnode_ingress_regression
+10/27 Test: bpnode_ingress_regression
+Command: "/tmp/bpsec-storage-followup-20261029/bpnode_ingress_regression"
+Directory: /tmp/bpsec-storage-followup-20261029
+"bpnode_ingress_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+PASS actual BPNode ingress task returns after timeout, disconnect, closed stream, and malformed frame
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"bpnode_ingress_regression" end time: Oct 29 19:30 EDT
+"bpnode_ingress_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/27 Testing: video_sink_regression
+11/27 Test: video_sink_regression
+Command: "/tmp/bpsec-storage-followup-20261029/video_sink_regression"
+Directory: /tmp/bpsec-storage-followup-20261029
+"video_sink_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+PASS actual video sink preserves reconnect output, serializes whole bundles, and completes short writes
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"video_sink_regression" end time: Oct 29 19:30 EDT
+"video_sink_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/27 Testing: custody_regression
+12/27 Test: custody_regression
+Command: "/tmp/bpsec-storage-followup-20261029/custody_regression"
+Directory: /tmp/bpsec-storage-followup-20261029
+"custody_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+PASS custody allocator failure isolation and CCS lock ownership
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"custody_regression" end time: Oct 29 19:30 EDT
+"custody_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/27 Testing: cbor_bounds_regression
+13/27 Test: cbor_bounds_regression
+Command: "/tmp/bpsec-storage-followup-20261029/cbor_bounds_regression"
+Directory: /tmp/bpsec-storage-followup-20261029
+"cbor_bounds_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+PASS excess extension blocks rejected before writes; last valid extension slot decodes
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"cbor_bounds_regression" end time: Oct 29 19:30 EDT
+"cbor_bounds_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/27 Testing: storage_init_regression
+14/27 Test: storage_init_regression
+Command: "/tmp/bpsec-storage-followup-20261029/storage_init_regression"
+Directory: /tmp/bpsec-storage-followup-20261029
+"storage_init_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+Error code interrupted received while evaluating the SQL statement: SELECT SUM(bundle_bytes) AS TotalBytes FROM bundle_data;
+Storage SQL initialization failed (5): database is locked
+PASS storage initialization waits for a transient read-only monitor lock
+PASS persistent SQLite contention fails within a finite budget and closes the failed handle
+<end of output>
+Test time =   1.23 sec
+----------------------------------------------------------
+Test Passed.
+"storage_init_regression" end time: Oct 29 19:30 EDT
+"storage_init_regression" time elapsed: 00:00:01
+----------------------------------------------------------
+
+15/27 Testing: storage_commit_regression
+15/27 Test: storage_commit_regression
+Command: "/tmp/bpsec-storage-followup-20261029/storage_commit_regression"
+Directory: /tmp/bpsec-storage-followup-20261029
+"storage_commit_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+Batch commit failed, RC=1811
+Failed to commit transaction
+Batch commit failed, RC=787
+PASS insert/COMMIT failures roll back, refuse custody, free batches, and never enqueue; success acknowledges only after commit
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"storage_commit_regression" end time: Oct 29 19:30 EDT
+"storage_commit_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/27 Testing: storage_error_discard_expired_regression
+16/27 Test: storage_error_discard_expired_regression
+Command: "/tmp/bpsec-storage-followup-20261029/storage_error_regression" "discard_expired"
+Directory: /tmp/bpsec-storage-followup-20261029
+"storage_error_discard_expired_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+delete failure: status=-293 count=0 rows=2 CT-deletes=0 open-txn=0
+PASS atomic error propagation, rollback, cleanup, accounting, and successful retry
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"storage_error_discard_expired_regression" end time: Oct 29 19:30 EDT
+"storage_error_discard_expired_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/27 Testing: storage_error_discard_egressed_regression
+17/27 Test: storage_error_discard_egressed_regression
+Command: "/tmp/bpsec-storage-followup-20261029/storage_error_regression" "discard_egressed"
+Directory: /tmp/bpsec-storage-followup-20261029
+"storage_error_discard_egressed_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+delete failure: status=-293 count=0 rows=2 CT-deletes=0 open-txn=0
+PASS atomic error propagation, rollback, cleanup, accounting, and successful retry
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"storage_error_discard_egressed_regression" end time: Oct 29 19:30 EDT
+"storage_error_discard_egressed_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/27 Testing: storage_error_mark_egress_regression
+18/27 Test: storage_error_mark_egress_regression
+Command: "/tmp/bpsec-storage-followup-20261029/storage_error_regression" "mark_egress"
+Directory: /tmp/bpsec-storage-followup-20261029
+"storage_error_mark_egress_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+mark failure: status=-302 flags=0 not-egressed=2
+PASS atomic error propagation, rollback, cleanup, accounting, and successful retry
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"storage_error_mark_egress_regression" end time: Oct 29 19:30 EDT
+"storage_error_mark_egress_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/27 Testing: storage_error_custody_update_regression
+19/27 Test: storage_error_custody_update_regression
+Command: "/tmp/bpsec-storage-followup-20261029/storage_error_regression" "custody_update"
+Directory: /tmp/bpsec-storage-followup-20261029
+"storage_error_custody_update_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+custody mark failure: status=-306 timestamps=200
+PASS atomic error propagation, rollback, cleanup, accounting, and successful retry
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"storage_error_custody_update_regression" end time: Oct 29 19:30 EDT
+"storage_error_custody_update_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/27 Testing: storage_error_load_regression
+20/27 Test: storage_error_load_regression
+Command: "/tmp/bpsec-storage-followup-20261029/storage_error_regression" "load"
+Directory: /tmp/bpsec-storage-followup-20261029
+"storage_error_load_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+Stored BLOB is too large for buffer. DB is corrupted 0 > 2032
+Stored BLOB is too large for buffer. DB is corrupted 2033 > 2032
+Expected to read metadata chunk and got wrong size 1 != 1000
+Programming Error: FindBlobSQL prepare failed, error=no such table: bundle_blobs
+PASS atomic error propagation, rollback, cleanup, accounting, and successful retry
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"storage_error_load_regression" end time: Oct 29 19:30 EDT
+"storage_error_load_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/27 Testing: storage_error_custody_queue_regression
+21/27 Test: storage_error_custody_queue_regression
+Command: "/tmp/bpsec-storage-followup-20261029/storage_error_regression" "custody_queue"
+Directory: /tmp/bpsec-storage-followup-20261029
+"storage_error_custody_queue_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+PASS atomic error propagation, rollback, cleanup, accounting, and successful retry
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"storage_error_custody_queue_regression" end time: Oct 29 19:30 EDT
+"storage_error_custody_queue_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/27 Testing: storage_error_lookup_regression
+22/27 Test: storage_error_lookup_regression
+Command: "/tmp/bpsec-storage-followup-20261029/storage_error_regression" "lookup"
+Directory: /tmp/bpsec-storage-followup-20261029
+"storage_error_lookup_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+PASS atomic error propagation, rollback, cleanup, accounting, and successful retry
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"storage_error_lookup_regression" end time: Oct 29 19:30 EDT
+"storage_error_lookup_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/27 Testing: endpoint_security_regression
+23/27 Test: endpoint_security_regression
+Command: "/usr/bin/python3.10" "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/../demo/test_security.py" "/tmp/bpsec-storage-followup-20261029/libbplib_bsl_security.so"
+Directory: /tmp/bpsec-storage-followup-20261029
+"endpoint_security_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+test_mutable_relay_blocks_preserve_endpoint_security (__main__.EndpointSecurity) ... 2026-10-29T23:30:42.283985Z T:00B077B1F9760000 <DEBUG> [decode.c:400:bsl_mock_decode_bundle] decoding primary block...
+2026-10-29T23:30:42.284055Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 31)...
+2026-10-29T23:30:42.284066Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 42)...
+2026-10-29T23:30:42.284076Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 51)...
+2026-10-29T23:30:42.284082Z T:00B077B1F9760000 <DEBUG> [decode.c:461:bsl_mock_decode_bundle] exiting array (at 84)
+2026-10-29T23:30:42.284112Z T:00B077B1F9760000 <DEBUG> [agent.c:380:MockBPA_CreateBlock] Created block 4
+2026-10-29T23:30:42.284127Z T:00B077B1F9760000 <DEBUG> [SecurityContext.c:446:BSL_ExecBCBSource] Created new BCB block number = 4
+2026-10-29T23:30:42.284141Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:57:BSLX_BCB_ComputeAAD] Using AAD scope 7
+2026-10-29T23:30:42.284202Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:75:BSLX_BCB_ComputeAAD] Adding primary block to AAD
+2026-10-29T23:30:42.284207Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:80:BSLX_BCB_ComputeAAD] Adding target block header to AAD
+2026-10-29T23:30:42.284209Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 1, 1, 0
+2026-10-29T23:30:42.284211Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:85:BSLX_BCB_ComputeAAD] Adding security block header to AAD
+2026-10-29T23:30:42.284213Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 12, 4, 1
+2026-10-29T23:30:42.286210Z T:00B077B1F9760000 <WARNING> [BCB_AES_GCM.c:278:BSLX_BCB_Encrypt] Skipping keywrap (this is not advised)
+2026-10-29T23:30:42.286245Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:591:BSL_Cipher_Init] Cipher block size 1024
+2026-10-29T23:30:42.286255Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:629:BSL_Cipher_AddAadBuffer] EVP_CipherUpdate took 37 bytes, return 1
+2026-10-29T23:30:42.286258Z T:00B077B1F9760000 <DEBUG> [agent.c:219:MockBPA_ReadBTSD] opened block number 1 with size 25
+2026-10-29T23:30:42.286262Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 1 for size 25, previous size 25
+2026-10-29T23:30:42.286267Z T:00B077B1F9760000 <DEBUG> [agent.c:192:MockBPA_ReadBTSD_Read] reading up to 25 bytes, got 25
+2026-10-29T23:30:42.286269Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:686:BSL_Cipher_AddSeq] EVP_CipherUpdate took 25 bytes, gave 25 bytes, return 1
+2026-10-29T23:30:42.286272Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 25 bytes, got 25
+2026-10-29T23:30:42.286275Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:747:BSL_Cipher_FinalizeSeq] EVP_CipherFinal_ex gave 0 bytes, return 1
+2026-10-29T23:30:42.286277Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:718:BSL_Cipher_GetTag] Completed EVP_CIPHER_CTX_ctrl len 16, return 1
+2026-10-29T23:30:42.286280Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 1 with size 25 and cursor 25 user success 1
+2026-10-29T23:30:42.286289Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:743:BSLX_BCB_Execute] Appending BCB Auth Tag
+2026-10-29T23:30:42.286296Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:750:BSLX_BCB_Execute] Appending BCB source IV
+2026-10-29T23:30:42.286299Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:756:BSLX_BCB_Execute] Appending BCB AES param
+2026-10-29T23:30:42.286302Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:769:BSLX_BCB_Execute] Appending BCB scope flag param
+2026-10-29T23:30:42.286305Z T:00B077B1F9760000 <DEBUG> [SecurityContext.c:471:BSL_ExecBCBSource] BCB SOURCE operation success.
+2026-10-29T23:30:42.286315Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.286320Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 52
+2026-10-29T23:30:42.286322Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.286324Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.286328Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 52
+2026-10-29T23:30:42.286330Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 4 for size 52, previous size 0
+2026-10-29T23:30:42.286332Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 52 bytes, got 52
+2026-10-29T23:30:42.286338Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 4 with size 52 and cursor 52 user success 1
+2026-10-29T23:30:42.286349Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 6
+2026-10-29T23:30:42.286351Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.286356Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.286360Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 143
+2026-10-29T23:30:42.286363Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 6
+2026-10-29T23:30:42.286365Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 6
+2026-10-29T23:30:42.286367Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.286368Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.286370Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.286372Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.286377Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 143
+2026-10-29T23:30:42.286387Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 4
+2026-10-29T23:30:42.286390Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 3
+2026-10-29T23:30:42.286392Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 2
+2026-10-29T23:30:42.286394Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 1
+2026-10-29T23:30:42.286566Z T:00B077B1F9760000 <DEBUG> [decode.c:400:bsl_mock_decode_bundle] decoding primary block...
+2026-10-29T23:30:42.286598Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 31)...
+2026-10-29T23:30:42.286605Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 90)...
+2026-10-29T23:30:42.286608Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 99)...
+2026-10-29T23:30:42.286612Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 111)...
+2026-10-29T23:30:42.286615Z T:00B077B1F9760000 <DEBUG> [decode.c:461:bsl_mock_decode_bundle] exiting array (at 144)
+2026-10-29T23:30:42.286621Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:368:BSL_AbsSecBlock_Decode] got tgt 1
+2026-10-29T23:30:42.286624Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:377:BSL_AbsSecBlock_Decode] got ctx_id 2
+2026-10-29T23:30:42.286626Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:387:BSL_AbsSecBlock_Decode] got flags 1
+2026-10-29T23:30:42.286630Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:425:BSL_AbsSecBlock_Decode] Parsing parameter array
+2026-10-29T23:30:42.286635Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 12 as bytestr with 12 bytes
+2026-10-29T23:30:42.286641Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 12 and 25
+2026-10-29T23:30:42.286645Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 27 as int 3
+2026-10-29T23:30:42.286647Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 27 and 28
+2026-10-29T23:30:42.286650Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 30 as int 7
+2026-10-29T23:30:42.286652Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 30 and 31
+2026-10-29T23:30:42.286655Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:477:BSL_AbsSecBlock_Decode] Parsing result array for target 1
+2026-10-29T23:30:42.286658Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 35 as bytestr with 16 bytes
+2026-10-29T23:30:42.286660Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 35 and 52
+2026-10-29T23:30:42.286675Z T:00B077B1F9760000 <DEBUG> [agent.c:219:MockBPA_ReadBTSD] opened block number 4 with size 52
+2026-10-29T23:30:42.286692Z T:00B077B1F9760000 <DEBUG> [agent.c:192:MockBPA_ReadBTSD_Read] reading up to 52 bytes, got 52
+2026-10-29T23:30:42.286696Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:368:BSL_AbsSecBlock_Decode] got tgt 1
+2026-10-29T23:30:42.286699Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:377:BSL_AbsSecBlock_Decode] got ctx_id 2
+2026-10-29T23:30:42.286702Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:387:BSL_AbsSecBlock_Decode] got flags 1
+2026-10-29T23:30:42.286706Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:425:BSL_AbsSecBlock_Decode] Parsing parameter array
+2026-10-29T23:30:42.286708Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 12 as bytestr with 12 bytes
+2026-10-29T23:30:42.286711Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 12 and 25
+2026-10-29T23:30:42.286714Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 27 as int 3
+2026-10-29T23:30:42.286716Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 27 and 28
+2026-10-29T23:30:42.286719Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 30 as int 7
+2026-10-29T23:30:42.286721Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 30 and 31
+2026-10-29T23:30:42.286723Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:477:BSL_AbsSecBlock_Decode] Parsing result array for target 1
+2026-10-29T23:30:42.286726Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 35 as bytestr with 16 bytes
+2026-10-29T23:30:42.286728Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 35 and 52
+2026-10-29T23:30:42.286735Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:616:BSLX_BCB_Execute] using AES variant 3
+2026-10-29T23:30:42.286740Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:640:BSLX_BCB_Execute] using AAD scope 7
+2026-10-29T23:30:42.286743Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:57:BSLX_BCB_ComputeAAD] Using AAD scope 7
+2026-10-29T23:30:42.286745Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:75:BSLX_BCB_ComputeAAD] Adding primary block to AAD
+2026-10-29T23:30:42.286748Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:80:BSLX_BCB_ComputeAAD] Adding target block header to AAD
+2026-10-29T23:30:42.286749Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 1, 1, 0
+2026-10-29T23:30:42.286752Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:85:BSLX_BCB_ComputeAAD] Adding security block header to AAD
+2026-10-29T23:30:42.286754Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 12, 4, 1
+2026-10-29T23:30:42.286757Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:106:BSLX_BCB_Decrypt] BCB attempting to decrypt
+2026-10-29T23:30:42.286760Z T:00B077B1F9760000 <WARNING> [BCB_AES_GCM.c:140:BSLX_BCB_Decrypt] Using bare key without AES keywrap
+2026-10-29T23:30:42.286767Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:591:BSL_Cipher_Init] Cipher block size 1024
+2026-10-29T23:30:42.286773Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:629:BSL_Cipher_AddAadBuffer] EVP_CipherUpdate took 37 bytes, return 1
+2026-10-29T23:30:42.286776Z T:00B077B1F9760000 <DEBUG> [agent.c:219:MockBPA_ReadBTSD] opened block number 1 with size 25
+2026-10-29T23:30:42.286778Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 1 for size 25, previous size 25
+2026-10-29T23:30:42.286781Z T:00B077B1F9760000 <DEBUG> [agent.c:192:MockBPA_ReadBTSD_Read] reading up to 25 bytes, got 25
+2026-10-29T23:30:42.286784Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:686:BSL_Cipher_AddSeq] EVP_CipherUpdate took 25 bytes, gave 25 bytes, return 1
+2026-10-29T23:30:42.286786Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 25 bytes, got 25
+2026-10-29T23:30:42.286788Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:734:BSL_Cipher_SetTag] Completed EVP_CIPHER_CTX_ctrl len 16, return 1
+2026-10-29T23:30:42.286790Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:747:BSL_Cipher_FinalizeSeq] EVP_CipherFinal_ex gave 0 bytes, return 1
+2026-10-29T23:30:42.286793Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 1 with size 25 and cursor 25 user success 1
+2026-10-29T23:30:42.286799Z T:00B077B1F9760000 <DEBUG> [agent.c:417:MockBPA_RemoveBlock] Removed block 4
+2026-10-29T23:30:42.286803Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 6
+2026-10-29T23:30:42.286806Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.286807Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.286810Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 85
+2026-10-29T23:30:42.286812Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 6
+2026-10-29T23:30:42.286814Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 6
+2026-10-29T23:30:42.286816Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.286819Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.286821Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.286823Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.286825Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 85
+2026-10-29T23:30:42.286830Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 3
+2026-10-29T23:30:42.286832Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 2
+2026-10-29T23:30:42.286834Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 1
+ok
+test_roundtrip_and_fresh_ivs (__main__.EndpointSecurity) ... 2026-10-29T23:30:42.287020Z T:00B077B1F9760000 <DEBUG> [decode.c:400:bsl_mock_decode_bundle] decoding primary block...
+2026-10-29T23:30:42.287043Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 31)...
+2026-10-29T23:30:42.287048Z T:00B077B1F9760000 <DEBUG> [decode.c:461:bsl_mock_decode_bundle] exiting array (at 64)
+2026-10-29T23:30:42.287059Z T:00B077B1F9760000 <DEBUG> [agent.c:380:MockBPA_CreateBlock] Created block 2
+2026-10-29T23:30:42.287062Z T:00B077B1F9760000 <DEBUG> [SecurityContext.c:446:BSL_ExecBCBSource] Created new BCB block number = 2
+2026-10-29T23:30:42.287068Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:57:BSLX_BCB_ComputeAAD] Using AAD scope 7
+2026-10-29T23:30:42.287071Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:75:BSLX_BCB_ComputeAAD] Adding primary block to AAD
+2026-10-29T23:30:42.287074Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:80:BSLX_BCB_ComputeAAD] Adding target block header to AAD
+2026-10-29T23:30:42.287076Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 1, 1, 0
+2026-10-29T23:30:42.287078Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:85:BSLX_BCB_ComputeAAD] Adding security block header to AAD
+2026-10-29T23:30:42.287080Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 12, 2, 1
+2026-10-29T23:30:42.287088Z T:00B077B1F9760000 <WARNING> [BCB_AES_GCM.c:278:BSLX_BCB_Encrypt] Skipping keywrap (this is not advised)
+2026-10-29T23:30:42.287105Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:591:BSL_Cipher_Init] Cipher block size 1024
+2026-10-29T23:30:42.287110Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:629:BSL_Cipher_AddAadBuffer] EVP_CipherUpdate took 37 bytes, return 1
+2026-10-29T23:30:42.287113Z T:00B077B1F9760000 <DEBUG> [agent.c:219:MockBPA_ReadBTSD] opened block number 1 with size 25
+2026-10-29T23:30:42.287117Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 1 for size 25, previous size 25
+2026-10-29T23:30:42.287120Z T:00B077B1F9760000 <DEBUG> [agent.c:192:MockBPA_ReadBTSD_Read] reading up to 25 bytes, got 25
+2026-10-29T23:30:42.287122Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:686:BSL_Cipher_AddSeq] EVP_CipherUpdate took 25 bytes, gave 25 bytes, return 1
+2026-10-29T23:30:42.287125Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 25 bytes, got 25
+2026-10-29T23:30:42.287127Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:747:BSL_Cipher_FinalizeSeq] EVP_CipherFinal_ex gave 0 bytes, return 1
+2026-10-29T23:30:42.287130Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:718:BSL_Cipher_GetTag] Completed EVP_CIPHER_CTX_ctrl len 16, return 1
+2026-10-29T23:30:42.287133Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 1 with size 25 and cursor 25 user success 1
+2026-10-29T23:30:42.287135Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:743:BSLX_BCB_Execute] Appending BCB Auth Tag
+2026-10-29T23:30:42.287138Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:750:BSLX_BCB_Execute] Appending BCB source IV
+2026-10-29T23:30:42.287140Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:756:BSLX_BCB_Execute] Appending BCB AES param
+2026-10-29T23:30:42.287142Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:769:BSLX_BCB_Execute] Appending BCB scope flag param
+2026-10-29T23:30:42.287145Z T:00B077B1F9760000 <DEBUG> [SecurityContext.c:471:BSL_ExecBCBSource] BCB SOURCE operation success.
+2026-10-29T23:30:42.287150Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287154Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 52
+2026-10-29T23:30:42.287157Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287159Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.287162Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 52
+2026-10-29T23:30:42.287164Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 2 for size 52, previous size 0
+2026-10-29T23:30:42.287167Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 52 bytes, got 52
+2026-10-29T23:30:42.287170Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 2 with size 52 and cursor 52 user success 1
+2026-10-29T23:30:42.287175Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 6
+2026-10-29T23:30:42.287180Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287182Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287185Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 123
+2026-10-29T23:30:42.287187Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 6
+2026-10-29T23:30:42.287189Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 6
+2026-10-29T23:30:42.287192Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287194Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.287196Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287198Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.287201Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 123
+2026-10-29T23:30:42.287206Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 2
+2026-10-29T23:30:42.287210Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 1
+2026-10-29T23:30:42.287229Z T:00B077B1F9760000 <DEBUG> [decode.c:400:bsl_mock_decode_bundle] decoding primary block...
+2026-10-29T23:30:42.287249Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 31)...
+2026-10-29T23:30:42.287253Z T:00B077B1F9760000 <DEBUG> [decode.c:461:bsl_mock_decode_bundle] exiting array (at 64)
+2026-10-29T23:30:42.287262Z T:00B077B1F9760000 <DEBUG> [agent.c:380:MockBPA_CreateBlock] Created block 2
+2026-10-29T23:30:42.287265Z T:00B077B1F9760000 <DEBUG> [SecurityContext.c:446:BSL_ExecBCBSource] Created new BCB block number = 2
+2026-10-29T23:30:42.287270Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:57:BSLX_BCB_ComputeAAD] Using AAD scope 7
+2026-10-29T23:30:42.287272Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:75:BSLX_BCB_ComputeAAD] Adding primary block to AAD
+2026-10-29T23:30:42.287274Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:80:BSLX_BCB_ComputeAAD] Adding target block header to AAD
+2026-10-29T23:30:42.287276Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 1, 1, 0
+2026-10-29T23:30:42.287279Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:85:BSLX_BCB_ComputeAAD] Adding security block header to AAD
+2026-10-29T23:30:42.287280Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 12, 2, 1
+2026-10-29T23:30:42.287285Z T:00B077B1F9760000 <WARNING> [BCB_AES_GCM.c:278:BSLX_BCB_Encrypt] Skipping keywrap (this is not advised)
+2026-10-29T23:30:42.287289Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:591:BSL_Cipher_Init] Cipher block size 1024
+2026-10-29T23:30:42.287292Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:629:BSL_Cipher_AddAadBuffer] EVP_CipherUpdate took 37 bytes, return 1
+2026-10-29T23:30:42.287295Z T:00B077B1F9760000 <DEBUG> [agent.c:219:MockBPA_ReadBTSD] opened block number 1 with size 25
+2026-10-29T23:30:42.287298Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 1 for size 25, previous size 25
+2026-10-29T23:30:42.287301Z T:00B077B1F9760000 <DEBUG> [agent.c:192:MockBPA_ReadBTSD_Read] reading up to 25 bytes, got 25
+2026-10-29T23:30:42.287304Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:686:BSL_Cipher_AddSeq] EVP_CipherUpdate took 25 bytes, gave 25 bytes, return 1
+2026-10-29T23:30:42.287307Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 25 bytes, got 25
+2026-10-29T23:30:42.287309Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:747:BSL_Cipher_FinalizeSeq] EVP_CipherFinal_ex gave 0 bytes, return 1
+2026-10-29T23:30:42.287311Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:718:BSL_Cipher_GetTag] Completed EVP_CIPHER_CTX_ctrl len 16, return 1
+2026-10-29T23:30:42.287314Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 1 with size 25 and cursor 25 user success 1
+2026-10-29T23:30:42.287317Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:743:BSLX_BCB_Execute] Appending BCB Auth Tag
+2026-10-29T23:30:42.287319Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:750:BSLX_BCB_Execute] Appending BCB source IV
+2026-10-29T23:30:42.287322Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:756:BSLX_BCB_Execute] Appending BCB AES param
+2026-10-29T23:30:42.287324Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:769:BSLX_BCB_Execute] Appending BCB scope flag param
+2026-10-29T23:30:42.287327Z T:00B077B1F9760000 <DEBUG> [SecurityContext.c:471:BSL_ExecBCBSource] BCB SOURCE operation success.
+2026-10-29T23:30:42.287331Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287334Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 52
+2026-10-29T23:30:42.287337Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287339Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.287342Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 52
+2026-10-29T23:30:42.287345Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 2 for size 52, previous size 0
+2026-10-29T23:30:42.287347Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 52 bytes, got 52
+2026-10-29T23:30:42.287349Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 2 with size 52 and cursor 52 user success 1
+2026-10-29T23:30:42.287353Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 6
+2026-10-29T23:30:42.287356Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287358Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287361Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 123
+2026-10-29T23:30:42.287364Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 6
+2026-10-29T23:30:42.287366Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 6
+2026-10-29T23:30:42.287368Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287370Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.287372Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287374Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.287377Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 123
+2026-10-29T23:30:42.287381Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 2
+2026-10-29T23:30:42.287383Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 1
+2026-10-29T23:30:42.287402Z T:00B077B1F9760000 <DEBUG> [decode.c:400:bsl_mock_decode_bundle] decoding primary block...
+2026-10-29T23:30:42.287419Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 31)...
+2026-10-29T23:30:42.287437Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 90)...
+2026-10-29T23:30:42.287441Z T:00B077B1F9760000 <DEBUG> [decode.c:461:bsl_mock_decode_bundle] exiting array (at 123)
+2026-10-29T23:30:42.287446Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:368:BSL_AbsSecBlock_Decode] got tgt 1
+2026-10-29T23:30:42.287449Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:377:BSL_AbsSecBlock_Decode] got ctx_id 2
+2026-10-29T23:30:42.287451Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:387:BSL_AbsSecBlock_Decode] got flags 1
+2026-10-29T23:30:42.287454Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:425:BSL_AbsSecBlock_Decode] Parsing parameter array
+2026-10-29T23:30:42.287457Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 12 as bytestr with 12 bytes
+2026-10-29T23:30:42.287460Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 12 and 25
+2026-10-29T23:30:42.287463Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 27 as int 3
+2026-10-29T23:30:42.287465Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 27 and 28
+2026-10-29T23:30:42.287467Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 30 as int 7
+2026-10-29T23:30:42.287469Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 30 and 31
+2026-10-29T23:30:42.287472Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:477:BSL_AbsSecBlock_Decode] Parsing result array for target 1
+2026-10-29T23:30:42.287474Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 35 as bytestr with 16 bytes
+2026-10-29T23:30:42.287476Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 35 and 52
+2026-10-29T23:30:42.287484Z T:00B077B1F9760000 <DEBUG> [agent.c:219:MockBPA_ReadBTSD] opened block number 2 with size 52
+2026-10-29T23:30:42.287487Z T:00B077B1F9760000 <DEBUG> [agent.c:192:MockBPA_ReadBTSD_Read] reading up to 52 bytes, got 52
+2026-10-29T23:30:42.287490Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:368:BSL_AbsSecBlock_Decode] got tgt 1
+2026-10-29T23:30:42.287493Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:377:BSL_AbsSecBlock_Decode] got ctx_id 2
+2026-10-29T23:30:42.287495Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:387:BSL_AbsSecBlock_Decode] got flags 1
+2026-10-29T23:30:42.287497Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:425:BSL_AbsSecBlock_Decode] Parsing parameter array
+2026-10-29T23:30:42.287500Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 12 as bytestr with 12 bytes
+2026-10-29T23:30:42.287502Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 12 and 25
+2026-10-29T23:30:42.287505Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 27 as int 3
+2026-10-29T23:30:42.287507Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 27 and 28
+2026-10-29T23:30:42.287510Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 30 as int 7
+2026-10-29T23:30:42.287512Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 30 and 31
+2026-10-29T23:30:42.287514Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:477:BSL_AbsSecBlock_Decode] Parsing result array for target 1
+2026-10-29T23:30:42.287517Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 35 as bytestr with 16 bytes
+2026-10-29T23:30:42.287519Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 35 and 52
+2026-10-29T23:30:42.287525Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:616:BSLX_BCB_Execute] using AES variant 3
+2026-10-29T23:30:42.287531Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:640:BSLX_BCB_Execute] using AAD scope 7
+2026-10-29T23:30:42.287533Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:57:BSLX_BCB_ComputeAAD] Using AAD scope 7
+2026-10-29T23:30:42.287536Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:75:BSLX_BCB_ComputeAAD] Adding primary block to AAD
+2026-10-29T23:30:42.287538Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:80:BSLX_BCB_ComputeAAD] Adding target block header to AAD
+2026-10-29T23:30:42.287539Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 1, 1, 0
+2026-10-29T23:30:42.287542Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:85:BSLX_BCB_ComputeAAD] Adding security block header to AAD
+2026-10-29T23:30:42.287544Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 12, 2, 1
+2026-10-29T23:30:42.287547Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:106:BSLX_BCB_Decrypt] BCB attempting to decrypt
+2026-10-29T23:30:42.287549Z T:00B077B1F9760000 <WARNING> [BCB_AES_GCM.c:140:BSLX_BCB_Decrypt] Using bare key without AES keywrap
+2026-10-29T23:30:42.287553Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:591:BSL_Cipher_Init] Cipher block size 1024
+2026-10-29T23:30:42.287556Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:629:BSL_Cipher_AddAadBuffer] EVP_CipherUpdate took 37 bytes, return 1
+2026-10-29T23:30:42.287562Z T:00B077B1F9760000 <DEBUG> [agent.c:219:MockBPA_ReadBTSD] opened block number 1 with size 25
+2026-10-29T23:30:42.287565Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 1 for size 25, previous size 25
+2026-10-29T23:30:42.287567Z T:00B077B1F9760000 <DEBUG> [agent.c:192:MockBPA_ReadBTSD_Read] reading up to 25 bytes, got 25
+2026-10-29T23:30:42.287570Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:686:BSL_Cipher_AddSeq] EVP_CipherUpdate took 25 bytes, gave 25 bytes, return 1
+2026-10-29T23:30:42.287572Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 25 bytes, got 25
+2026-10-29T23:30:42.287574Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:734:BSL_Cipher_SetTag] Completed EVP_CIPHER_CTX_ctrl len 16, return 1
+2026-10-29T23:30:42.287577Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:747:BSL_Cipher_FinalizeSeq] EVP_CipherFinal_ex gave 0 bytes, return 1
+2026-10-29T23:30:42.287579Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 1 with size 25 and cursor 25 user success 1
+2026-10-29T23:30:42.287583Z T:00B077B1F9760000 <DEBUG> [agent.c:417:MockBPA_RemoveBlock] Removed block 2
+2026-10-29T23:30:42.287587Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 6
+2026-10-29T23:30:42.287590Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287592Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287594Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 64
+2026-10-29T23:30:42.287597Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 6
+2026-10-29T23:30:42.287600Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 6
+2026-10-29T23:30:42.287602Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287604Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.287606Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287608Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.287611Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 64
+2026-10-29T23:30:42.287615Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 1
+ok
+test_truncation_and_capacity_fail_closed (__main__.EndpointSecurity) ... 2026-10-29T23:30:42.287748Z T:00B077B1F9760000 <DEBUG> [decode.c:400:bsl_mock_decode_bundle] decoding primary block...
+2026-10-29T23:30:42.287765Z T:00B077B1F9760000 <ERROR> [decode.c:204:bsl_mock_decode_primary] Block must start with definite-length array head, got 0
+2026-10-29T23:30:42.287768Z T:00B077B1F9760000 <ERROR> [decode.c:404:bsl_mock_decode_bundle] failed decoding primary block
+2026-10-29T23:30:42.287865Z T:00B077B1F9760000 <DEBUG> [decode.c:400:bsl_mock_decode_bundle] decoding primary block...
+2026-10-29T23:30:42.287892Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 31)...
+2026-10-29T23:30:42.287897Z T:00B077B1F9760000 <DEBUG> [decode.c:461:bsl_mock_decode_bundle] exiting array (at 64)
+2026-10-29T23:30:42.287908Z T:00B077B1F9760000 <DEBUG> [agent.c:380:MockBPA_CreateBlock] Created block 2
+2026-10-29T23:30:42.287910Z T:00B077B1F9760000 <DEBUG> [SecurityContext.c:446:BSL_ExecBCBSource] Created new BCB block number = 2
+2026-10-29T23:30:42.287916Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:57:BSLX_BCB_ComputeAAD] Using AAD scope 7
+2026-10-29T23:30:42.287919Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:75:BSLX_BCB_ComputeAAD] Adding primary block to AAD
+2026-10-29T23:30:42.287921Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:80:BSLX_BCB_ComputeAAD] Adding target block header to AAD
+2026-10-29T23:30:42.287923Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 1, 1, 0
+2026-10-29T23:30:42.287925Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:85:BSLX_BCB_ComputeAAD] Adding security block header to AAD
+2026-10-29T23:30:42.287927Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 12, 2, 1
+2026-10-29T23:30:42.287935Z T:00B077B1F9760000 <WARNING> [BCB_AES_GCM.c:278:BSLX_BCB_Encrypt] Skipping keywrap (this is not advised)
+2026-10-29T23:30:42.287939Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:591:BSL_Cipher_Init] Cipher block size 1024
+2026-10-29T23:30:42.287943Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:629:BSL_Cipher_AddAadBuffer] EVP_CipherUpdate took 37 bytes, return 1
+2026-10-29T23:30:42.287946Z T:00B077B1F9760000 <DEBUG> [agent.c:219:MockBPA_ReadBTSD] opened block number 1 with size 25
+2026-10-29T23:30:42.287949Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 1 for size 25, previous size 25
+2026-10-29T23:30:42.287952Z T:00B077B1F9760000 <DEBUG> [agent.c:192:MockBPA_ReadBTSD_Read] reading up to 25 bytes, got 25
+2026-10-29T23:30:42.287955Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:686:BSL_Cipher_AddSeq] EVP_CipherUpdate took 25 bytes, gave 25 bytes, return 1
+2026-10-29T23:30:42.287957Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 25 bytes, got 25
+2026-10-29T23:30:42.287960Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:747:BSL_Cipher_FinalizeSeq] EVP_CipherFinal_ex gave 0 bytes, return 1
+2026-10-29T23:30:42.287962Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:718:BSL_Cipher_GetTag] Completed EVP_CIPHER_CTX_ctrl len 16, return 1
+2026-10-29T23:30:42.287966Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 1 with size 25 and cursor 25 user success 1
+2026-10-29T23:30:42.287968Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:743:BSLX_BCB_Execute] Appending BCB Auth Tag
+2026-10-29T23:30:42.287971Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:750:BSLX_BCB_Execute] Appending BCB source IV
+2026-10-29T23:30:42.287973Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:756:BSLX_BCB_Execute] Appending BCB AES param
+2026-10-29T23:30:42.287976Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:769:BSLX_BCB_Execute] Appending BCB scope flag param
+2026-10-29T23:30:42.287979Z T:00B077B1F9760000 <DEBUG> [SecurityContext.c:471:BSL_ExecBCBSource] BCB SOURCE operation success.
+2026-10-29T23:30:42.287984Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287992Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 52
+2026-10-29T23:30:42.287995Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.287997Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.288000Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 52
+2026-10-29T23:30:42.288002Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 2 for size 52, previous size 0
+2026-10-29T23:30:42.288005Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 52 bytes, got 52
+2026-10-29T23:30:42.288008Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 2 with size 52 and cursor 52 user success 1
+2026-10-29T23:30:42.288014Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 6
+2026-10-29T23:30:42.288019Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.288021Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.288024Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 123
+2026-10-29T23:30:42.288027Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 6
+2026-10-29T23:30:42.288029Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 6
+2026-10-29T23:30:42.288031Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.288033Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.288035Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.288037Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.288040Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 123
+2026-10-29T23:30:42.288045Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 2
+2026-10-29T23:30:42.288047Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 1
+ok
+test_wrong_endpoints_and_repeated_protection (__main__.EndpointSecurity) ... 2026-10-29T23:30:42.288181Z T:00B077B1F9760000 <DEBUG> [decode.c:400:bsl_mock_decode_bundle] decoding primary block...
+2026-10-29T23:30:42.288212Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 31)...
+2026-10-29T23:30:42.288217Z T:00B077B1F9760000 <DEBUG> [decode.c:461:bsl_mock_decode_bundle] exiting array (at 64)
+2026-10-29T23:30:42.288222Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 1
+2026-10-29T23:30:42.288245Z T:00B077B1F9760000 <DEBUG> [decode.c:400:bsl_mock_decode_bundle] decoding primary block...
+2026-10-29T23:30:42.288271Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 31)...
+2026-10-29T23:30:42.288275Z T:00B077B1F9760000 <DEBUG> [decode.c:461:bsl_mock_decode_bundle] exiting array (at 64)
+2026-10-29T23:30:42.288289Z T:00B077B1F9760000 <DEBUG> [agent.c:380:MockBPA_CreateBlock] Created block 2
+2026-10-29T23:30:42.288291Z T:00B077B1F9760000 <DEBUG> [SecurityContext.c:446:BSL_ExecBCBSource] Created new BCB block number = 2
+2026-10-29T23:30:42.288296Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:57:BSLX_BCB_ComputeAAD] Using AAD scope 7
+2026-10-29T23:30:42.288298Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:75:BSLX_BCB_ComputeAAD] Adding primary block to AAD
+2026-10-29T23:30:42.288300Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:80:BSLX_BCB_ComputeAAD] Adding target block header to AAD
+2026-10-29T23:30:42.288302Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 1, 1, 0
+2026-10-29T23:30:42.288304Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:85:BSLX_BCB_ComputeAAD] Adding security block header to AAD
+2026-10-29T23:30:42.288306Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 12, 2, 1
+2026-10-29T23:30:42.288312Z T:00B077B1F9760000 <WARNING> [BCB_AES_GCM.c:278:BSLX_BCB_Encrypt] Skipping keywrap (this is not advised)
+2026-10-29T23:30:42.288316Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:591:BSL_Cipher_Init] Cipher block size 1024
+2026-10-29T23:30:42.288324Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:629:BSL_Cipher_AddAadBuffer] EVP_CipherUpdate took 37 bytes, return 1
+2026-10-29T23:30:42.288327Z T:00B077B1F9760000 <DEBUG> [agent.c:219:MockBPA_ReadBTSD] opened block number 1 with size 25
+2026-10-29T23:30:42.288330Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 1 for size 25, previous size 25
+2026-10-29T23:30:42.288333Z T:00B077B1F9760000 <DEBUG> [agent.c:192:MockBPA_ReadBTSD_Read] reading up to 25 bytes, got 25
+2026-10-29T23:30:42.288336Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:686:BSL_Cipher_AddSeq] EVP_CipherUpdate took 25 bytes, gave 25 bytes, return 1
+2026-10-29T23:30:42.288338Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 25 bytes, got 25
+2026-10-29T23:30:42.288340Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:747:BSL_Cipher_FinalizeSeq] EVP_CipherFinal_ex gave 0 bytes, return 1
+2026-10-29T23:30:42.288343Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:718:BSL_Cipher_GetTag] Completed EVP_CIPHER_CTX_ctrl len 16, return 1
+2026-10-29T23:30:42.288346Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 1 with size 25 and cursor 25 user success 1
+2026-10-29T23:30:42.288349Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:743:BSLX_BCB_Execute] Appending BCB Auth Tag
+2026-10-29T23:30:42.288352Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:750:BSLX_BCB_Execute] Appending BCB source IV
+2026-10-29T23:30:42.288354Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:756:BSLX_BCB_Execute] Appending BCB AES param
+2026-10-29T23:30:42.288356Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:769:BSLX_BCB_Execute] Appending BCB scope flag param
+2026-10-29T23:30:42.288359Z T:00B077B1F9760000 <DEBUG> [SecurityContext.c:471:BSL_ExecBCBSource] BCB SOURCE operation success.
+2026-10-29T23:30:42.288363Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.288366Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 52
+2026-10-29T23:30:42.288369Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.288371Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.288374Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 52
+2026-10-29T23:30:42.288376Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 2 for size 52, previous size 0
+2026-10-29T23:30:42.288379Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 52 bytes, got 52
+2026-10-29T23:30:42.288381Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 2 with size 52 and cursor 52 user success 1
+2026-10-29T23:30:42.288386Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 6
+2026-10-29T23:30:42.288389Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.288391Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.288394Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 123
+2026-10-29T23:30:42.288396Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 6
+2026-10-29T23:30:42.288398Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 6
+2026-10-29T23:30:42.288400Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.288402Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.288404Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.288406Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.288409Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 123
+2026-10-29T23:30:42.288443Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 2
+2026-10-29T23:30:42.288447Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 1
+2026-10-29T23:30:42.288462Z T:00B077B1F9760000 <DEBUG> [decode.c:400:bsl_mock_decode_bundle] decoding primary block...
+2026-10-29T23:30:42.288470Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 31)...
+2026-10-29T23:30:42.288474Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 90)...
+2026-10-29T23:30:42.288477Z T:00B077B1F9760000 <DEBUG> [decode.c:461:bsl_mock_decode_bundle] exiting array (at 123)
+2026-10-29T23:30:42.288481Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 2
+2026-10-29T23:30:42.288486Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 1
+ok
+test_wrong_key_missing_bcb_and_tampering (__main__.EndpointSecurity) ... 2026-10-29T23:30:42.288624Z T:00B077B1F9760000 <DEBUG> [decode.c:400:bsl_mock_decode_bundle] decoding primary block...
+2026-10-29T23:30:42.288652Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 31)...
+2026-10-29T23:30:42.288662Z T:00B077B1F9760000 <DEBUG> [decode.c:461:bsl_mock_decode_bundle] exiting array (at 64)
+2026-10-29T23:30:42.288672Z T:00B077B1F9760000 <DEBUG> [agent.c:380:MockBPA_CreateBlock] Created block 2
+2026-10-29T23:30:42.288674Z T:00B077B1F9760000 <DEBUG> [SecurityContext.c:446:BSL_ExecBCBSource] Created new BCB block number = 2
+2026-10-29T23:30:42.288680Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:57:BSLX_BCB_ComputeAAD] Using AAD scope 7
+2026-10-29T23:30:42.288683Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:75:BSLX_BCB_ComputeAAD] Adding primary block to AAD
+2026-10-29T23:30:42.288685Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:80:BSLX_BCB_ComputeAAD] Adding target block header to AAD
+2026-10-29T23:30:42.288687Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 1, 1, 0
+2026-10-29T23:30:42.288689Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:85:BSLX_BCB_ComputeAAD] Adding security block header to AAD
+2026-10-29T23:30:42.288691Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 12, 2, 1
+2026-10-29T23:30:42.288700Z T:00B077B1F9760000 <WARNING> [BCB_AES_GCM.c:278:BSLX_BCB_Encrypt] Skipping keywrap (this is not advised)
+2026-10-29T23:30:42.288704Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:591:BSL_Cipher_Init] Cipher block size 1024
+2026-10-29T23:30:42.288708Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:629:BSL_Cipher_AddAadBuffer] EVP_CipherUpdate took 37 bytes, return 1
+2026-10-29T23:30:42.288711Z T:00B077B1F9760000 <DEBUG> [agent.c:219:MockBPA_ReadBTSD] opened block number 1 with size 25
+2026-10-29T23:30:42.288714Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 1 for size 25, previous size 25
+2026-10-29T23:30:42.288718Z T:00B077B1F9760000 <DEBUG> [agent.c:192:MockBPA_ReadBTSD_Read] reading up to 25 bytes, got 25
+2026-10-29T23:30:42.288720Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:686:BSL_Cipher_AddSeq] EVP_CipherUpdate took 25 bytes, gave 25 bytes, return 1
+2026-10-29T23:30:42.288723Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 25 bytes, got 25
+2026-10-29T23:30:42.288725Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:747:BSL_Cipher_FinalizeSeq] EVP_CipherFinal_ex gave 0 bytes, return 1
+2026-10-29T23:30:42.288728Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:718:BSL_Cipher_GetTag] Completed EVP_CIPHER_CTX_ctrl len 16, return 1
+2026-10-29T23:30:42.288735Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 1 with size 25 and cursor 25 user success 1
+2026-10-29T23:30:42.288737Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:743:BSLX_BCB_Execute] Appending BCB Auth Tag
+2026-10-29T23:30:42.288740Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:750:BSLX_BCB_Execute] Appending BCB source IV
+2026-10-29T23:30:42.288742Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:756:BSLX_BCB_Execute] Appending BCB AES param
+2026-10-29T23:30:42.288745Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:769:BSLX_BCB_Execute] Appending BCB scope flag param
+2026-10-29T23:30:42.288747Z T:00B077B1F9760000 <DEBUG> [SecurityContext.c:471:BSL_ExecBCBSource] BCB SOURCE operation success.
+2026-10-29T23:30:42.288752Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.288756Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 52
+2026-10-29T23:30:42.288758Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.288761Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.288764Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 52
+2026-10-29T23:30:42.288766Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 2 for size 52, previous size 0
+2026-10-29T23:30:42.289366Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 52 bytes, got 52
+2026-10-29T23:30:42.289378Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 2 with size 52 and cursor 52 user success 1
+2026-10-29T23:30:42.289391Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 6
+2026-10-29T23:30:42.289396Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.289399Z T:00B077B1F9760000 <DEBUG> [CBOR.c:56:BSL_CBOR_Encode_GetSize] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.289403Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 123
+2026-10-29T23:30:42.289408Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 6
+2026-10-29T23:30:42.289411Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 6
+2026-10-29T23:30:42.289415Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.289418Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.289421Z T:00B077B1F9760000 <DEBUG> [CBOR.c:86:BSL_CBOR_Encode_Twopass] CBOR pre-encoded size: 5
+2026-10-29T23:30:42.289424Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 5
+2026-10-29T23:30:42.289429Z T:00B077B1F9760000 <DEBUG> [CBOR.c:114:BSL_CBOR_Encode_Twopass] CBOR encoded size: 123
+2026-10-29T23:30:42.289439Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 2
+2026-10-29T23:30:42.289471Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 1
+2026-10-29T23:30:42.289561Z T:00B077B1F9760000 <DEBUG> [decode.c:400:bsl_mock_decode_bundle] decoding primary block...
+2026-10-29T23:30:42.289602Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 31)...
+2026-10-29T23:30:42.289607Z T:00B077B1F9760000 <DEBUG> [decode.c:461:bsl_mock_decode_bundle] exiting array (at 64)
+2026-10-29T23:30:42.289612Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 1
+2026-10-29T23:30:42.289682Z T:00B077B1F9760000 <DEBUG> [decode.c:400:bsl_mock_decode_bundle] decoding primary block...
+2026-10-29T23:30:42.289689Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 31)...
+2026-10-29T23:30:42.289692Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 90)...
+2026-10-29T23:30:42.289695Z T:00B077B1F9760000 <DEBUG> [decode.c:461:bsl_mock_decode_bundle] exiting array (at 123)
+2026-10-29T23:30:42.289700Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:368:BSL_AbsSecBlock_Decode] got tgt 1
+2026-10-29T23:30:42.289704Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:377:BSL_AbsSecBlock_Decode] got ctx_id 2
+2026-10-29T23:30:42.289706Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:387:BSL_AbsSecBlock_Decode] got flags 1
+2026-10-29T23:30:42.289709Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:425:BSL_AbsSecBlock_Decode] Parsing parameter array
+2026-10-29T23:30:42.289714Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 12 as bytestr with 12 bytes
+2026-10-29T23:30:42.289717Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 12 and 25
+2026-10-29T23:30:42.289720Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 27 as int 3
+2026-10-29T23:30:42.289722Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 27 and 28
+2026-10-29T23:30:42.289725Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 30 as int 7
+2026-10-29T23:30:42.289727Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 30 and 31
+2026-10-29T23:30:42.289731Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:477:BSL_AbsSecBlock_Decode] Parsing result array for target 1
+2026-10-29T23:30:42.289734Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 35 as bytestr with 16 bytes
+2026-10-29T23:30:42.289737Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 35 and 52
+2026-10-29T23:30:42.289751Z T:00B077B1F9760000 <DEBUG> [agent.c:219:MockBPA_ReadBTSD] opened block number 2 with size 52
+2026-10-29T23:30:42.289755Z T:00B077B1F9760000 <DEBUG> [agent.c:192:MockBPA_ReadBTSD_Read] reading up to 52 bytes, got 52
+2026-10-29T23:30:42.289758Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:368:BSL_AbsSecBlock_Decode] got tgt 1
+2026-10-29T23:30:42.289760Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:377:BSL_AbsSecBlock_Decode] got ctx_id 2
+2026-10-29T23:30:42.289762Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:387:BSL_AbsSecBlock_Decode] got flags 1
+2026-10-29T23:30:42.289765Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:425:BSL_AbsSecBlock_Decode] Parsing parameter array
+2026-10-29T23:30:42.289768Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 12 as bytestr with 12 bytes
+2026-10-29T23:30:42.289770Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 12 and 25
+2026-10-29T23:30:42.289773Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 27 as int 3
+2026-10-29T23:30:42.289775Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 27 and 28
+2026-10-29T23:30:42.289777Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 30 as int 7
+2026-10-29T23:30:42.289779Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 30 and 31
+2026-10-29T23:30:42.289782Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:477:BSL_AbsSecBlock_Decode] Parsing result array for target 1
+2026-10-29T23:30:42.289785Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 35 as bytestr with 16 bytes
+2026-10-29T23:30:42.289787Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 35 and 52
+2026-10-29T23:30:42.289795Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:616:BSLX_BCB_Execute] using AES variant 3
+2026-10-29T23:30:42.289798Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:640:BSLX_BCB_Execute] using AAD scope 7
+2026-10-29T23:30:42.289801Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:57:BSLX_BCB_ComputeAAD] Using AAD scope 7
+2026-10-29T23:30:42.289803Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:75:BSLX_BCB_ComputeAAD] Adding primary block to AAD
+2026-10-29T23:30:42.289806Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:80:BSLX_BCB_ComputeAAD] Adding target block header to AAD
+2026-10-29T23:30:42.289808Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 1, 1, 0
+2026-10-29T23:30:42.289810Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:85:BSLX_BCB_ComputeAAD] Adding security block header to AAD
+2026-10-29T23:30:42.289812Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 12, 2, 1
+2026-10-29T23:30:42.289814Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:106:BSLX_BCB_Decrypt] BCB attempting to decrypt
+2026-10-29T23:30:42.289818Z T:00B077B1F9760000 <WARNING> [BCB_AES_GCM.c:140:BSLX_BCB_Decrypt] Using bare key without AES keywrap
+2026-10-29T23:30:42.289826Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:591:BSL_Cipher_Init] Cipher block size 1024
+2026-10-29T23:30:42.289834Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:629:BSL_Cipher_AddAadBuffer] EVP_CipherUpdate took 37 bytes, return 1
+2026-10-29T23:30:42.289837Z T:00B077B1F9760000 <DEBUG> [agent.c:219:MockBPA_ReadBTSD] opened block number 1 with size 25
+2026-10-29T23:30:42.289840Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 1 for size 25, previous size 25
+2026-10-29T23:30:42.289844Z T:00B077B1F9760000 <DEBUG> [agent.c:192:MockBPA_ReadBTSD_Read] reading up to 25 bytes, got 25
+2026-10-29T23:30:42.289847Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:686:BSL_Cipher_AddSeq] EVP_CipherUpdate took 25 bytes, gave 25 bytes, return 1
+2026-10-29T23:30:42.289849Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 25 bytes, got 25
+2026-10-29T23:30:42.289852Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:734:BSL_Cipher_SetTag] Completed EVP_CIPHER_CTX_ctrl len 16, return 1
+2026-10-29T23:30:42.289858Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:747:BSL_Cipher_FinalizeSeq] EVP_CipherFinal_ex gave 0 bytes, return 0
+2026-10-29T23:30:42.289907Z T:00B077B1F9760000 <ERROR> [CryptoInterface.c:751:BSL_Cipher_FinalizeSeq] EVP_CipherFinal_ex error error:00000000:lib(0)::reason(0)
+2026-10-29T23:30:42.289926Z T:00B077B1F9760000 <ERROR> [BCB_AES_GCM.c:226:BSLX_BCB_Decrypt] Failed to finalize
+2026-10-29T23:30:42.289930Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 1 with size 25 and cursor 25 user success 0
+2026-10-29T23:30:42.289934Z T:00B077B1F9760000 <ERROR> [BCB_AES_GCM.c:732:BSLX_BCB_Execute] Failed to perform cryptographic action
+2026-10-29T23:30:42.289937Z T:00B077B1F9760000 <ERROR> [SecurityContext.c:376:BSL_ExecBCBVerifierAcceptor] BCB Sec Ctx processing for verifier/acceptor failed!
+2026-10-29T23:30:42.289944Z T:00B077B1F9760000 <ERROR> [SecurityContext.c:552:BSL_SecCtx_ExecutePolicyActionSet] Security Op failed: -11
+2026-10-29T23:30:42.289946Z T:00B077B1F9760000 <INFO> [SecurityContext.c:555:BSL_SecCtx_ExecutePolicyActionSet] SETTING (prev=0)
+2026-10-29T23:30:42.289951Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 2
+2026-10-29T23:30:42.289953Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 1
+2026-10-29T23:30:42.290002Z T:00B077B1F9760000 <DEBUG> [decode.c:400:bsl_mock_decode_bundle] decoding primary block...
+2026-10-29T23:30:42.290009Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 31)...
+2026-10-29T23:30:42.290012Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 90)...
+2026-10-29T23:30:42.290015Z T:00B077B1F9760000 <DEBUG> [decode.c:461:bsl_mock_decode_bundle] exiting array (at 123)
+2026-10-29T23:30:42.290020Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:368:BSL_AbsSecBlock_Decode] got tgt 1
+2026-10-29T23:30:42.290022Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:377:BSL_AbsSecBlock_Decode] got ctx_id 2
+2026-10-29T23:30:42.290024Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:387:BSL_AbsSecBlock_Decode] got flags 1
+2026-10-29T23:30:42.290027Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:425:BSL_AbsSecBlock_Decode] Parsing parameter array
+2026-10-29T23:30:42.290029Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 12 as bytestr with 12 bytes
+2026-10-29T23:30:42.290032Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 12 and 25
+2026-10-29T23:30:42.290034Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 27 as int 3
+2026-10-29T23:30:42.290036Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 27 and 28
+2026-10-29T23:30:42.290039Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 30 as int 7
+2026-10-29T23:30:42.290041Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 30 and 31
+2026-10-29T23:30:42.290044Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:477:BSL_AbsSecBlock_Decode] Parsing result array for target 1
+2026-10-29T23:30:42.290046Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 35 as bytestr with 16 bytes
+2026-10-29T23:30:42.290048Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 35 and 52
+2026-10-29T23:30:42.290057Z T:00B077B1F9760000 <DEBUG> [agent.c:219:MockBPA_ReadBTSD] opened block number 2 with size 52
+2026-10-29T23:30:42.290062Z T:00B077B1F9760000 <DEBUG> [agent.c:192:MockBPA_ReadBTSD_Read] reading up to 52 bytes, got 52
+2026-10-29T23:30:42.290065Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:368:BSL_AbsSecBlock_Decode] got tgt 1
+2026-10-29T23:30:42.290068Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:377:BSL_AbsSecBlock_Decode] got ctx_id 2
+2026-10-29T23:30:42.290070Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:387:BSL_AbsSecBlock_Decode] got flags 1
+2026-10-29T23:30:42.290073Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:425:BSL_AbsSecBlock_Decode] Parsing parameter array
+2026-10-29T23:30:42.290075Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 12 as bytestr with 12 bytes
+2026-10-29T23:30:42.290078Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 12 and 25
+2026-10-29T23:30:42.290080Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 27 as int 3
+2026-10-29T23:30:42.290082Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 27 and 28
+2026-10-29T23:30:42.290085Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 30 as int 7
+2026-10-29T23:30:42.290087Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 30 and 31
+2026-10-29T23:30:42.290090Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:477:BSL_AbsSecBlock_Decode] Parsing result array for target 1
+2026-10-29T23:30:42.290092Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 35 as bytestr with 16 bytes
+2026-10-29T23:30:42.290094Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 35 and 52
+2026-10-29T23:30:42.290100Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:616:BSLX_BCB_Execute] using AES variant 3
+2026-10-29T23:30:42.290105Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:640:BSLX_BCB_Execute] using AAD scope 7
+2026-10-29T23:30:42.290108Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:57:BSLX_BCB_ComputeAAD] Using AAD scope 7
+2026-10-29T23:30:42.290110Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:75:BSLX_BCB_ComputeAAD] Adding primary block to AAD
+2026-10-29T23:30:42.290112Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:80:BSLX_BCB_ComputeAAD] Adding target block header to AAD
+2026-10-29T23:30:42.290114Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 1, 1, 0
+2026-10-29T23:30:42.290116Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:85:BSLX_BCB_ComputeAAD] Adding security block header to AAD
+2026-10-29T23:30:42.290117Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 12, 2, 1
+2026-10-29T23:30:42.290120Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:106:BSLX_BCB_Decrypt] BCB attempting to decrypt
+2026-10-29T23:30:42.290123Z T:00B077B1F9760000 <WARNING> [BCB_AES_GCM.c:140:BSLX_BCB_Decrypt] Using bare key without AES keywrap
+2026-10-29T23:30:42.290127Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:591:BSL_Cipher_Init] Cipher block size 1024
+2026-10-29T23:30:42.290133Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:629:BSL_Cipher_AddAadBuffer] EVP_CipherUpdate took 37 bytes, return 1
+2026-10-29T23:30:42.290135Z T:00B077B1F9760000 <DEBUG> [agent.c:219:MockBPA_ReadBTSD] opened block number 1 with size 25
+2026-10-29T23:30:42.290138Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 1 for size 25, previous size 25
+2026-10-29T23:30:42.290140Z T:00B077B1F9760000 <DEBUG> [agent.c:192:MockBPA_ReadBTSD_Read] reading up to 25 bytes, got 25
+2026-10-29T23:30:42.290143Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:686:BSL_Cipher_AddSeq] EVP_CipherUpdate took 25 bytes, gave 25 bytes, return 1
+2026-10-29T23:30:42.290145Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 25 bytes, got 25
+2026-10-29T23:30:42.290148Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:734:BSL_Cipher_SetTag] Completed EVP_CIPHER_CTX_ctrl len 16, return 1
+2026-10-29T23:30:42.290150Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:747:BSL_Cipher_FinalizeSeq] EVP_CipherFinal_ex gave 0 bytes, return 0
+2026-10-29T23:30:42.290155Z T:00B077B1F9760000 <ERROR> [CryptoInterface.c:751:BSL_Cipher_FinalizeSeq] EVP_CipherFinal_ex error error:00000000:lib(0)::reason(0)
+2026-10-29T23:30:42.290157Z T:00B077B1F9760000 <ERROR> [BCB_AES_GCM.c:226:BSLX_BCB_Decrypt] Failed to finalize
+2026-10-29T23:30:42.290159Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 1 with size 25 and cursor 25 user success 0
+2026-10-29T23:30:42.290162Z T:00B077B1F9760000 <ERROR> [BCB_AES_GCM.c:732:BSLX_BCB_Execute] Failed to perform cryptographic action
+2026-10-29T23:30:42.290164Z T:00B077B1F9760000 <ERROR> [SecurityContext.c:376:BSL_ExecBCBVerifierAcceptor] BCB Sec Ctx processing for verifier/acceptor failed!
+2026-10-29T23:30:42.290167Z T:00B077B1F9760000 <ERROR> [SecurityContext.c:552:BSL_SecCtx_ExecutePolicyActionSet] Security Op failed: -11
+2026-10-29T23:30:42.290169Z T:00B077B1F9760000 <INFO> [SecurityContext.c:555:BSL_SecCtx_ExecutePolicyActionSet] SETTING (prev=0)
+2026-10-29T23:30:42.290173Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 2
+2026-10-29T23:30:42.290175Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 1
+2026-10-29T23:30:42.290201Z T:00B077B1F9760000 <DEBUG> [decode.c:400:bsl_mock_decode_bundle] decoding primary block...
+2026-10-29T23:30:42.290224Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 31)...
+2026-10-29T23:30:42.290228Z T:00B077B1F9760000 <DEBUG> [decode.c:411:bsl_mock_decode_bundle] decoding canonical block (at 90)...
+2026-10-29T23:30:42.290232Z T:00B077B1F9760000 <DEBUG> [decode.c:461:bsl_mock_decode_bundle] exiting array (at 123)
+2026-10-29T23:30:42.290236Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:368:BSL_AbsSecBlock_Decode] got tgt 1
+2026-10-29T23:30:42.290239Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:377:BSL_AbsSecBlock_Decode] got ctx_id 2
+2026-10-29T23:30:42.290241Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:387:BSL_AbsSecBlock_Decode] got flags 1
+2026-10-29T23:30:42.290244Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:425:BSL_AbsSecBlock_Decode] Parsing parameter array
+2026-10-29T23:30:42.290246Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 12 as bytestr with 12 bytes
+2026-10-29T23:30:42.290248Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 12 and 25
+2026-10-29T23:30:42.290251Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 27 as int 3
+2026-10-29T23:30:42.290253Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 27 and 28
+2026-10-29T23:30:42.290255Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 30 as int 7
+2026-10-29T23:30:42.290257Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 30 and 31
+2026-10-29T23:30:42.290260Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:477:BSL_AbsSecBlock_Decode] Parsing result array for target 1
+2026-10-29T23:30:42.290262Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 35 as bytestr with 16 bytes
+2026-10-29T23:30:42.290264Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 35 and 52
+2026-10-29T23:30:42.290271Z T:00B077B1F9760000 <DEBUG> [agent.c:219:MockBPA_ReadBTSD] opened block number 2 with size 52
+2026-10-29T23:30:42.290273Z T:00B077B1F9760000 <DEBUG> [agent.c:192:MockBPA_ReadBTSD_Read] reading up to 52 bytes, got 52
+2026-10-29T23:30:42.290276Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:368:BSL_AbsSecBlock_Decode] got tgt 1
+2026-10-29T23:30:42.290278Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:377:BSL_AbsSecBlock_Decode] got ctx_id 2
+2026-10-29T23:30:42.290279Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:387:BSL_AbsSecBlock_Decode] got flags 1
+2026-10-29T23:30:42.290282Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:425:BSL_AbsSecBlock_Decode] Parsing parameter array
+2026-10-29T23:30:42.290284Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 12 as bytestr with 12 bytes
+2026-10-29T23:30:42.290285Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 12 and 25
+2026-10-29T23:30:42.290288Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 27 as int 3
+2026-10-29T23:30:42.290290Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 27 and 28
+2026-10-29T23:30:42.290292Z T:00B077B1F9760000 <DEBUG> [Variant.c:303:BSL_Variant_Decode] ASB: Parsed variant at 30 as int 7
+2026-10-29T23:30:42.290294Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 30 and 31
+2026-10-29T23:30:42.290296Z T:00B077B1F9760000 <DEBUG> [AbsSecBlock.c:477:BSL_AbsSecBlock_Decode] Parsing result array for target 1
+2026-10-29T23:30:42.290298Z T:00B077B1F9760000 <DEBUG> [Variant.c:317:BSL_Variant_Decode] ASB: Parsed variant at 35 as bytestr with 16 bytes
+2026-10-29T23:30:42.290300Z T:00B077B1F9760000 <DEBUG> [Variant.c:351:BSL_Variant_Decode] var between 35 and 52
+2026-10-29T23:30:42.290305Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:616:BSLX_BCB_Execute] using AES variant 3
+2026-10-29T23:30:42.290307Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:640:BSLX_BCB_Execute] using AAD scope 7
+2026-10-29T23:30:42.290309Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:57:BSLX_BCB_ComputeAAD] Using AAD scope 7
+2026-10-29T23:30:42.290311Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:75:BSLX_BCB_ComputeAAD] Adding primary block to AAD
+2026-10-29T23:30:42.290313Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:80:BSLX_BCB_ComputeAAD] Adding target block header to AAD
+2026-10-29T23:30:42.290315Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 1, 1, 0
+2026-10-29T23:30:42.290317Z T:00B077B1F9760000 <DEBUG> [BCB_AES_GCM.c:85:BSLX_BCB_ComputeAAD] Adding security block header to AAD
+2026-10-29T23:30:42.290318Z T:00B077B1F9760000 <INFO> [DefaultSecContext.c:46:BSLX_EncodeHeader]   >>> AAD Encoding: 12, 2, 1
+2026-10-29T23:30:42.290320Z T:00B077B1F9760000 <INFO> [BCB_AES_GCM.c:106:BSLX_BCB_Decrypt] BCB attempting to decrypt
+2026-10-29T23:30:42.290322Z T:00B077B1F9760000 <WARNING> [BCB_AES_GCM.c:140:BSLX_BCB_Decrypt] Using bare key without AES keywrap
+2026-10-29T23:30:42.290326Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:591:BSL_Cipher_Init] Cipher block size 1024
+2026-10-29T23:30:42.290329Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:629:BSL_Cipher_AddAadBuffer] EVP_CipherUpdate took 37 bytes, return 1
+2026-10-29T23:30:42.290331Z T:00B077B1F9760000 <DEBUG> [agent.c:219:MockBPA_ReadBTSD] opened block number 1 with size 25
+2026-10-29T23:30:42.290333Z T:00B077B1F9760000 <DEBUG> [agent.c:307:MockBPA_WriteBTSD] opened block number 1 for size 25, previous size 25
+2026-10-29T23:30:42.290336Z T:00B077B1F9760000 <DEBUG> [agent.c:192:MockBPA_ReadBTSD_Read] reading up to 25 bytes, got 25
+2026-10-29T23:30:42.290338Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:686:BSL_Cipher_AddSeq] EVP_CipherUpdate took 25 bytes, gave 25 bytes, return 1
+2026-10-29T23:30:42.290341Z T:00B077B1F9760000 <DEBUG> [agent.c:261:MockBPA_WriteBTSD_Write] writing up to 25 bytes, got 25
+2026-10-29T23:30:42.290343Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:734:BSL_Cipher_SetTag] Completed EVP_CIPHER_CTX_ctrl len 16, return 1
+2026-10-29T23:30:42.290344Z T:00B077B1F9760000 <DEBUG> [CryptoInterface.c:747:BSL_Cipher_FinalizeSeq] EVP_CipherFinal_ex gave 0 bytes, return 0
+2026-10-29T23:30:42.290347Z T:00B077B1F9760000 <ERROR> [CryptoInterface.c:751:BSL_Cipher_FinalizeSeq] EVP_CipherFinal_ex error error:00000000:lib(0)::reason(0)
+2026-10-29T23:30:42.290349Z T:00B077B1F9760000 <ERROR> [BCB_AES_GCM.c:226:BSLX_BCB_Decrypt] Failed to finalize
+2026-10-29T23:30:42.290351Z T:00B077B1F9760000 <DEBUG> [agent.c:276:MockBPA_WriteBTSD_Deinit] closed block number 1 with size 25 and cursor 25 user success 0
+2026-10-29T23:30:42.290354Z T:00B077B1F9760000 <ERROR> [BCB_AES_GCM.c:732:BSLX_BCB_Execute] Failed to perform cryptographic action
+2026-10-29T23:30:42.290356Z T:00B077B1F9760000 <ERROR> [SecurityContext.c:376:BSL_ExecBCBVerifierAcceptor] BCB Sec Ctx processing for verifier/acceptor failed!
+2026-10-29T23:30:42.290358Z T:00B077B1F9760000 <ERROR> [SecurityContext.c:552:BSL_SecCtx_ExecutePolicyActionSet] Security Op failed: -11
+2026-10-29T23:30:42.290360Z T:00B077B1F9760000 <INFO> [SecurityContext.c:555:BSL_SecCtx_ExecutePolicyActionSet] SETTING (prev=0)
+2026-10-29T23:30:42.290364Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 2
+2026-10-29T23:30:42.290366Z T:00B077B1F9760000 <DEBUG> [bundle.c:61:MockBPA_Bundle_Deinit] freeing block number 1
+ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.076s
+
+OK
+<end of output>
+Test time =   0.27 sec
+----------------------------------------------------------
+Test Passed.
+"endpoint_security_regression" end time: Oct 29 19:30 EDT
+"endpoint_security_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/27 Testing: storage_recovery_regression
+24/27 Test: storage_recovery_regression
+Command: "/tmp/bpsec-storage-followup-20261029/storage_recovery_regression" "recovery"
+Directory: /tmp/bpsec-storage-followup-20261029
+"storage_recovery_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+PASS portable administrative-record recovery and synchronous custody durability
+<end of output>
+Test time =   0.19 sec
+----------------------------------------------------------
+Test Passed.
+"storage_recovery_regression" end time: Oct 29 19:30 EDT
+"storage_recovery_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/27 Testing: storage_durability_regression
+25/27 Test: storage_durability_regression
+Command: "/tmp/bpsec-storage-followup-20261029/storage_recovery_regression" "durability"
+Directory: /tmp/bpsec-storage-followup-20261029
+"storage_durability_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+PASS portable administrative-record recovery and synchronous custody durability
+<end of output>
+Test time =   0.19 sec
+----------------------------------------------------------
+Test Passed.
+"storage_durability_regression" end time: Oct 29 19:30 EDT
+"storage_durability_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/27 Testing: storage_constructed_regression
+26/27 Test: storage_constructed_regression
+Command: "/tmp/bpsec-storage-followup-20261029/storage_recovery_regression" "constructed"
+Directory: /tmp/bpsec-storage-followup-20261029
+"storage_constructed_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+PASS portable administrative-record recovery and synchronous custody durability
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"storage_constructed_regression" end time: Oct 29 19:30 EDT
+"storage_constructed_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/27 Testing: crc_regression
+27/27 Test: crc_regression
+Command: "/tmp/bpsec-storage-followup-20261029/crc_regression"
+Directory: /tmp/bpsec-storage-followup-20261029
+"crc_regression" start time: Oct 29 19:30 EDT
+Output:
+----------------------------------------------------------
+PASS known CRC vectors and 712 differential checks, empty/unaligned inputs, and reinitialization
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"crc_regression" end time: Oct 29 19:30 EDT
+"crc_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 29 19:30 EDT

@@ -1,0 +1,73 @@
+--- before/bplib_stor_sql.c
++++ after/bplib_stor_sql.c
+@@ -404,30 +404,50 @@
+     return SQLStatus;
+ }
+ 
++/* Read one integer PRAGMA without publishing a partial result. */
++static int BPLib_SQL_ReadSizePragma(sqlite3 *db, const char *Query, sqlite3_int64 *Value)
++{
++    sqlite3_stmt *Statement = NULL;
++    int Status = sqlite3_prepare_v2(db, Query, -1, &Statement, NULL);
++    sqlite3_int64 Result = 0;
++    if (Status == SQLITE_OK)
++    {
++        Status = sqlite3_step(Statement);
++        if (Status == SQLITE_ROW)
++        {
++            if (sqlite3_column_type(Statement, 0) != SQLITE_INTEGER ||
++                (Result = sqlite3_column_int64(Statement, 0)) < 0)
++                Status = SQLITE_CORRUPT;
++            else
++            {
++                Status = sqlite3_step(Statement);
++                Status = Status == SQLITE_DONE ? SQLITE_OK :
++                         Status == SQLITE_ROW ? SQLITE_CORRUPT : Status;
++            }
++        }
++        else if (Status == SQLITE_DONE) Status = SQLITE_CORRUPT;
++    }
++    int FinalStatus = sqlite3_finalize(Statement);
++    if (Status == SQLITE_OK) Status = FinalStatus;
++    if (Status == SQLITE_OK) *Value = Result;
++    return Status;
++}
++
+ BPLib_Status_t BPLib_SQL_GetDbSize(BPLib_Instance_t *Inst, size_t *DbSize)
+ {
+-    SQL_Status_t  SQLStatus;
+-    size_t        PageCnt;
+-    sqlite3_stmt* PageCntStmt;
+-
++    if (DbSize == NULL) return BPLIB_NULL_PTR_ERROR;
+     *DbSize = 0;
+-    PageCnt = 0;
+-
+-    SQLStatus = sqlite3_prepare_v2(Inst->BundleStorage.db, "PRAGMA page_count;", -1, &PageCntStmt, NULL);
+-    if (SQLStatus != SQLITE_OK)
+-    {
++    if (Inst == NULL) return BPLIB_NULL_PTR_ERROR;
++    sqlite3 *db = Inst->BundleStorage.db;
++    if (db == NULL) return BPLIB_ERROR;
++
++    sqlite3_int64 PageCount = 0, PageSize = 0;
++    if (BPLib_SQL_ReadSizePragma(db, "PRAGMA page_count;", &PageCount) != SQLITE_OK ||
++        BPLib_SQL_ReadSizePragma(db, "PRAGMA page_size;", &PageSize) != SQLITE_OK ||
++        PageSize <= 0 || (uint64_t)PageCount > SIZE_MAX / (uint64_t)PageSize)
+         return BPLIB_ERROR;
+-    }
+-
+-    if (sqlite3_step(PageCntStmt) == SQLITE_ROW)
+-    {
+-        PageCnt = sqlite3_column_int(PageCntStmt, 0);
+-    }
+-
+-    sqlite3_finalize(PageCntStmt);
+-
+-    *DbSize = PageCnt * 4096;
+-
++
++    *DbSize = (size_t)((uint64_t)PageCount * (uint64_t)PageSize);
+     return BPLIB_SUCCESS;
+ }
+ 

@@ -1,0 +1,4 @@
+DEMO segment=0 persisted
+DEMO segment=0 persisted
+DEMO complete: 1 authenticated segments persisted
+PASS: directory-sync retry, validated EOF/replay, damaged output/receipt rejection, and missing-output reconstruction

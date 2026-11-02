@@ -1,0 +1,1 @@
+storage_binding_regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/storage_binding_regression.c:19: released: Assertion `strstr(expanded,"VALUES (NULL, NULL)")!=NULL' failed.

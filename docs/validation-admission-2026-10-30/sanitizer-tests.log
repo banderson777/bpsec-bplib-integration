@@ -1,0 +1,30 @@
+Internal ctest changing into directory: /tmp/bpsec-ccs-20261030/asan
+Test project /tmp/bpsec-ccs-20261030/asan
+      Start 12: custody_regression
+ 1/12 Test #12: custody_regression .......................   Passed    0.03 sec
+      Start 13: custody_db_regression
+ 2/12 Test #13: custody_db_regression ....................   Passed    0.01 sec
+      Start 14: custody_admission_regression
+ 3/12 Test #14: custody_admission_regression .............   Passed    0.03 sec
+      Start 15: demo_delivery_regression
+ 4/12 Test #15: demo_delivery_regression .................   Passed    0.58 sec
+      Start 18: storage_commit_regression
+ 5/12 Test #18: storage_commit_regression ................   Passed    0.05 sec
+      Start 24: storage_error_custody_queue_regression
+ 6/12 Test #24: storage_error_custody_queue_regression ...   Passed    0.26 sec
+      Start 26: storage_error_ccs_ranges_regression
+ 7/12 Test #26: storage_error_ccs_ranges_regression ......   Passed    0.02 sec
+      Start 28: storage_recovery_regression
+ 8/12 Test #28: storage_recovery_regression ..............   Passed    0.49 sec
+      Start 29: storage_durability_regression
+ 9/12 Test #29: storage_durability_regression ............   Passed    0.42 sec
+      Start 30: storage_constructed_regression
+10/12 Test #30: storage_constructed_regression ...........   Passed    0.18 sec
+      Start 31: storage_ccs_parse_regression
+11/12 Test #31: storage_ccs_parse_regression .............   Passed    0.32 sec
+      Start 32: storage_ccs_sender_regression
+12/12 Test #32: storage_ccs_sender_regression ............   Passed    0.19 sec
+
+100% tests passed, 0 tests failed out of 12
+
+Total Test time (real) =   2.57 sec

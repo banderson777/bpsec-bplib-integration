@@ -1,0 +1,3 @@
+[ 20%] Building C object CMakeFiles/storage_commit_regression.dir/storage_commit_regression.c.o
+[ 40%] Linking C executable storage_commit_regression
+[100%] Built target storage_commit_regression

@@ -1,0 +1,58 @@
+--- /tmp/bpsec-bindings-20261031/store-before.c	2026-10-31 18:32:00.583561008 -0400
++++ bplib/bpa/stor/src/bplib_stor_sql_store.c	2026-10-31 18:32:55.789133400 -0400
+@@ -30,6 +30,7 @@
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <limits.h>
+ #include "bplib_cbor.h"
+ #include "bplib_eid.h"
+ 
+@@ -224,18 +225,26 @@
+ 
+ SQL_Status_t BPLib_SQL_StoreChunk(int64_t BundleRowID, const void* Chunk, size_t ChunkSize, sqlite3_stmt *InsertBlobStmt)
+ {
+-    SQL_Status_t SQLStatus;
+-
+-    sqlite3_reset(InsertBlobStmt);
+-    sqlite3_bind_int64(InsertBlobStmt, 1, BundleRowID);
+-    sqlite3_bind_blob(InsertBlobStmt, 2, Chunk, ChunkSize, SQLITE_STATIC);
+-
+-    SQLStatus = sqlite3_step(InsertBlobStmt);
+-    if (SQLStatus != SQLITE_DONE)
+-    {
+-        return SQLStatus;
+-    }
+-
++    if (InsertBlobStmt == NULL) return SQLITE_MISUSE;
++    /* Reset may report the prior step error while still resetting the statement.
++     * Clear all parameters before reuse, including parameters bound by a caller. */
++    (void) sqlite3_reset(InsertBlobStmt);
++    SQL_Status_t SQLStatus = sqlite3_clear_bindings(InsertBlobStmt);
++    if (SQLStatus != SQLITE_OK) return SQLStatus;
++    if (Chunk == NULL) return SQLITE_MISUSE;
++    if (ChunkSize > INT_MAX) return SQLITE_TOOBIG;
++
++    SQLStatus = sqlite3_bind_int64(InsertBlobStmt, 1, BundleRowID);
++    if (SQLStatus == SQLITE_OK)
++        SQLStatus = sqlite3_bind_blob(InsertBlobStmt, 2, Chunk, (int)ChunkSize, SQLITE_STATIC);
++    if (SQLStatus == SQLITE_OK) SQLStatus = sqlite3_step(InsertBlobStmt);
++
++    /* SQLITE_STATIC borrows the caller's memory. Release it before StoreBundle
++     * frees the encoded wire buffer, on both success and failure. */
++    SQL_Status_t ResetStatus = sqlite3_reset(InsertBlobStmt);
++    SQL_Status_t ClearStatus = sqlite3_clear_bindings(InsertBlobStmt);
++    if (SQLStatus == SQLITE_DONE && ResetStatus != SQLITE_OK) SQLStatus = ResetStatus;
++    if (SQLStatus == SQLITE_DONE && ClearStatus != SQLITE_OK) SQLStatus = ClearStatus;
+     return SQLStatus;
+ }
+ 
+@@ -384,7 +393,7 @@
+     {
+         if (SQLStatus != SQLITE_FULL)
+         {
+-            fprintf(stderr, "Batch commit failed, RC=%d\n", sqlite3_extended_errcode(db));
++            fprintf(stderr, "Batch commit failed, RC=%d\n", SQLStatus);
+         }
+         SQL_Status_t RollbackStatus = sqlite3_exec(db, "ROLLBACK;", 0, 0, 0);
+         if (RollbackStatus != SQLITE_OK)

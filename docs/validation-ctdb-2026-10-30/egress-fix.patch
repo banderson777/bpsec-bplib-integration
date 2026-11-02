@@ -1,0 +1,52 @@
+--- /tmp/bpsec-ctdb-20261030/bplib_ct-before.c	2026-10-30 11:18:00.108068012 -0400
++++ bplib/bpa/ct/src/bplib_ct.c	2026-10-30 11:20:15.622125300 -0400
+@@ -330,15 +330,15 @@
+     
+     Status = BPLib_CT_GetEntryFromCtdbWithId(&(Inst->Ct),
+                         Bundle->blocks.PrimaryBlock.BundleId, &DbEntry);
++    if (Status == BPLIB_SUCCESS && DbEntry == NULL) Status = BPLIB_NOT_FOUND_ERR;
+     if (Status != BPLIB_SUCCESS)
+     {
+         /* 
+         ** Possible causes of this:
+         **  - The CTDB has been corrupted -> unlikely and if this is the case,
+         **    nothing we can really do
+-        **  - The node was restarted with custodial bundles in storage -> possible,
+-        **    but not a case that can currently be handled, this will require
+-        **    logic to rebuild the CTDB on a node restart
++        **  - The node restarted without a mission-specific rebuild of pending
++        **    custody entries from durable storage
+         **  - Some mismatch in the threads where this bundle was loaded into
+         **    memory in a retransmission right before a CCS confirms its
+         **    retransmission and deletes the bundle from the CTDB -> possible, 
+@@ -351,8 +351,8 @@
+         if (DbEntry->State == BPLib_CT_Initialized)
+         {
+             BPLib_EM_SendEvent(BPLIB_CT_NONCUSTODIAL_ERR_EID, BPLib_EM_EventType_ERROR,
+-                    "Error, cannot update a custodial bundle whose custody has not been finalized; seq_num = %ld", 
+-                    DbEntry->State, DbEntry->SeqNum);
++                    "Error, cannot update a custodial bundle whose custody has not been finalized; state = %d, seq_num = %llu",
++                    (int)DbEntry->State, (unsigned long long)DbEntry->SeqNum);
+             Status = BPLIB_CT_CUSTODY_REFUSED_ERR;
+         }
+         else if (DbEntry->State == BPLib_CT_Transferred)
+@@ -373,10 +373,15 @@
+                 Status = BPLib_CT_AssignSeqCounterUnlocked(Inst, Bundle->Meta.EgressID);
+             if (Status == BPLIB_SUCCESS)
+             {
+-                CtebPtr->BundleSeqId = BPLib_CT_GetSequenceId(&(Inst->Ct), Bundle->Meta.EgressID);
+-                CtebPtr->BundleSeqNum = BPLib_CT_GetNextSequenceNum(&(Inst->Ct), Bundle->Meta.EgressID);
+-                Status = BPLib_CT_UpdateEntry(Inst, DbEntry, CtebPtr->BundleSeqId, CtebPtr->BundleSeqNum);
+-                if (Status == BPLIB_SUCCESS) DbEntry->State = BPLib_CT_Transmitted;
++                uint64_t SeqId = BPLib_CT_GetSequenceId(&Inst->Ct, Bundle->Meta.EgressID);
++                uint64_t SeqNum = BPLib_CT_GetNextSequenceNum(&Inst->Ct, Bundle->Meta.EgressID);
++                Status = BPLib_CT_UpdateEntry(Inst, DbEntry, SeqId, SeqNum);
++                if (Status == BPLIB_SUCCESS)
++                {
++                    CtebPtr->BundleSeqId = SeqId;
++                    CtebPtr->BundleSeqNum = SeqNum;
++                    DbEntry->State = BPLib_CT_Transmitted;
++                }
+             }
+         }
+         

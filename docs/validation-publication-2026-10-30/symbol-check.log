@@ -1,0 +1,2 @@
+                 U fsync@GLIBC_2.2.5
+PASS: installed BPNode imports fsync; no fault-injection wrapper is exported.

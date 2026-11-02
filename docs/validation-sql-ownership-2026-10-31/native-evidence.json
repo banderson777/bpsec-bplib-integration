@@ -1,0 +1,636 @@
+[
+  {
+    "name": "duplicate-replay",
+    "run_dir": "/tmp/bpsec-sql-ownership-20261101/duplicate-replay",
+    "log": "/tmp/bpsec-sql-ownership-20261101/duplicate-replay.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node_faults.py",
+      "--build-dir",
+      "/tmp/bpsec-sql-ownership-20261101/build",
+      "--run-dir",
+      "/tmp/bpsec-sql-ownership-20261101/duplicate-replay",
+      "--port-base",
+      "31000",
+      "--timeout",
+      "90",
+      "--edge",
+      "2-3",
+      "--replay-retained-duplicates"
+    ],
+    "controller_file": "demo/test_five_node_faults.py",
+    "controller_sha256": "857eca644c9e464a44bf94c26b11633b62b59810a403216cdecb88d412659fec",
+    "exit_code": 0,
+    "seconds": 145.11,
+    "complete": true,
+    "custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "pending_custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "binary_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "host_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "startup_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "completion_count": 1,
+    "node5_ready_count": 1,
+    "completion_after_last_ready": true,
+    "keys_present": [
+      1,
+      5
+    ],
+    "outputs": [
+      {
+        "segment": 0,
+        "bytes": 1024,
+        "sha256": "84a9662c35ff52f61e5ff2e3d11cd879d685bd10ded972dffe3ae0611c407f3c",
+        "matches_source": true
+      }
+    ],
+    "iv_count": 33,
+    "iv_unique": 33,
+    "test_output": "Prepared 1 segments / 9 records in /tmp/bpsec-sql-ownership-20261101/duplicate-replay/runtime\nPASS: 1 segments match source byte for byte\nPASS: 1 segments match source byte for byte\nPASS: replayed 9 original duplicate IDs through relay shutdown/restart; all five nodes drained, output unchanged, 33 unique IVs\nPASS: custody stayed drained for six seconds on all running nodes after outage recovery\nPASS: 2-3 outage retained 9 custody records; relay 2 restarted with source stopped and completed transfer\n",
+    "live_custody_checkpoint": {
+      "5": 0,
+      "4": 0,
+      "3": 0,
+      "2": 0
+    },
+    "duplicate_replay": {
+      "original_ids": [
+        346832038,
+        502419288,
+        613122649,
+        1450711131,
+        1862391130,
+        2209911456,
+        3133235105,
+        3358770595,
+        4048226466
+      ],
+      "shutdown_retained_ids": [
+        346832038,
+        502419288,
+        613122649,
+        1450711131,
+        1862391130,
+        2209911456,
+        3133235105,
+        3358770595,
+        4048226466
+      ],
+      "live_custody": {
+        "5": 0,
+        "4": 0,
+        "3": 0,
+        "2": 0,
+        "1": 0
+      },
+      "unique_ivs": 33,
+      "completion_count": 1,
+      "output_unchanged": true
+    },
+    "proof_logs": {
+      "1": [
+        "DEMO node=1 recovered 0 custody records",
+        "DEMO node=1 recovered 9 custody records",
+        "DEMO node=1 recovered 9 custody records"
+      ],
+      "2": [
+        "DEMO node=2 recovered 0 custody records",
+        "DEMO fault injection: held CCS at node=2",
+        "DEMO node=2 recovered 9 custody records",
+        "DEMO fault injection: held CCS at node=2",
+        "DEMO fault injection: held CCS at node=2",
+        "DEMO node=2 recovered 9 custody records"
+      ],
+      "3": [
+        "DEMO node=3 recovered 0 custody records",
+        "DEMO node=3 recovered 0 custody records"
+      ],
+      "4": [
+        "DEMO node=4 recovered 0 custody records"
+      ],
+      "5": [
+        "DEMO node=5 recovered 0 custody records",
+        "DEMO segment=0 persisted",
+        "DEMO complete: 1 authenticated segments persisted"
+      ]
+    },
+    "receipt_clock_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "initialization_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  {
+    "name": "baseline",
+    "run_dir": "/tmp/bpsec-sql-ownership-20261101/baseline",
+    "log": "/tmp/bpsec-sql-ownership-20261101/baseline.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-sql-ownership-20261101/build",
+      "--run-dir",
+      "/tmp/bpsec-sql-ownership-20261101/baseline",
+      "--port-base",
+      "31020",
+      "--timeout",
+      "90"
+    ],
+    "controller_file": "demo/test_five_node.py",
+    "controller_sha256": "490e63395b5adb7b98c93df97a5dc187549c70a3cbeb58738833722e196a4e8a",
+    "exit_code": 0,
+    "seconds": 75.49,
+    "complete": true,
+    "custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "pending_custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "binary_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "host_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "startup_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "completion_count": 1,
+    "node5_ready_count": 1,
+    "completion_after_last_ready": true,
+    "keys_present": [
+      1,
+      5
+    ],
+    "outputs": [
+      {
+        "segment": 0,
+        "bytes": 9000,
+        "sha256": "e20408c373c54abf78de6635c3cc3ec08023bf94b58a6020d80a9122e7c9ab17",
+        "matches_source": true
+      },
+      {
+        "segment": 1,
+        "bytes": 17,
+        "sha256": "a9ce213e0c75b432a9e5c166e4f38e661ec95a3370cd111c72688ecb4b503205",
+        "matches_source": true
+      },
+      {
+        "segment": 2,
+        "bytes": 8000,
+        "sha256": "f0c3ea7b0a230b8a8b6d14ed6266f7767a4d4f86803045f0aea8e908bfb99387",
+        "matches_source": true
+      }
+    ],
+    "test_output": "Prepared 3 segments / 7 records in /tmp/bpsec-sql-ownership-20261101/baseline/runtime\nPASS: 3 segments match source byte for byte\nPASS: all five nodes released accepted custody after CCS processing\n",
+    "proof_logs": {
+      "1": [
+        "DEMO node=1 recovered 0 custody records",
+        "DEMO source queued 7 records"
+      ],
+      "2": [
+        "DEMO node=2 recovered 0 custody records"
+      ],
+      "3": [
+        "DEMO node=3 recovered 0 custody records"
+      ],
+      "4": [
+        "DEMO node=4 recovered 0 custody records"
+      ],
+      "5": [
+        "DEMO node=5 recovered 0 custody records",
+        "DEMO segment=1 persisted",
+        "DEMO segment=0 persisted",
+        "DEMO segment=2 persisted",
+        "DEMO complete: 3 authenticated segments persisted"
+      ]
+    },
+    "receipt_clock_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "initialization_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  {
+    "name": "node5-restart",
+    "run_dir": "/tmp/bpsec-sql-ownership-20261101/node5-restart",
+    "log": "/tmp/bpsec-sql-ownership-20261101/node5-restart.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-sql-ownership-20261101/build",
+      "--run-dir",
+      "/tmp/bpsec-sql-ownership-20261101/node5-restart",
+      "--port-base",
+      "31040",
+      "--timeout",
+      "90",
+      "--restart-node5-after-receipt"
+    ],
+    "controller_file": "demo/test_five_node.py",
+    "controller_sha256": "490e63395b5adb7b98c93df97a5dc187549c70a3cbeb58738833722e196a4e8a",
+    "exit_code": 0,
+    "seconds": 88.43,
+    "complete": true,
+    "custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "pending_custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "binary_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "host_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "startup_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "completion_count": 1,
+    "node5_ready_count": 2,
+    "completion_after_last_ready": true,
+    "keys_present": [
+      1,
+      5
+    ],
+    "outputs": [
+      {
+        "segment": 0,
+        "bytes": 9000,
+        "sha256": "e20408c373c54abf78de6635c3cc3ec08023bf94b58a6020d80a9122e7c9ab17",
+        "matches_source": true
+      },
+      {
+        "segment": 1,
+        "bytes": 17,
+        "sha256": "a9ce213e0c75b432a9e5c166e4f38e661ec95a3370cd111c72688ecb4b503205",
+        "matches_source": true
+      },
+      {
+        "segment": 2,
+        "bytes": 8000,
+        "sha256": "f0c3ea7b0a230b8a8b6d14ed6266f7767a4d4f86803045f0aea8e908bfb99387",
+        "matches_source": true
+      }
+    ],
+    "test_output": "Prepared 3 segments / 7 records in /tmp/bpsec-sql-ownership-20261101/node5-restart/runtime\nPASS: 3 segments match source byte for byte\nPASS: all five nodes released accepted custody after CCS processing\n",
+    "receiver_checkpoint": {
+      "receipts": {
+        "000000-00000.adu": "f25166ff35c6a973e7149684e067d61a2a56453a947c45caf206e7ba33e550c7"
+      },
+      "complete_before_restart": false,
+      "expected_records": 7
+    },
+    "proof_logs": {
+      "1": [
+        "DEMO node=1 recovered 0 custody records",
+        "DEMO source queued 7 records"
+      ],
+      "2": [
+        "DEMO node=2 recovered 0 custody records"
+      ],
+      "3": [
+        "DEMO node=3 recovered 0 custody records"
+      ],
+      "4": [
+        "DEMO node=4 recovered 0 custody records"
+      ],
+      "5": [
+        "DEMO node=5 recovered 0 custody records",
+        "DEMO node=5 recovered 0 custody records",
+        "DEMO segment=0 persisted",
+        "DEMO segment=1 persisted",
+        "DEMO segment=2 persisted",
+        "DEMO complete: 3 authenticated segments persisted"
+      ]
+    },
+    "receipt_clock_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "initialization_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  {
+    "name": "lost-ccs",
+    "run_dir": "/tmp/bpsec-sql-ownership-20261101/lost-ccs",
+    "log": "/tmp/bpsec-sql-ownership-20261101/lost-ccs.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-sql-ownership-20261101/build",
+      "--run-dir",
+      "/tmp/bpsec-sql-ownership-20261101/lost-ccs",
+      "--port-base",
+      "31060",
+      "--timeout",
+      "90",
+      "--drop-ccs-node",
+      "2"
+    ],
+    "controller_file": "demo/test_five_node.py",
+    "controller_sha256": "490e63395b5adb7b98c93df97a5dc187549c70a3cbeb58738833722e196a4e8a",
+    "exit_code": 0,
+    "seconds": 48.48,
+    "complete": true,
+    "custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "pending_custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "binary_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "host_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "startup_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "completion_count": 1,
+    "node5_ready_count": 1,
+    "completion_after_last_ready": true,
+    "keys_present": [
+      1,
+      5
+    ],
+    "outputs": [
+      {
+        "segment": 0,
+        "bytes": 9000,
+        "sha256": "e20408c373c54abf78de6635c3cc3ec08023bf94b58a6020d80a9122e7c9ab17",
+        "matches_source": true
+      },
+      {
+        "segment": 1,
+        "bytes": 17,
+        "sha256": "a9ce213e0c75b432a9e5c166e4f38e661ec95a3370cd111c72688ecb4b503205",
+        "matches_source": true
+      },
+      {
+        "segment": 2,
+        "bytes": 8000,
+        "sha256": "f0c3ea7b0a230b8a8b6d14ed6266f7767a4d4f86803045f0aea8e908bfb99387",
+        "matches_source": true
+      }
+    ],
+    "test_output": "Prepared 3 segments / 7 records in /tmp/bpsec-sql-ownership-20261101/lost-ccs/runtime\nPASS: 3 segments match source byte for byte\nPASS: all five nodes released accepted custody after CCS processing\n",
+    "proof_logs": {
+      "1": [
+        "DEMO node=1 recovered 0 custody records",
+        "DEMO source queued 7 records"
+      ],
+      "2": [
+        "DEMO node=2 recovered 0 custody records",
+        "DEMO fault injection: dropped one CCS at node=2"
+      ],
+      "3": [
+        "DEMO node=3 recovered 0 custody records"
+      ],
+      "4": [
+        "DEMO node=4 recovered 0 custody records"
+      ],
+      "5": [
+        "DEMO node=5 recovered 0 custody records",
+        "DEMO segment=0 persisted",
+        "DEMO segment=1 persisted",
+        "DEMO segment=2 persisted",
+        "DEMO complete: 3 authenticated segments persisted"
+      ]
+    },
+    "receipt_clock_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "initialization_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  {
+    "name": "storage-failure",
+    "run_dir": "/tmp/bpsec-sql-ownership-20261101/storage-failure",
+    "log": "/tmp/bpsec-sql-ownership-20261101/storage-failure.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-sql-ownership-20261101/build",
+      "--run-dir",
+      "/tmp/bpsec-sql-ownership-20261101/storage-failure",
+      "--port-base",
+      "31080",
+      "--timeout",
+      "90",
+      "--storage-fail-node",
+      "2"
+    ],
+    "controller_file": "demo/test_five_node.py",
+    "controller_sha256": "490e63395b5adb7b98c93df97a5dc187549c70a3cbeb58738833722e196a4e8a",
+    "exit_code": 0,
+    "seconds": 33.02,
+    "complete": false,
+    "custody": {
+      "1": 7,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "pending_custody": {
+      "1": 7,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "binary_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "host_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "startup_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "completion_count": 0,
+    "node5_ready_count": 1,
+    "completion_after_last_ready": false,
+    "keys_present": [
+      1,
+      5
+    ],
+    "outputs": [],
+    "test_output": "Prepared 3 segments / 7 records in /tmp/bpsec-sql-ownership-20261101/storage-failure/runtime\nPASS: node 2 storage failure withheld custody; node 1 retains 7 record(s)\n",
+    "proof_logs": {
+      "1": [
+        "DEMO node=1 recovered 0 custody records",
+        "DEMO source queued 7 records"
+      ],
+      "2": [
+        "DEMO node=2 recovered 0 custody records"
+      ],
+      "3": [
+        "DEMO node=3 recovered 0 custody records"
+      ],
+      "4": [
+        "DEMO node=4 recovered 0 custody records"
+      ],
+      "5": [
+        "DEMO node=5 recovered 0 custody records"
+      ]
+    },
+    "receipt_clock_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "initialization_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  }
+]

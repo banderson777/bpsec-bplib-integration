@@ -1,0 +1,2 @@
+selection local=0 capacity=1 status=-301 size=60000 original=59999 reader=59999
+before-regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/sql_ownership_regression.c:200: selection_failure_checks: Assertion `status!=BPLIB_SUCCESS && batch.Size==original && batch.ReadIndex==original' failed.

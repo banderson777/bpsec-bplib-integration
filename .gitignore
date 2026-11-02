@@ -1,0 +1,35 @@
+# Local account/editor configuration
+/.aws/
+/.codex/
+/.agents/
+/.vs/
+/.vscode/
+.env
+.env.*
+!.env.example
+
+# Generated builds, environments and dependency staging
+/build/
+/dist/
+/.venv/
+/cfs-build/
+/integration/build/
+/demo/build/
+/demo/runs/
+/demo/runtime/
+__pycache__/
+*.py[cod]
+
+# Runtime data and generated media
+*.db
+*.db-shm
+*.db-wal
+*.key
+/*.mp4
+/*-segments/
+/relay-spool/
+/displayed-segments/
+
+# Optional unmodified reference checkouts
+/BSL-docs/
+/external/

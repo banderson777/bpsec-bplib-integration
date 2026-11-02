@@ -1,0 +1,5 @@
+Batch commit failed, RC=18
+Batch commit failed, RC=1811
+Failed to commit transaction
+Batch commit failed, RC=787
+PASS insert/COMMIT failures roll back, refuse custody, free batches, and never enqueue; success acknowledges only after commit

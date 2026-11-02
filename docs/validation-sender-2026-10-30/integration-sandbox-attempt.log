@@ -1,0 +1,153 @@
+Internal ctest changing into directory: /tmp/bpsec-ccs-20261030/integration
+Test project /tmp/bpsec-ccs-20261030/integration
+      Start  1: video_security_regression
+ 1/30 Test  #1: video_security_regression ...................***Failed    0.73 sec
+test_all_demo_entrypoints_roundtrip (__main__.SecurityTests) ... ERROR
+test_all_fields_and_controls_authenticated (__main__.SecurityTests) ... ok
+test_continuous_eof_schema (__main__.SecurityTests) ... ok
+test_continuous_missing_segments (__main__.SecurityTests) ... ok
+test_continuous_reordering_duplicates_and_empty_segment (__main__.SecurityTests) ... ok
+test_custody_end_to_end_with_lost_ack (__main__.SecurityTests) ... ERROR
+test_matching_ack_releases_only_pending_transfer (__main__.SecurityTests) ... ok
+test_new_keys_and_nonces_across_runs (__main__.SecurityTests) ... ok
+test_path_traversal_and_unknown_ack_cannot_delete (__main__.SecurityTests) ... ok
+test_previous_run_records_rejected (__main__.SecurityTests) ... ok
+test_recovery_missing_part_and_duplicate (__main__.SecurityTests) ... ok
+test_restart_sessions_do_not_collide (__main__.SecurityTests) ... ok
+test_storage_failure_prevents_ack_and_relay_recovery (__main__.SecurityTests) ... ok
+
+======================================================================
+ERROR: test_all_demo_entrypoints_roundtrip (__main__.SecurityTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/../client-test/test_security.py", line 198, in test_all_demo_entrypoints_roundtrip
+    port1, port2 = self.port(), self.port()
+  File "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/../client-test/test_security.py", line 113, in port
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+  File "/usr/lib/python3.10/socket.py", line 232, in __init__
+    _socket.socket.__init__(self, family, type, proto, fileno)
+PermissionError: [Errno 1] Operation not permitted
+
+======================================================================
+ERROR: test_custody_end_to_end_with_lost_ack (__main__.SecurityTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/../client-test/test_security.py", line 155, in test_custody_end_to_end_with_lost_ack
+    relay_port, ground_port = self.port(), self.port()
+  File "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/../client-test/test_security.py", line 113, in port
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+  File "/usr/lib/python3.10/socket.py", line 232, in __init__
+    _socket.socket.__init__(self, family, type, proto, fileno)
+PermissionError: [Errno 1] Operation not permitted
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.208s
+
+FAILED (errors=2)
+[ground] continuous feed stopped after 0 segments
+[ground] continuous feed stopped after 0 segments
+[ground] continuous feed stopped after 0 segments
+[ground] continuous feed stopped after 0 segments
+[ground] continuous feed stopped after 0 segments
+[ground] continuous feed stopped after 0 segments
+[ground] segment 1 complete (1 bytes), displayed live
+[ground] segment 2 complete (1 bytes), displayed live
+[ground] continuous feed stopped after 2 segments
+[ground] segment 0 complete (1 bytes), displayed live
+[ground] segment 2 complete (1 bytes), displayed live
+[ground] continuous feed stopped after 2 segments
+[ground] segment 0 complete (1 bytes), displayed live
+[ground] segment 1 complete (1 bytes), displayed live
+[ground] continuous feed stopped after 2 segments
+[ground] continuous feed stopped after 0 segments
+[ground] continuous feed stopped after 0 segments
+[ground] segment 0 complete (1 bytes), displayed live
+[ground] segment 1 complete (1 bytes), displayed live
+[ground] segment 3 complete (1 bytes), displayed live
+[ground] continuous feed stopped after 3 segments
+[moon] segment 0 chunk 0/1 encrypted
+[moon] segment 0 chunk 1/1 encrypted
+[moon] segment 1 chunk 0/0 encrypted
+[ground] segment 1 complete (0 bytes), displayed live
+[ground] segment 0 complete (6 bytes), displayed live
+[ground] continuous feed stopped after 2 segments
+
+      Start  2: deployment_health_regression
+ 2/30 Test  #2: deployment_health_regression ................   Passed    0.20 sec
+      Start  3: bpsec_bplib_smoke
+ 3/30 Test  #3: bpsec_bplib_smoke ...........................   Passed    0.38 sec
+      Start  4: bplib_tcp_cla_smoke
+ 4/30 Test  #4: bplib_tcp_cla_smoke .........................***Failed    0.00 sec
+STCP smoke test failed
+
+      Start  5: tcpclv4_chain_smoke
+ 5/30 Test  #5: tcpclv4_chain_smoke .........................***Failed    0.00 sec
+
+      Start  6: tcpclv4_stcp_chain_smoke
+ 6/30 Test  #6: tcpclv4_stcp_chain_smoke ....................***Failed    0.00 sec
+
+      Start  7: tcpclv4_stcp_hdtn_chain_smoke
+ 7/30 Test  #7: tcpclv4_stcp_hdtn_chain_smoke ...............***Failed    0.00 sec
+moon-relay TCPCLv4 session failed
+
+      Start  8: tcp_cla_regression
+ 8/30 Test  #8: tcp_cla_regression ..........................Subprocess aborted***Exception:   0.06 sec
+tcp_cla_regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/tcp_cla_regression.c:59: interrupted_timeouts: Assertion `BPLib_TCPCLA_Listen(&a, "127.0.0.1", 0, 1) == BPLIB_SUCCESS' failed.
+
+      Start  9: memory_regression
+ 9/30 Test  #9: memory_regression ...........................   Passed    0.00 sec
+      Start 10: bpnode_ingress_regression
+10/30 Test #10: bpnode_ingress_regression ...................   Passed    0.00 sec
+      Start 11: video_sink_regression
+11/30 Test #11: video_sink_regression .......................   Passed    0.00 sec
+      Start 12: custody_regression
+12/30 Test #12: custody_regression ..........................   Passed    0.01 sec
+      Start 13: cbor_bounds_regression
+13/30 Test #13: cbor_bounds_regression ......................   Passed    0.10 sec
+      Start 14: storage_init_regression
+14/30 Test #14: storage_init_regression .....................   Passed    1.24 sec
+      Start 15: storage_commit_regression
+15/30 Test #15: storage_commit_regression ...................   Passed    0.00 sec
+      Start 16: storage_error_discard_expired_regression
+16/30 Test #16: storage_error_discard_expired_regression ....   Passed    0.00 sec
+      Start 17: storage_error_discard_egressed_regression
+17/30 Test #17: storage_error_discard_egressed_regression ...   Passed    0.00 sec
+      Start 18: storage_error_mark_egress_regression
+18/30 Test #18: storage_error_mark_egress_regression ........   Passed    0.00 sec
+      Start 19: storage_error_custody_update_regression
+19/30 Test #19: storage_error_custody_update_regression .....   Passed    0.00 sec
+      Start 20: storage_error_load_regression
+20/30 Test #20: storage_error_load_regression ...............   Passed    0.00 sec
+      Start 21: storage_error_custody_queue_regression
+21/30 Test #21: storage_error_custody_queue_regression ......   Passed    0.03 sec
+      Start 22: storage_error_lookup_regression
+22/30 Test #22: storage_error_lookup_regression .............   Passed    0.00 sec
+      Start 23: storage_error_ccs_ranges_regression
+23/30 Test #23: storage_error_ccs_ranges_regression .........   Passed    0.00 sec
+      Start 24: endpoint_security_regression
+24/30 Test #24: endpoint_security_regression ................   Passed    0.36 sec
+      Start 25: storage_recovery_regression
+25/30 Test #25: storage_recovery_regression .................   Passed    0.18 sec
+      Start 26: storage_durability_regression
+26/30 Test #26: storage_durability_regression ...............   Passed    0.19 sec
+      Start 27: storage_constructed_regression
+27/30 Test #27: storage_constructed_regression ..............   Passed    0.16 sec
+      Start 28: storage_ccs_parse_regression
+28/30 Test #28: storage_ccs_parse_regression ................   Passed    0.15 sec
+      Start 29: storage_ccs_sender_regression
+29/30 Test #29: storage_ccs_sender_regression ...............   Passed    0.17 sec
+      Start 30: crc_regression
+30/30 Test #30: crc_regression ..............................   Passed    0.02 sec
+
+80% tests passed, 6 tests failed out of 30
+
+Total Test time (real) =   4.04 sec
+
+The following tests FAILED:
+	  1 - video_security_regression (Failed)
+	  4 - bplib_tcp_cla_smoke (Failed)
+	  5 - tcpclv4_chain_smoke (Failed)
+	  6 - tcpclv4_stcp_chain_smoke (Failed)
+	  7 - tcpclv4_stcp_hdtn_chain_smoke (Failed)
+	  8 - tcp_cla_regression (Subprocess aborted)
+Errors while running CTest

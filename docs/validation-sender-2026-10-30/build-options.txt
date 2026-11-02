@@ -1,0 +1,12 @@
+Host: Linux / POSIX cFS native mission, GCC, CMake.
+Integration: cmake -S integration -B /tmp/bpsec-ccs-20261030/integration -DCFS_BUILD=/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/cfs-build
+Integration command: ctest --test-dir /tmp/bpsec-ccs-20261030/integration --output-on-failure
+Sanitizer: -fsanitize=address,undefined -fno-omit-frame-pointer -fno-pie; link -fsanitize=address,undefined -no-pie
+Sanitizer environment: ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1
+Sanitizer targets: storage_recovery_regression storage_error_regression custody_regression demo_delivery_regression
+Policy override: -DBPLIB_CT_MAX_CCS_SEQUENCE_SPAN=8
+Native original configuration: GIT_DIR=/dev/null python3 demo/five_node.py build --build-dir /tmp/bpsec-ccs-20261030/build
+Native final incremental build: GIT_DIR=/dev/null cmake --build /tmp/bpsec-ccs-20261030/build/cfs --target mission-all -j4
+Native install: GIT_DIR=/dev/null cmake --build /tmp/bpsec-ccs-20261030/build/cfs --target mission-install
+Demo startup script restored from build/mission/cfe_es_startup.scr after install.
+Native matrix: cases.json lists exact commands, fresh run dirs, and ports; results.json records final exits and timings.

@@ -1,0 +1,8 @@
+Internal ctest changing into directory: /tmp/bpsec-sql-ownership-20261101/build/integration
+Test project /tmp/bpsec-sql-ownership-20261101/build/integration
+    Start 19: sql_ownership_regression
+1/1 Test #19: sql_ownership_regression .........   Passed    0.44 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.45 sec

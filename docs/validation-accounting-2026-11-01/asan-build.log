@@ -1,0 +1,14 @@
+gmake[3]: Warning: File '/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql.c' has modification time 0.2 s in the future
+[ 33%] Building C object CMakeFiles/storage_init_regression.dir/storage_init_regression.c.o
+[ 66%] Building C object CMakeFiles/storage_init_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql.c.o
+[100%] Linking C executable storage_init_regression
+gmake[3]: warning:  Clock skew detected.  Your build may be incomplete.
+[100%] Built target storage_init_regression
+Consolidate compiler generated dependencies of target storage_error_regression
+[ 12%] Building C object CMakeFiles/storage_error_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql.c.o
+[ 25%] Linking C executable storage_error_regression
+[100%] Built target storage_error_regression
+Consolidate compiler generated dependencies of target sql_ownership_regression
+[ 20%] Building C object CMakeFiles/sql_ownership_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql.c.o
+[ 40%] Linking C executable sql_ownership_regression
+[100%] Built target sql_ownership_regression

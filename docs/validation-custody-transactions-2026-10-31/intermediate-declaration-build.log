@@ -1,0 +1,24 @@
+Consolidate compiler generated dependencies of target custody_parallel_regression
+[ 25%] Building C object CMakeFiles/custody_parallel_regression.dir/custody_parallel_regression.c.o
+[ 50%] Building C object CMakeFiles/custody_parallel_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_cust.c.o
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_cust.c:44:16: error: conflicting types for ‘BPLib_SQL_SetNewRetransmitTrigger’; have ‘BPLib_Status_t(BPLib_Instance_t *, uint32_t,  BPLib_EID_Pattern_t *, size_t,  size_t,  size_t *)’ {aka ‘int(struct BPLib_Instance *, unsigned int,  BPLib_EID_Pattern_t *, long unsigned int,  long unsigned int,  long unsigned int *)’}
+   44 | BPLib_Status_t BPLib_SQL_SetNewRetransmitTrigger(BPLib_Instance_t *Inst, uint32_t ContactId,
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_cust.c:21:
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_cust.h:40:16: note: previous declaration of ‘BPLib_SQL_SetNewRetransmitTrigger’ with type ‘BPLib_Status_t(BPLib_Instance_t *, uint32_t,  BPLib_EID_Pattern_t *, size_t,  size_t,  size_t *, sqlite3_stmt *)’ {aka ‘int(struct BPLib_Instance *, unsigned int,  BPLib_EID_Pattern_t *, long unsigned int,  long unsigned int,  long unsigned int *, sqlite3_stmt *)’}
+   40 | BPLib_Status_t BPLib_SQL_SetNewRetransmitTrigger(BPLib_Instance_t *Inst, uint32_t ContactId,
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gmake[3]: *** [CMakeFiles/custody_parallel_regression.dir/build.make:104: CMakeFiles/custody_parallel_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_cust.c.o] Error 1
+gmake[3]: *** Waiting for unfinished jobs....
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/custody_parallel_regression.c: In function ‘run’:
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/custody_parallel_regression.c:68:22: error: too few arguments to function ‘BPLib_SQL_SetNewRetransmitTrigger’
+   68 |         task->status=BPLib_SQL_SetNewRetransmitTrigger(inst,0,&pattern,1,100+task->node,&task->count);
+      |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/custody_parallel_regression.c:4:
+/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/../bplib/bpa/stor/src/bplib_stor_sql_cust.h:40:16: note: declared here
+   40 | BPLib_Status_t BPLib_SQL_SetNewRetransmitTrigger(BPLib_Instance_t *Inst, uint32_t ContactId,
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gmake[3]: *** [CMakeFiles/custody_parallel_regression.dir/build.make:76: CMakeFiles/custody_parallel_regression.dir/custody_parallel_regression.c.o] Error 1
+gmake[2]: *** [CMakeFiles/Makefile2:571: CMakeFiles/custody_parallel_regression.dir/all] Error 2
+gmake[1]: *** [CMakeFiles/Makefile2:578: CMakeFiles/custody_parallel_regression.dir/rule] Error 2
+gmake: *** [Makefile:355: custody_parallel_regression] Error 2

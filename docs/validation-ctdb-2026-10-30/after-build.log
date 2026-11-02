@@ -1,0 +1,9 @@
+Consolidate compiler generated dependencies of target custody_db_regression
+[ 20%] Building C object CMakeFiles/custody_db_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/ct/src/bplib_ct_db.c.o
+[ 40%] Linking C executable custody_db_regression
+[100%] Built target custody_db_regression
+Consolidate compiler generated dependencies of target custody_regression
+[ 33%] Building C object CMakeFiles/custody_regression.dir/custody_regression.c.o
+[ 66%] Building C object CMakeFiles/custody_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/ct/src/bplib_ct.c.o
+[100%] Linking C executable custody_regression
+[100%] Built target custody_regression

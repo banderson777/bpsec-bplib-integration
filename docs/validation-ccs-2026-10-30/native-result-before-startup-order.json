@@ -1,0 +1,21 @@
+{
+  "scenario": "lost-ccs",
+  "command": [
+    "/usr/bin/python3",
+    "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+    "--build-dir",
+    "/tmp/bpsec-ccs-20261030/build",
+    "--run-dir",
+    "/tmp/bpsec-ccs-20261030/lost-ccs",
+    "--port-base",
+    "25400",
+    "--timeout",
+    "90",
+    "--drop-ccs-node",
+    "2"
+  ],
+  "exit_code": 1,
+  "seconds": 2.77,
+  "run_dir": "/tmp/bpsec-ccs-20261030/lost-ccs",
+  "log": "/tmp/bpsec-ccs-20261030/native-test.log"
+}

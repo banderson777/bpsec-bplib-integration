@@ -1,0 +1,11 @@
+Integration build: /tmp/bpsec-ccs-20261030/integration with generated checkout cFS headers.
+Test-only GNU linker wrappers: -Wl,--wrap=fsync -Wl,--wrap=fopen
+Full integration: ctest --test-dir /tmp/bpsec-ccs-20261030/integration --output-on-failure
+ASan/UBSan build: /tmp/bpsec-ccs-20261030/asan
+C flags: -fsanitize=address,undefined -fno-omit-frame-pointer -fno-pie
+Link flags: -fsanitize=address,undefined -no-pie
+Environment: ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1
+Native build: GIT_DIR=/dev/null cmake --build /tmp/bpsec-ccs-20261030/build/cfs --target mission-all -j4
+Native install: GIT_DIR=/dev/null cmake --build /tmp/bpsec-ccs-20261030/build/cfs --target mission-install
+Generated mission/cfe_es_startup.scr restored to install/cpu1/cf after install.
+Native commands and isolated runtime paths: cases.json. Final exits/timings: results.json.

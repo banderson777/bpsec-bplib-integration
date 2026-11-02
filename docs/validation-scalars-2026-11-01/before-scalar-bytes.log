@@ -1,0 +1,2 @@
+scalar kind=2 status=0 value=18446744073709551615 rows=INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES(-1,0);
+before-regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/storage_init_regression.c:123: scalar_invalid: Assertion `status!=SQLITE_OK && value==77 && sqlite3_next_stmt(db,NULL)==NULL' failed.

@@ -1,0 +1,774 @@
+[
+  {
+    "name": "outage-2-3",
+    "run_dir": "/tmp/bpsec-complete-20261029/outage-2-3-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/outage-2-3-clock-final.log",
+    "exit_code": 0,
+    "seconds": 73.51,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node_faults.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/outage-2-3-clock-final",
+      "--port-base",
+      "24600",
+      "--timeout",
+      "90",
+      "--edge",
+      "2-3"
+    ],
+    "complete": true,
+    "custody": {
+      "1": 9,
+      "2": 3,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "pending_custody": {
+      "1": 2,
+      "2": 3,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "binary_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "completion_count": 1,
+    "node5_ready_count": 1,
+    "completion_after_last_ready": true,
+    "keys_present": [
+      1,
+      5
+    ],
+    "outputs": [
+      {
+        "segment": 0,
+        "bytes": 1024,
+        "sha256": "84a9662c35ff52f61e5ff2e3d11cd879d685bd10ded972dffe3ae0611c407f3c",
+        "matches_source": true
+      }
+    ],
+    "test_output": "Prepared 1 segments / 9 records in /tmp/bpsec-complete-20261029/outage-2-3-clock-final/runtime\nPASS: 1 segments match source byte for byte\nPASS: custody stayed drained for six seconds on all running nodes after outage recovery\nPASS: 2-3 outage retained 9 custody records; relay 2 restarted with source stopped and completed transfer\n",
+    "receipt_clock_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "live_custody_checkpoint": {
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  {
+    "name": "storage-failure",
+    "run_dir": "/tmp/bpsec-complete-20261029/storage-failure-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/storage-failure-clock-final.log",
+    "exit_code": 0,
+    "seconds": 24.51,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/storage-failure-clock-final",
+      "--port-base",
+      "24620",
+      "--timeout",
+      "90",
+      "--storage-fail-node",
+      "2"
+    ],
+    "complete": false,
+    "custody": {
+      "1": 7,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "pending_custody": {
+      "1": 7,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "binary_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "completion_count": 0,
+    "node5_ready_count": 1,
+    "completion_after_last_ready": false,
+    "keys_present": [
+      1,
+      5
+    ],
+    "outputs": [],
+    "test_output": "Prepared 3 segments / 7 records in /tmp/bpsec-complete-20261029/storage-failure-clock-final/runtime\nPASS: node 2 storage failure withheld custody; node 1 retains 7 record(s)\n",
+    "receipt_clock_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  {
+    "name": "source-iv-restart",
+    "run_dir": "/tmp/bpsec-complete-20261029/source-iv-restart-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/source-iv-restart-clock-final.log",
+    "exit_code": 0,
+    "seconds": 41.97,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/source-iv-restart-clock-final",
+      "--port-base",
+      "24640",
+      "--timeout",
+      "90",
+      "--audit-ivs-across-node1-restart"
+    ],
+    "complete": true,
+    "custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "pending_custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "binary_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "completion_count": 1,
+    "node5_ready_count": 1,
+    "completion_after_last_ready": true,
+    "keys_present": [
+      1,
+      5
+    ],
+    "outputs": [
+      {
+        "segment": 0,
+        "bytes": 9000,
+        "sha256": "e20408c373c54abf78de6635c3cc3ec08023bf94b58a6020d80a9122e7c9ab17",
+        "matches_source": true
+      },
+      {
+        "segment": 1,
+        "bytes": 17,
+        "sha256": "a9ce213e0c75b432a9e5c166e4f38e661ec95a3370cd111c72688ecb4b503205",
+        "matches_source": true
+      },
+      {
+        "segment": 2,
+        "bytes": 8000,
+        "sha256": "f0c3ea7b0a230b8a8b6d14ed6266f7767a4d4f86803045f0aea8e908bfb99387",
+        "matches_source": true
+      }
+    ],
+    "iv_count": 29,
+    "iv_unique": 29,
+    "test_output": "Prepared 3 segments / 7 records in /tmp/bpsec-complete-20261029/source-iv-restart-clock-final/runtime\nPASS: 3 segments match source byte for byte\nPASS: 29 protected bundles used unique 96-bit source IVs across node 1 restart\nPASS: all five nodes released accepted custody after CCS processing\n",
+    "receipt_clock_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  {
+    "name": "baseline",
+    "run_dir": "/tmp/bpsec-complete-20261029/baseline-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/baseline-clock-final.log",
+    "exit_code": 0,
+    "seconds": 39.4,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/baseline-clock-final",
+      "--port-base",
+      "24660",
+      "--timeout",
+      "90"
+    ],
+    "complete": true,
+    "custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "pending_custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "binary_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "completion_count": 1,
+    "node5_ready_count": 1,
+    "completion_after_last_ready": true,
+    "keys_present": [
+      1,
+      5
+    ],
+    "outputs": [
+      {
+        "segment": 0,
+        "bytes": 9000,
+        "sha256": "e20408c373c54abf78de6635c3cc3ec08023bf94b58a6020d80a9122e7c9ab17",
+        "matches_source": true
+      },
+      {
+        "segment": 1,
+        "bytes": 17,
+        "sha256": "a9ce213e0c75b432a9e5c166e4f38e661ec95a3370cd111c72688ecb4b503205",
+        "matches_source": true
+      },
+      {
+        "segment": 2,
+        "bytes": 8000,
+        "sha256": "f0c3ea7b0a230b8a8b6d14ed6266f7767a4d4f86803045f0aea8e908bfb99387",
+        "matches_source": true
+      }
+    ],
+    "test_output": "Prepared 3 segments / 7 records in /tmp/bpsec-complete-20261029/baseline-clock-final/runtime\nPASS: 3 segments match source byte for byte\nPASS: all five nodes released accepted custody after CCS processing\n",
+    "receipt_clock_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  {
+    "name": "outage-3-4",
+    "run_dir": "/tmp/bpsec-complete-20261029/outage-3-4-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/outage-3-4-clock-final.log",
+    "exit_code": 0,
+    "seconds": 88.39,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node_faults.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/outage-3-4-clock-final",
+      "--port-base",
+      "24680",
+      "--timeout",
+      "90",
+      "--edge",
+      "3-4"
+    ],
+    "complete": true,
+    "custody": {
+      "1": 9,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "pending_custody": {
+      "1": 2,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "binary_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "completion_count": 1,
+    "node5_ready_count": 1,
+    "completion_after_last_ready": true,
+    "keys_present": [
+      1,
+      5
+    ],
+    "outputs": [
+      {
+        "segment": 0,
+        "bytes": 1024,
+        "sha256": "84a9662c35ff52f61e5ff2e3d11cd879d685bd10ded972dffe3ae0611c407f3c",
+        "matches_source": true
+      }
+    ],
+    "test_output": "Prepared 1 segments / 9 records in /tmp/bpsec-complete-20261029/outage-3-4-clock-final/runtime\nPASS: 1 segments match source byte for byte\nPASS: custody stayed drained for six seconds on all running nodes after outage recovery\nPASS: 3-4 outage retained 9 custody records; relay 3 restarted with source stopped and completed transfer\n",
+    "receipt_clock_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "live_custody_checkpoint": {
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  {
+    "name": "outage-4-5",
+    "run_dir": "/tmp/bpsec-complete-20261029/outage-4-5-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/outage-4-5-clock-final.log",
+    "exit_code": 0,
+    "seconds": 85.43,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node_faults.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/outage-4-5-clock-final",
+      "--port-base",
+      "24700",
+      "--timeout",
+      "90",
+      "--edge",
+      "4-5"
+    ],
+    "complete": true,
+    "custody": {
+      "1": 9,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "pending_custody": {
+      "1": 7,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "binary_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "completion_count": 1,
+    "node5_ready_count": 1,
+    "completion_after_last_ready": true,
+    "keys_present": [
+      1,
+      5
+    ],
+    "outputs": [
+      {
+        "segment": 0,
+        "bytes": 1024,
+        "sha256": "84a9662c35ff52f61e5ff2e3d11cd879d685bd10ded972dffe3ae0611c407f3c",
+        "matches_source": true
+      }
+    ],
+    "test_output": "Prepared 1 segments / 9 records in /tmp/bpsec-complete-20261029/outage-4-5-clock-final/runtime\nPASS: 1 segments match source byte for byte\nPASS: custody stayed drained for six seconds on all running nodes after outage recovery\nPASS: 4-5 outage retained 9 custody records; relay 4 restarted with source stopped and completed transfer\n",
+    "receipt_clock_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "live_custody_checkpoint": {
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  {
+    "name": "lost-ccs",
+    "run_dir": "/tmp/bpsec-complete-20261029/lost-ccs-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/lost-ccs-clock-final.log",
+    "exit_code": 0,
+    "seconds": 63.75,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/lost-ccs-clock-final",
+      "--port-base",
+      "24720",
+      "--timeout",
+      "90",
+      "--drop-ccs-node",
+      "2"
+    ],
+    "complete": true,
+    "custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "pending_custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "binary_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "completion_count": 1,
+    "node5_ready_count": 1,
+    "completion_after_last_ready": true,
+    "keys_present": [
+      1,
+      5
+    ],
+    "outputs": [
+      {
+        "segment": 0,
+        "bytes": 9000,
+        "sha256": "e20408c373c54abf78de6635c3cc3ec08023bf94b58a6020d80a9122e7c9ab17",
+        "matches_source": true
+      },
+      {
+        "segment": 1,
+        "bytes": 17,
+        "sha256": "a9ce213e0c75b432a9e5c166e4f38e661ec95a3370cd111c72688ecb4b503205",
+        "matches_source": true
+      },
+      {
+        "segment": 2,
+        "bytes": 8000,
+        "sha256": "f0c3ea7b0a230b8a8b6d14ed6266f7767a4d4f86803045f0aea8e908bfb99387",
+        "matches_source": true
+      }
+    ],
+    "test_output": "Prepared 3 segments / 7 records in /tmp/bpsec-complete-20261029/lost-ccs-clock-final/runtime\nPASS: 3 segments match source byte for byte\nPASS: all five nodes released accepted custody after CCS processing\n",
+    "receipt_clock_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  {
+    "name": "node5-restart",
+    "run_dir": "/tmp/bpsec-complete-20261029/node5-restart-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/node5-restart-clock-final.log",
+    "exit_code": 0,
+    "seconds": 63.18,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/node5-restart-clock-final",
+      "--port-base",
+      "24740",
+      "--timeout",
+      "90",
+      "--restart-node5-after-receipt"
+    ],
+    "complete": true,
+    "custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "pending_custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "binary_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "completion_count": 1,
+    "node5_ready_count": 2,
+    "completion_after_last_ready": true,
+    "keys_present": [
+      1,
+      5
+    ],
+    "outputs": [
+      {
+        "segment": 0,
+        "bytes": 9000,
+        "sha256": "e20408c373c54abf78de6635c3cc3ec08023bf94b58a6020d80a9122e7c9ab17",
+        "matches_source": true
+      },
+      {
+        "segment": 1,
+        "bytes": 17,
+        "sha256": "a9ce213e0c75b432a9e5c166e4f38e661ec95a3370cd111c72688ecb4b503205",
+        "matches_source": true
+      },
+      {
+        "segment": 2,
+        "bytes": 8000,
+        "sha256": "f0c3ea7b0a230b8a8b6d14ed6266f7767a4d4f86803045f0aea8e908bfb99387",
+        "matches_source": true
+      }
+    ],
+    "test_output": "Prepared 3 segments / 7 records in /tmp/bpsec-complete-20261029/node5-restart-clock-final/runtime\nPASS: 3 segments match source byte for byte\nPASS: all five nodes released accepted custody after CCS processing\n",
+    "receipt_clock_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  {
+    "name": "wrong-key",
+    "run_dir": "/tmp/bpsec-complete-20261029/wrong-key-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/wrong-key-clock-final.log",
+    "exit_code": 0,
+    "seconds": 19.55,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/wrong-key-clock-final",
+      "--port-base",
+      "24760",
+      "--timeout",
+      "90",
+      "--wrong-key"
+    ],
+    "complete": false,
+    "custody": {
+      "1": 7,
+      "2": 7,
+      "3": 7,
+      "4": 7,
+      "5": 0
+    },
+    "pending_custody": {
+      "1": 2,
+      "2": 7,
+      "3": 7,
+      "4": 7,
+      "5": 0
+    },
+    "binary_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "completion_count": 0,
+    "node5_ready_count": 1,
+    "completion_after_last_ready": false,
+    "keys_present": [
+      1,
+      5
+    ],
+    "outputs": [],
+    "test_output": "Prepared 3 segments / 7 records in /tmp/bpsec-complete-20261029/wrong-key-clock-final/runtime\nPASS: node 5 rejected a different endpoint key; no output, node 4 retains 7 record(s)\n",
+    "receipt_clock_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  {
+    "name": "tampered-ciphertext",
+    "run_dir": "/tmp/bpsec-complete-20261029/tampered-ciphertext-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/tampered-ciphertext-clock-final.log",
+    "exit_code": 0,
+    "seconds": 20.76,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/tampered-ciphertext-clock-final",
+      "--port-base",
+      "24780",
+      "--timeout",
+      "90",
+      "--tamper-ciphertext"
+    ],
+    "complete": false,
+    "custody": {
+      "1": 7,
+      "2": 7,
+      "3": 7,
+      "4": 7,
+      "5": 0
+    },
+    "pending_custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 7,
+      "5": 0
+    },
+    "binary_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "completion_count": 0,
+    "node5_ready_count": 1,
+    "completion_after_last_ready": false,
+    "keys_present": [
+      1,
+      5
+    ],
+    "outputs": [
+      {
+        "segment": 1,
+        "bytes": 17,
+        "sha256": "a9ce213e0c75b432a9e5c166e4f38e661ec95a3370cd111c72688ecb4b503205",
+        "matches_source": true
+      },
+      {
+        "segment": 2,
+        "bytes": 8000,
+        "sha256": "f0c3ea7b0a230b8a8b6d14ed6266f7767a4d4f86803045f0aea8e908bfb99387",
+        "matches_source": true
+      }
+    ],
+    "test_output": "Prepared 3 segments / 7 records in /tmp/bpsec-complete-20261029/tampered-ciphertext-clock-final/runtime\nPASS: node 5 rejected altered ciphertext after valid BP CRC verification; no tampered segment or completion, node 4 retains 7 record(s)\n",
+    "receipt_clock_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  {
+    "name": "missing-bcb",
+    "run_dir": "/tmp/bpsec-complete-20261029/missing-bcb-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/missing-bcb-clock-final.log",
+    "exit_code": 0,
+    "seconds": 17.98,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/missing-bcb-clock-final",
+      "--port-base",
+      "24800",
+      "--timeout",
+      "90",
+      "--omit-bcb"
+    ],
+    "complete": false,
+    "custody": {
+      "1": 7,
+      "2": 7,
+      "3": 7,
+      "4": 7,
+      "5": 0
+    },
+    "pending_custody": {
+      "1": 0,
+      "2": 0,
+      "3": 5,
+      "4": 7,
+      "5": 0
+    },
+    "binary_matches": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "completion_count": 0,
+    "node5_ready_count": 1,
+    "completion_after_last_ready": false,
+    "keys_present": [
+      1,
+      5
+    ],
+    "outputs": [],
+    "test_output": "Prepared 3 segments / 7 records in /tmp/bpsec-complete-20261029/missing-bcb-clock-final/runtime\nPASS: node 5 rejected missing BCB, published no output, node 4 retains 7 record(s)\n",
+    "receipt_clock_errors": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  }
+]

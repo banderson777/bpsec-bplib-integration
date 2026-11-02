@@ -1,0 +1,6 @@
+Consolidate compiler generated dependencies of target storage_error_regression
+gmake[3]: Warning: File '/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/storage_error_regression.c' has modification time 0.027 s in the future
+[ 12%] Building C object CMakeFiles/storage_error_regression.dir/storage_error_regression.c.o
+[ 25%] Linking C executable storage_error_regression
+gmake[3]: warning:  Clock skew detected.  Your build may be incomplete.
+[100%] Built target storage_error_regression

@@ -1,0 +1,44 @@
+17/37 Testing: storage_init_regression
+17/37 Test: storage_init_regression
+Command: "/tmp/bpsec-sql-ownership-20261101/build/integration/storage_init_regression"
+Directory: /tmp/bpsec-sql-ownership-20261101/build/integration
+"storage_init_regression" start time: Nov 01 17:57 EST
+Output:
+----------------------------------------------------------
+Storage SQL initialization failed (11): not an error
+recovery status=-290 stored=91 pending=92 bytes=93 rows=INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES(-1,0);
+Storage SQL initialization failed (11): not an error
+recovery status=-290 stored=91 pending=92 bytes=93 rows=INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES(1,2);
+recovery fault step=0 status=23 stored=91 pending=92 bytes=93
+recovery fault step=1 status=9 stored=91 pending=92 bytes=93
+Storage SQL initialization failed (11): not an error
+recovery status=-290 stored=91 pending=92 bytes=93 rows=INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES(NULL,0);
+Storage SQL initialization failed (11): not an error
+recovery status=-290 stored=91 pending=92 bytes=93 rows=INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES(0.5,0);
+Storage SQL initialization failed (11): not an error
+recovery status=-290 stored=91 pending=92 bytes=93 rows=INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES('bad',0);
+Storage SQL initialization failed (11): not an error
+recovery status=-290 stored=91 pending=92 bytes=93 rows=INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES(1,-1);
+Storage SQL initialization failed (11): not an error
+recovery status=-290 stored=91 pending=92 bytes=93 rows=INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES(1,NULL);
+Storage SQL initialization failed (11): not an error
+recovery status=-290 stored=91 pending=92 bytes=93 rows=INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES(1,0.5);
+Storage SQL initialization failed (11): not an error
+recovery status=-290 stored=91 pending=92 bytes=93 rows=INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES(1,'bad');
+Storage SQL initialization failed (1): integer overflow
+recovery status=-290 stored=91 pending=92 bytes=93 rows=INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES(9223372036854775807,0),(1,0);
+recovery status=0 stored=0 pending=0 bytes=0 rows=SELECT 1;
+recovery status=0 stored=3 pending=2 bytes=30 rows=INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES(0,0),(10,0),(20,1);
+recovery status=0 stored=1 pending=0 bytes=3000000000 rows=INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES(3000000000,1);
+Error code interrupted received while evaluating the SQL statement: SELECT SUM(bundle_bytes) AS TotalBytes FROM bundle_data;
+Storage SQL initialization failed (5): database is locked
+PASS storage initialization waits for a transient read-only monitor lock
+PASS persistent SQLite contention fails within a finite budget and closes the failed handle
+<end of output>
+Test time =   2.08 sec
+----------------------------------------------------------
+Test Passed.
+"storage_init_regression" end time: Nov 01 17:57 EST
+"storage_init_regression" time elapsed: 00:00:02
+----------------------------------------------------------
+

@@ -1,0 +1,2 @@
+recovery status=0 stored=1 pending=1 bytes=18446744073709551615 rows=INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES(-1,0);
+before-regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/storage_init_regression.c:59: metadata: Assertion `status==BPLIB_STOR_SQL_INIT_ERR && instance.BundleStorage.db==NULL' failed.

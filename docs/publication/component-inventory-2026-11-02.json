@@ -1,0 +1,785 @@
+[
+  {
+    "path": "bplib",
+    "head": {
+      "code": 0,
+      "output": "c5fb8358dd99149aa7ba463ed416d76049521a3a\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "CMakeLists.txt\nbpa/ct/inc/bplib_ct.h\nbpa/ct/src/bplib_ct.c\nbpa/ct/src/bplib_ct_ccs.c\nbpa/ct/src/bplib_ct_ccs.h\nbpa/ct/src/bplib_ct_db.c\nbpa/ct/src/bplib_ct_db.h\nbpa/ct/unit-test/bplib_ct_test.c\nbpa/stor/inc/bplib_stor.h\nbpa/stor/inc/bplib_stor_sql.h\nbpa/stor/src/bplib_stor.c\nbpa/stor/src/bplib_stor_sql.c\nbpa/stor/src/bplib_stor_sql_cust.c\nbpa/stor/src/bplib_stor_sql_cust.h\nbpa/stor/src/bplib_stor_sql_load.c\nbpa/stor/src/bplib_stor_sql_load.h\nbpa/stor/src/bplib_stor_sql_store.c\nbpa/stor/src/bplib_stor_sql_store.h\nbpa/stor/unit-test/stubs/bplib_stor_stubs.c\nci/cbor/src/bplib_cbor_decode_canonical.c\nci/cbor/src/bplib_cbor_decode_types.c\nci/cbor/src/bplib_cbor_encode_bundle.c\nci/cbor/src/bplib_cbor_encode_payload.c\nci/crc/src/bplib_crc.c\nci/mem/inc/bplib_mem.h\nci/mem/src/bplib_mem.c\ncla/src/bplib_cla.c\ninc/bplib_cfg.h\n",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "osal-build/\nosal-staging/\nosal/\n",
+      "error": ""
+    }
+  },
+  {
+    "path": "bpnode",
+    "head": {
+      "code": 0,
+      "output": "c9cc1dd9adfe788fe8df4c63ed6ee6b5d6afb668\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "CMakeLists.txt\nconfig/default_bpnode_mission_cfg.h\ndtn_defs/targets.cmake\nfsw/fwp/fwp_tablep.c\nfsw/src/bpnode_app.c\nfsw/src/bpnode_cla_in.c\nfsw/src/bpnode_cla_in.h\nfsw/src/bpnode_cla_out.c\nfsw/tables/bpnode_mib_pn.c\nfsw/tables/bpnode_mib_ps.c\n",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "fsw/src/bpnode_demo.c\nfsw/src/bpnode_demo.h\nfsw/src/bpnode_video_sink.c\nfsw/src/bpnode_video_sink.h\n",
+      "error": ""
+    }
+  },
+  {
+    "path": "BSL",
+    "head": {
+      "code": 0,
+      "output": "61d3473ea0cff8a27954575edcd082ae824479c5\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "src/bsl/sample_pp/PolicyParser.c\n",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "BSL/deps/unity",
+    "head": {
+      "code": 0,
+      "output": "cbcd08fa7de711053a3deec6339ee89cad5d2697\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "BSL/deps/mlib",
+    "head": {
+      "code": 0,
+      "output": "9a5909924cc73d4654baf97aa33266fa13da81c0\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "BSL/deps/QCBOR",
+    "head": {
+      "code": 0,
+      "output": "930708bb86481e88879eb1d87fd4d664f1d69503\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle",
+    "head": {
+      "code": 0,
+      "output": "aeed25c258303b48027d1af6359b6b799df57ca4\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/cfe",
+    "head": {
+      "code": 0,
+      "output": "84ef3d2ae9bb440d9f0511d27126a61ed3c43ee2\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "modules/es/fsw/src/cfe_es_start.c\n",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/osal",
+    "head": {
+      "code": 0,
+      "output": "de5bdac09c64f68bfaecf3ffea64343282c74910\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/psp",
+    "head": {
+      "code": 0,
+      "output": "f1feb7f6d33afce59588c79e2ba4ab71bae09723\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/apps/ci_lab",
+    "head": {
+      "code": 0,
+      "output": "fdd680437d9e50422d364436030d2aab5b73e600\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/apps/to_lab",
+    "head": {
+      "code": 0,
+      "output": "56394aef0ae3fd4081eb4b9245bf8e0947f93560\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/apps/sch_lab",
+    "head": {
+      "code": 0,
+      "output": "bfc82af9dfec38722b8d68ff1cf232f1b58662d1\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/apps/sample_app",
+    "head": {
+      "code": 0,
+      "output": "b21871b8747c67320d99962416757ddffa3244a5\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/libs/sample_lib",
+    "head": {
+      "code": 0,
+      "output": "537c9297f759ccd4b0138d9c0b9abc065027417f\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/tools/cFS-GroundSystem",
+    "head": {
+      "code": 0,
+      "output": "23209ff0568303e01ae926fc25911a7ca7c1b6bf\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/tools/elf2cfetbl",
+    "head": {
+      "code": 0,
+      "output": "e888aa04fd4dcb77ace5ac218300266fe568f1dc\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/tools/tblCRCTool",
+    "head": {
+      "code": 0,
+      "output": "f414e4fd06c23829091bbe214fbcf3534287c44c\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/tools/eds",
+    "head": {
+      "code": 0,
+      "output": "626ec134af54664303ab1ce988af313c9d57346d\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/apps/cf",
+    "head": {
+      "code": 0,
+      "output": "3ee9f68236196523b8f6ee44094b0d2ccce65291\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/apps/cs",
+    "head": {
+      "code": 0,
+      "output": "ef7f885ed3e3963d063fc6df18b98c701215d169\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/apps/ds",
+    "head": {
+      "code": 0,
+      "output": "95c9beb2fbd065f49eb50728deff7b223cf0a076\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/apps/fm",
+    "head": {
+      "code": 0,
+      "output": "a412803562aeeb608cb2063ffe151a2d19d04af6\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/apps/hk",
+    "head": {
+      "code": 0,
+      "output": "aa29ce8fd72fd8c0abce26bda5a3481aa3e70791\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/apps/hs",
+    "head": {
+      "code": 0,
+      "output": "527f743178f5961613632fee6c185cfcffdc9aa2\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/apps/lc",
+    "head": {
+      "code": 0,
+      "output": "bc8bd64bb9c53c6891e8434d046aee8bac609558\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/apps/md",
+    "head": {
+      "code": 0,
+      "output": "cc596b6ad80dacba532cc7660692fab279e4b260\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/apps/mm",
+    "head": {
+      "code": 0,
+      "output": "b877a9e9cb756d2e4875e8a95fdcf7495860d8b5\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/apps/sbn",
+    "head": {
+      "code": 0,
+      "output": "fd5da481454c789e9dfec0e388383b9f49cd0348\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/apps/sc",
+    "head": {
+      "code": 0,
+      "output": "cd0fe54b31915ecd86c1ab46185ce1244a2f00e6\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/tools/cfs-cosmos-plugin",
+    "head": {
+      "code": 0,
+      "output": "c1c89e81f3643c4940b75134f1d33f7e907496ba\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "cfs-bundle/tools/commandline-tools",
+    "head": {
+      "code": 0,
+      "output": "42b1b5b5075d998ed08c315780588b6c07de2d8a\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "BSL-docs",
+    "head": {
+      "code": 0,
+      "output": "f5cb76ac182fefa6b42039c5249776a1eca61c88\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  },
+  {
+    "path": "bplib/osal",
+    "head": {
+      "code": 0,
+      "output": "00a14566248179fff0d828087deadc9f88eef696\n",
+      "error": ""
+    },
+    "changes": {
+      "code": 0,
+      "output": "",
+      "error": "",
+      "verification": "Repeated with a 120-second timeout; completed successfully with no tracked changes."
+    },
+    "staged": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    },
+    "untracked": {
+      "code": 0,
+      "output": "",
+      "error": ""
+    }
+  }
+]

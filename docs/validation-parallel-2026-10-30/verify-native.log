@@ -1,0 +1,88 @@
+[
+  {
+    "name": "duplicate-replay",
+    "exit_code": 0,
+    "seconds": 115.51,
+    "complete": true,
+    "custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "keys_present": [
+      1,
+      5
+    ]
+  },
+  {
+    "name": "baseline",
+    "exit_code": 0,
+    "seconds": 40.38,
+    "complete": true,
+    "custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "keys_present": [
+      1,
+      5
+    ]
+  },
+  {
+    "name": "node5-restart",
+    "exit_code": 0,
+    "seconds": 78.08,
+    "complete": true,
+    "custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "keys_present": [
+      1,
+      5
+    ]
+  },
+  {
+    "name": "lost-ccs",
+    "exit_code": 0,
+    "seconds": 40.62,
+    "complete": true,
+    "custody": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "keys_present": [
+      1,
+      5
+    ]
+  },
+  {
+    "name": "storage-failure",
+    "exit_code": 0,
+    "seconds": 25.52,
+    "complete": false,
+    "custody": {
+      "1": 7,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "keys_present": [
+      1,
+      5
+    ]
+  }
+]
+Verified all 5 native cases, 25 runtimes, output hashes, custody/restart checkpoints, immutable replay, endpoint keys and pinned binaries/sources.

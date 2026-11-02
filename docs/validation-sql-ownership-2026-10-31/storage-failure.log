@@ -1,0 +1,2 @@
+Prepared 3 segments / 7 records in /tmp/bpsec-sql-ownership-20261101/storage-failure/runtime
+PASS: node 2 storage failure withheld custody; node 1 retains 7 record(s)

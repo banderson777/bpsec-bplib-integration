@@ -1,0 +1,124 @@
+--- /tmp/bpsec-parallel-20261030/store-before.c	2026-10-30 11:58:23.595526786 -0400
++++ bplib/bpa/stor/src/bplib_stor_sql_store.c	2026-10-30 11:59:20.899695200 -0400
+@@ -37,11 +37,6 @@
+ /* Globals */
+ /* ======= */
+ 
+-/* SQL query statements */
+-
+-sqlite3_stmt* InsertBlobStmt;
+-sqlite3_stmt* InsertMetadataStmt;
+-
+ /* SQL query strings */
+ 
+ /* Insert Bundle Blob */
+@@ -84,7 +79,7 @@
+ /* Function Definitions */
+ /* ==================== */
+ 
+-SQL_Status_t BPLib_SQL_StoreMetadata(BPLib_Bundle_t* Bundle, BPLib_BundleCache_t* BundleCache)
++SQL_Status_t BPLib_SQL_StoreMetadata(BPLib_Bundle_t* Bundle, sqlite3_stmt *InsertMetadataStmt)
+ {
+     SQL_Status_t         SQLStatus;
+     BPLib_PrimaryBlock_t *PrimaryBlock;
+@@ -227,7 +222,7 @@
+     return SQLStatus;
+ }
+ 
+-SQL_Status_t BPLib_SQL_StoreChunk(int64_t BundleRowID, const void* Chunk, size_t ChunkSize)
++SQL_Status_t BPLib_SQL_StoreChunk(int64_t BundleRowID, const void* Chunk, size_t ChunkSize, sqlite3_stmt *InsertBlobStmt)
+ {
+     SQL_Status_t SQLStatus;
+ 
+@@ -244,7 +239,7 @@
+     return SQLStatus;
+ }
+ 
+-SQL_Status_t BPLib_SQL_StoreBundle(sqlite3* db, BPLib_Bundle_t* Bundle, BPLib_BundleCache_t* BundleCache)
++SQL_Status_t BPLib_SQL_StoreBundle(sqlite3* db, BPLib_Bundle_t* Bundle, BPLib_SQL_StoreStatements_t *Statements)
+ {
+     /* Locally created bundles may own just an ADU blob and dirty decoded
+      * headers. Persist a complete encoding, not that implementation detail. */
+@@ -274,7 +269,7 @@
+         WireBytes == 0 || WireBytes > Capacity || WireBytes > INT64_MAX ||
+         WireBytes > SIZE_MAX - sizeof(BPLib_BBlocks_t)) goto done;
+     Bundle->Meta.TotalBytes = WireBytes + sizeof(BPLib_BBlocks_t);
+-    SQLStatus = BPLib_SQL_StoreMetadata(Bundle, BundleCache);
++    SQLStatus = BPLib_SQL_StoreMetadata(Bundle, Statements->Metadata);
+     if (SQLStatus != SQLITE_DONE) goto done;
+     sqlite3_int64 BundleRowID = sqlite3_last_insert_rowid(db);
+     sqlite3_stmt *RecoveryStmt = NULL;
+@@ -294,7 +289,7 @@
+     {
+         size_t Bytes = WireBytes - Offset;
+         if (Bytes > BPLIB_MEM_BIG_BLK_DATA_SIZE) Bytes = BPLIB_MEM_BIG_BLK_DATA_SIZE;
+-        SQLStatus = BPLib_SQL_StoreChunk(BundleRowID, Wire + Offset, Bytes);
++        SQLStatus = BPLib_SQL_StoreChunk(BundleRowID, Wire + Offset, Bytes, Statements->Blob);
+         if (SQLStatus != SQLITE_DONE) break;
+         Offset += Bytes;
+     }
+@@ -305,7 +300,8 @@
+ }
+ 
+ SQL_Status_t BPLib_SQL_StoreImpl(BPLib_Instance_t* Inst, size_t *TotalBytesStored,
+-                                size_t *DuplicateBundlesIgnored, size_t *CustodialBundles)
++                                size_t *DuplicateBundlesIgnored, size_t *CustodialBundles,
++                                BPLib_SQL_StoreStatements_t *Statements)
+ {
+     SQL_Status_t SQLStatus;
+     size_t       i;
+@@ -341,7 +337,7 @@
+             break;
+         }
+         
+-        SQLStatus = BPLib_SQL_StoreBundle(db, Inst->BundleStorage.InsertBatch[i], &(Inst->BundleStorage));
++        SQLStatus = BPLib_SQL_StoreBundle(db, Inst->BundleStorage.InsertBatch[i], Statements);
+         if (SQLStatus == SQLITE_DONE)
+         {
+             NewBundleBytes = Inst->BundleStorage.InsertBatch[i]->Meta.TotalBytes;
+@@ -410,6 +406,7 @@
+     BPLib_Status_t Status;
+     SQL_Status_t   SQLStatus;
+     sqlite3*       db;
++    BPLib_SQL_StoreStatements_t Statements = {0};
+ 
+     Status = BPLIB_SUCCESS;
+     db     = Inst->BundleStorage.db;
+@@ -418,13 +415,13 @@
+     *CustodialBundles = 0;
+ 
+     /* Prepare Insert Statements needed for this batch query */
+-    SQLStatus = sqlite3_prepare_v2(db, InsertMetadataSQL, -1, &InsertMetadataStmt, 0);
++    SQLStatus = sqlite3_prepare_v2(db, InsertMetadataSQL, -1, &Statements.Metadata, 0);
+     if (SQLStatus != SQLITE_OK)
+     {
+         Status = BPLIB_STOR_SQL_STORAGE_ERR;
+     }
+ 
+-    SQLStatus = sqlite3_prepare_v2(db, InsertBlobSQL, -1, &InsertBlobStmt, 0);
++    SQLStatus = sqlite3_prepare_v2(db, InsertBlobSQL, -1, &Statements.Blob, 0);
+     if (SQLStatus != SQLITE_OK)
+     {
+         Status = BPLIB_STOR_SQL_STORAGE_ERR;
+@@ -433,7 +430,7 @@
+     if (Status == BPLIB_SUCCESS)
+     {
+         /* Run the batch storage logic */
+-        SQLStatus = BPLib_SQL_StoreImpl(Inst, TotalBytesStored, DuplicateBundlesIgnored, CustodialBundles);
++        SQLStatus = BPLib_SQL_StoreImpl(Inst, TotalBytesStored, DuplicateBundlesIgnored, CustodialBundles, &Statements);
+         if (SQLStatus == SQLITE_FULL)
+         {
+             Status = BPLIB_STOR_DB_FULL_ERR;
+@@ -445,10 +442,8 @@
+     }
+ 
+     /* Finalize */
+-    sqlite3_finalize(InsertMetadataStmt);
+-    sqlite3_finalize(InsertBlobStmt);
+-    InsertMetadataStmt = NULL;
+-    InsertBlobStmt = NULL;
++    sqlite3_finalize(Statements.Metadata);
++    sqlite3_finalize(Statements.Blob);
+ 
+     return Status;
+ }

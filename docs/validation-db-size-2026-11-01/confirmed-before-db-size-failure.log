@@ -1,0 +1,2 @@
+interrupted PRAGMA page_count; status=0 reported=0
+before-final-regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/sql_ownership_regression.c:161: size_checks: Assertion `status!=BPLIB_SUCCESS && bytes==0 && sqlite3_next_stmt(db,NULL)==NULL' failed.

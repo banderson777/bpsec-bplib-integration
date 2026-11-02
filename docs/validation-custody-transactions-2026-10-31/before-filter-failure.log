@@ -1,0 +1,2 @@
+failed reschedule: status=-305 changed=1 reported=0
+custody_parallel_regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/custody_parallel_regression.c:116: main: Assertion `task.status!=BPLIB_SUCCESS && partial==0 && task.count==0' failed.

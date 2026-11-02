@@ -1,0 +1,1 @@
+demo_delivery_regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/demo_delivery_regression.c:68: main: Assertion `deliver(first, sizeof(first)) != 0 && failures_left == 0' failed.

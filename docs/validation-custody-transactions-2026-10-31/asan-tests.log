@@ -1,0 +1,36 @@
+Internal ctest changing into directory: /tmp/bpsec-ccs-20261030/asan
+Test project /tmp/bpsec-ccs-20261030/asan
+      Start 12: custody_regression
+ 1/15 Test #12: custody_regression .......................   Passed    0.02 sec
+      Start 13: custody_db_regression
+ 2/15 Test #13: custody_db_regression ....................   Passed    0.01 sec
+      Start 14: custody_admission_regression
+ 3/15 Test #14: custody_admission_regression .............   Passed    0.03 sec
+      Start 15: demo_delivery_regression
+ 4/15 Test #15: demo_delivery_regression .................   Passed    0.19 sec
+      Start 18: storage_commit_regression
+ 5/15 Test #18: storage_commit_regression ................   Passed    0.04 sec
+      Start 19: custody_parallel_regression
+ 6/15 Test #19: custody_parallel_regression ..............   Passed    0.08 sec
+      Start 20: storage_binding_regression
+ 7/15 Test #20: storage_binding_regression ...............   Passed    0.02 sec
+      Start 21: storage_parallel_regression
+ 8/15 Test #21: storage_parallel_regression ..............   Passed    0.17 sec
+      Start 27: storage_error_custody_queue_regression
+ 9/15 Test #27: storage_error_custody_queue_regression ...   Passed    0.32 sec
+      Start 29: storage_error_ccs_ranges_regression
+10/15 Test #29: storage_error_ccs_ranges_regression ......   Passed    0.02 sec
+      Start 31: storage_recovery_regression
+11/15 Test #31: storage_recovery_regression ..............   Passed    0.22 sec
+      Start 32: storage_durability_regression
+12/15 Test #32: storage_durability_regression ............   Passed    0.26 sec
+      Start 33: storage_constructed_regression
+13/15 Test #33: storage_constructed_regression ...........   Passed    0.20 sec
+      Start 34: storage_ccs_parse_regression
+14/15 Test #34: storage_ccs_parse_regression .............   Passed    0.26 sec
+      Start 35: storage_ccs_sender_regression
+15/15 Test #35: storage_ccs_sender_regression ............   Passed    0.13 sec
+
+100% tests passed, 0 tests failed out of 15
+
+Total Test time (real) =   1.98 sec

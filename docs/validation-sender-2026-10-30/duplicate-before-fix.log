@@ -1,0 +1,9 @@
+Prepared 1 segments / 9 records in /tmp/bpsec-sender-20261030/duplicate/runtime
+PASS: 1 segments match source byte for byte
+PASS: 1 segments match source byte for byte
+Traceback (most recent call last):
+  File "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node_faults.py", line 197, in <module>
+    main()
+  File "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node_faults.py", line 176, in main
+    raise RuntimeError('duplicate replay republished ground output or completion')
+RuntimeError: duplicate replay republished ground output or completion

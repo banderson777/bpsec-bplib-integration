@@ -1,0 +1,2 @@
+page_size=512 pages=2 reported=8192 expected=1024
+before-final-regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/sql_ownership_regression.c:149: size_checks: Assertion `bytes==count*page && bytes==(size_t)info.st_size && bytes>0 && sqlite3_next_stmt(db,NULL)==NULL' failed.

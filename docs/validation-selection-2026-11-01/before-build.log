@@ -1,0 +1,5 @@
+gmake[3]: Warning: File '/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/sql_ownership_regression.c' has modification time 0.77 s in the future
+[ 20%] Building C object CMakeFiles/sql_ownership_regression.dir/sql_ownership_regression.c.o
+[ 40%] Linking C executable sql_ownership_regression
+gmake[3]: warning:  Clock skew detected.  Your build may be incomplete.
+[100%] Built target sql_ownership_regression

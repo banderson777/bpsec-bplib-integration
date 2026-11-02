@@ -1,0 +1,2 @@
+scalar oversized count status=0 value=0
+before-regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/storage_init_regression.c:179: scalar_checks: Assertion `status==SQLITE_TOOBIG && value==77' failed.

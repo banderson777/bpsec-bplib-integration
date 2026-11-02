@@ -1,0 +1,4 @@
+Consolidate compiler generated dependencies of target storage_parallel_regression
+[ 25%] Building C object CMakeFiles/storage_parallel_regression.dir/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/bplib/bpa/stor/src/bplib_stor_sql_store.c.o
+[ 50%] Linking C executable storage_parallel_regression
+[100%] Built target storage_parallel_regression

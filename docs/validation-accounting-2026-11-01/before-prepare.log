@@ -1,0 +1,3 @@
+Error code access to bundle_data.bundle_bytes is prohibited, received while preparing SQL statement: SELECT SUM(bundle_bytes) AS TotalBytes FROM bundle_data;
+recovery fault step=0 status=23 stored=2 pending=1 bytes=93
+before-regression: /mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/integration/storage_init_regression.c:40: preserved: Assertion `instance.BundleStorage.BundleCountStored==91' failed.

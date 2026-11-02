@@ -1,0 +1,26 @@
+Internal ctest changing into directory: /tmp/bpsec-size-20261101/asan
+Test project /tmp/bpsec-size-20261101/asan
+      Start 17: storage_init_regression
+ 1/10 Test #17: storage_init_regression .....................   Passed    1.85 sec
+      Start 19: sql_ownership_regression
+ 2/10 Test #19: sql_ownership_regression ....................   Passed    0.23 sec
+      Start 23: storage_error_discard_expired_regression
+ 3/10 Test #23: storage_error_discard_expired_regression ....   Passed    0.04 sec
+      Start 24: storage_error_discard_egressed_regression
+ 4/10 Test #24: storage_error_discard_egressed_regression ...   Passed    0.04 sec
+      Start 25: storage_error_mark_egress_regression
+ 5/10 Test #25: storage_error_mark_egress_regression ........   Passed    0.04 sec
+      Start 26: storage_error_custody_update_regression
+ 6/10 Test #26: storage_error_custody_update_regression .....   Passed    0.02 sec
+      Start 27: storage_error_load_regression
+ 7/10 Test #27: storage_error_load_regression ...............   Passed    0.04 sec
+      Start 28: storage_error_custody_queue_regression
+ 8/10 Test #28: storage_error_custody_queue_regression ......   Passed    0.20 sec
+      Start 29: storage_error_lookup_regression
+ 9/10 Test #29: storage_error_lookup_regression .............   Passed    0.03 sec
+      Start 30: storage_error_ccs_ranges_regression
+10/10 Test #30: storage_error_ccs_ranges_regression .........   Passed    0.02 sec
+
+100% tests passed, 0 tests failed out of 10
+
+Total Test time (real) =   2.52 sec

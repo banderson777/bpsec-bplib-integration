@@ -1,0 +1,12 @@
+[OUTPUT] 
+Internal ctest changing into directory: /tmp/bpsec-ccs-20261030/cap8
+
+[HANDLER_OUTPUT] 
+Test project /tmp/bpsec-ccs-20261030/cap8
+
+    Start 23: storage_error_ccs_ranges_regression
+1/1 Test #23: storage_error_ccs_ranges_regression ...   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.02 sec

@@ -1,0 +1,5 @@
+{
+  "bplib.so": "b6eb5522cfdbcf1faa32557c728483f935ff30f5ada2668a378ca134f4641f9f",
+  "bplib/ci/crc/src/bplib_crc.c": "cce8957b7b66e55f2d5a8af318c6b6617e9e0acace6cf96b6936ad9ec6dc3641",
+  "integration/crc_regression.c": "a9d14a52d96293188ba85e07f8c5cf8ac32bd5b6915bc18217453574b5f2821d"
+}

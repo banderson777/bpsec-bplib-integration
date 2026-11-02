@@ -1,0 +1,3 @@
+                 U fopen@GLIBC_2.2.5
+                 U fsync@GLIBC_2.2.5
+PASS: no test fopen/fsync wrappers in installed BPNode.

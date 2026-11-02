@@ -1,0 +1,224 @@
+[
+  {
+    "name": "duplicate-replay",
+    "run_dir": "/tmp/bpsec-sender-20261030/duplicate-final",
+    "log": "/tmp/bpsec-sender-20261030/duplicate-final.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node_faults.py",
+      "--build-dir",
+      "/tmp/bpsec-ccs-20261030/build",
+      "--run-dir",
+      "/tmp/bpsec-sender-20261030/duplicate-final",
+      "--port-base",
+      "26320",
+      "--timeout",
+      "90",
+      "--edge",
+      "2-3",
+      "--replay-retained-duplicates"
+    ]
+  },
+  {
+    "name": "outage-2-3",
+    "run_dir": "/tmp/bpsec-sender-20261030/outage-2-3",
+    "log": "/tmp/bpsec-sender-20261030/outage-2-3.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node_faults.py",
+      "--build-dir",
+      "/tmp/bpsec-ccs-20261030/build",
+      "--run-dir",
+      "/tmp/bpsec-sender-20261030/outage-2-3",
+      "--port-base",
+      "26400",
+      "--timeout",
+      "90",
+      "--edge",
+      "2-3"
+    ]
+  },
+  {
+    "name": "storage-failure",
+    "run_dir": "/tmp/bpsec-sender-20261030/storage-failure",
+    "log": "/tmp/bpsec-sender-20261030/storage-failure.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-ccs-20261030/build",
+      "--run-dir",
+      "/tmp/bpsec-sender-20261030/storage-failure",
+      "--port-base",
+      "26420",
+      "--timeout",
+      "90",
+      "--storage-fail-node",
+      "2"
+    ]
+  },
+  {
+    "name": "source-iv-restart",
+    "run_dir": "/tmp/bpsec-sender-20261030/source-iv-restart",
+    "log": "/tmp/bpsec-sender-20261030/source-iv-restart.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-ccs-20261030/build",
+      "--run-dir",
+      "/tmp/bpsec-sender-20261030/source-iv-restart",
+      "--port-base",
+      "26440",
+      "--timeout",
+      "90",
+      "--audit-ivs-across-node1-restart"
+    ]
+  },
+  {
+    "name": "baseline",
+    "run_dir": "/tmp/bpsec-sender-20261030/baseline",
+    "log": "/tmp/bpsec-sender-20261030/baseline.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-ccs-20261030/build",
+      "--run-dir",
+      "/tmp/bpsec-sender-20261030/baseline",
+      "--port-base",
+      "26460",
+      "--timeout",
+      "90"
+    ]
+  },
+  {
+    "name": "outage-3-4",
+    "run_dir": "/tmp/bpsec-sender-20261030/outage-3-4",
+    "log": "/tmp/bpsec-sender-20261030/outage-3-4.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node_faults.py",
+      "--build-dir",
+      "/tmp/bpsec-ccs-20261030/build",
+      "--run-dir",
+      "/tmp/bpsec-sender-20261030/outage-3-4",
+      "--port-base",
+      "26480",
+      "--timeout",
+      "90",
+      "--edge",
+      "3-4"
+    ]
+  },
+  {
+    "name": "outage-4-5",
+    "run_dir": "/tmp/bpsec-sender-20261030/outage-4-5",
+    "log": "/tmp/bpsec-sender-20261030/outage-4-5.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node_faults.py",
+      "--build-dir",
+      "/tmp/bpsec-ccs-20261030/build",
+      "--run-dir",
+      "/tmp/bpsec-sender-20261030/outage-4-5",
+      "--port-base",
+      "26500",
+      "--timeout",
+      "90",
+      "--edge",
+      "4-5"
+    ]
+  },
+  {
+    "name": "lost-ccs",
+    "run_dir": "/tmp/bpsec-sender-20261030/lost-ccs",
+    "log": "/tmp/bpsec-sender-20261030/lost-ccs.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-ccs-20261030/build",
+      "--run-dir",
+      "/tmp/bpsec-sender-20261030/lost-ccs",
+      "--port-base",
+      "26520",
+      "--timeout",
+      "90",
+      "--drop-ccs-node",
+      "2"
+    ]
+  },
+  {
+    "name": "node5-restart",
+    "run_dir": "/tmp/bpsec-sender-20261030/node5-restart",
+    "log": "/tmp/bpsec-sender-20261030/node5-restart.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-ccs-20261030/build",
+      "--run-dir",
+      "/tmp/bpsec-sender-20261030/node5-restart",
+      "--port-base",
+      "26540",
+      "--timeout",
+      "90",
+      "--restart-node5-after-receipt"
+    ]
+  },
+  {
+    "name": "wrong-key",
+    "run_dir": "/tmp/bpsec-sender-20261030/wrong-key",
+    "log": "/tmp/bpsec-sender-20261030/wrong-key.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-ccs-20261030/build",
+      "--run-dir",
+      "/tmp/bpsec-sender-20261030/wrong-key",
+      "--port-base",
+      "26560",
+      "--timeout",
+      "90",
+      "--wrong-key"
+    ]
+  },
+  {
+    "name": "tampered-ciphertext",
+    "run_dir": "/tmp/bpsec-sender-20261030/tampered-ciphertext",
+    "log": "/tmp/bpsec-sender-20261030/tampered-ciphertext.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-ccs-20261030/build",
+      "--run-dir",
+      "/tmp/bpsec-sender-20261030/tampered-ciphertext",
+      "--port-base",
+      "26580",
+      "--timeout",
+      "90",
+      "--tamper-ciphertext"
+    ]
+  },
+  {
+    "name": "missing-bcb",
+    "run_dir": "/tmp/bpsec-sender-20261030/missing-bcb",
+    "log": "/tmp/bpsec-sender-20261030/missing-bcb.log",
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-ccs-20261030/build",
+      "--run-dir",
+      "/tmp/bpsec-sender-20261030/missing-bcb",
+      "--port-base",
+      "26600",
+      "--timeout",
+      "90",
+      "--omit-bcb"
+    ]
+  }
+]

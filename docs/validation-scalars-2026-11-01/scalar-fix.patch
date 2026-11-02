@@ -1,0 +1,183 @@
+--- before/bplib_stor_sql.c
++++ after/bplib_stor_sql.c
+@@ -145,6 +145,20 @@
+ "AS TotalBytes "
+ "FROM bundle_data;";
+ 
++/* Validated helper queries keep the exported raw SQL text compatible. */
++static const char GetNumBundlesAccountingSQL[] =
++"SELECT COUNT(*), 0 FROM bundle_data;";
++
++static const char GetNumEgressedAccountingSQL[] =
++"SELECT COUNT(CASE WHEN egress_attempted=1 THEN 1 END), "
++"COUNT(CASE WHEN typeof(egress_attempted)!='integer' OR egress_attempted NOT IN (0,1) THEN 1 END) "
++"FROM bundle_data;";
++
++static const char TotalBytesAccountingSQL[] =
++"SELECT COALESCE(SUM(bundle_bytes),0), "
++"COUNT(CASE WHEN typeof(bundle_bytes)!='integer' OR bundle_bytes<0 THEN 1 END) "
++"FROM bundle_data;";
++
+ const char* GetExpiredSQL = 
+ "SELECT id, bundle_bytes, bundle_id, is_custodial FROM bundle_data "
+ "WHERE (action_timestamp < ?) AND (egress_attempted = 0) "
+@@ -318,97 +332,70 @@
+     return Status;
+ }
+ 
++/* Query returns a value and the number of malformed input rows. Each public
++ * helper preserves the caller's result unless validation and cleanup succeed. */
++static int BPLib_SQL_ReadAccountingValue(sqlite3 *db, const char *Query,
++                                       uint64_t Maximum, uint64_t *Result)
++{
++    if (db == NULL || Query == NULL || Result == NULL) return SQLITE_MISUSE;
++    sqlite3_stmt *Statement = NULL;
++    sqlite3_int64 Value = 0;
++    int Status = sqlite3_prepare_v2(db, Query, -1, &Statement, NULL);
++    if (Status == SQLITE_OK)
++    {
++        Status = sqlite3_step(Statement);
++        if (Status == SQLITE_ROW)
++        {
++            if (sqlite3_column_count(Statement) != 2 ||
++                sqlite3_column_type(Statement, 0) != SQLITE_INTEGER ||
++                sqlite3_column_type(Statement, 1) != SQLITE_INTEGER ||
++                (Value = sqlite3_column_int64(Statement, 0)) < 0 ||
++                sqlite3_column_int64(Statement, 1) != 0)
++                Status = SQLITE_CORRUPT;
++            else if ((uint64_t)Value > Maximum) Status = SQLITE_TOOBIG;
++            else
++            {
++                Status = sqlite3_step(Statement);
++                Status = Status == SQLITE_DONE ? SQLITE_OK :
++                         Status == SQLITE_ROW ? SQLITE_CORRUPT : Status;
++            }
++        }
++        else if (Status == SQLITE_DONE) Status = SQLITE_CORRUPT;
++    }
++    int FinalStatus = sqlite3_finalize(Statement);
++    if (Status == SQLITE_OK) Status = FinalStatus;
++    if (Status == SQLITE_OK) *Result = (uint64_t)Value;
++    else if (Status == SQLITE_CORRUPT || Status == SQLITE_TOOBIG)
++        fprintf(stderr, "Invalid storage accounting value (%d)\n", Status);
++    else fprintf(stderr, "Storage accounting query failed (%d): %s\n", Status, sqlite3_errmsg(db));
++    return Status;
++}
++
+ SQL_Status_t BPLib_SQL_GetNumStoredBundles(sqlite3 *db, uint32_t *BundleCnt)
+ {
+-    sqlite3_stmt *GetNumBundlesStmt = NULL;
+-    SQL_Status_t SQLStatus;
+-
+-    SQLStatus = sqlite3_prepare_v2(db, GetNumBundlesSQL, -1, &GetNumBundlesStmt, NULL);
+-    if (SQLStatus != SQLITE_OK)
+-    {
+-        fprintf(stderr, "Failed to prepare statement: %s\n", sqlite3_errmsg(db));
+-        return SQLStatus;
+-    }
+-
+-    SQLStatus = sqlite3_step(GetNumBundlesStmt);
+-    if (SQLStatus != SQLITE_ROW)
+-    {
+-        sqlite3_finalize(GetNumBundlesStmt);
+-        GetNumBundlesStmt = NULL;
+-        return SQLStatus;
+-    }
+-
+-    *BundleCnt = sqlite3_column_int(GetNumBundlesStmt, 0);
+-
+-    sqlite3_finalize(GetNumBundlesStmt);
+-    GetNumBundlesStmt = NULL;
+-
+-    return SQLITE_OK;
+-}
+-
+-SQL_Status_t BPLib_SQL_GetNumEgressed(sqlite3* db, size_t *EgressCnt)
+-{
+-    sqlite3_stmt *GetNumEgressedStmt = NULL;
+-    SQL_Status_t SQLStatus;
+-
+-    SQLStatus = sqlite3_prepare_v2(db, GetNumEgressedSQL, -1, &GetNumEgressedStmt, NULL);
+-    if (SQLStatus != SQLITE_OK)
+-    {
+-        fprintf(stderr, "Failed to prepare statement: %s\n", sqlite3_errmsg(db));
+-        return SQLStatus;
+-    }
+-
+-    SQLStatus = sqlite3_step(GetNumEgressedStmt);
+-    if (SQLStatus != SQLITE_ROW)
+-    {
+-        sqlite3_finalize(GetNumEgressedStmt);
+-        GetNumEgressedStmt = NULL;
+-        return SQLStatus;
+-    }
+-
+-    *EgressCnt = sqlite3_column_int(GetNumEgressedStmt, 0);
+-
+-    sqlite3_finalize(GetNumEgressedStmt);
+-    
+-    return SQLITE_OK;
+-}
+-
+-SQL_Status_t BPLib_SQL_GetTotalBundleBytes(sqlite3* db, uint64_t* TotalBytes)
+-{
+-    sqlite3_stmt *TotalBytesStmt = NULL;
+-    SQL_Status_t SQLStatus;
+-
+-    /* Load up the SQL command */
+-    SQLStatus = sqlite3_prepare_v2(db, TotalBytesSQL, -1, &TotalBytesStmt, NULL);
+-    if (SQLStatus == SQLITE_OK)
+-    {
+-        /* Evaluate the command */
+-        SQLStatus = sqlite3_step(TotalBytesStmt);
+-        if (SQLStatus == SQLITE_ROW)
+-        {
+-            /* Assign the result of the query to TotalBytes */
+-            *TotalBytes = sqlite3_column_int64(TotalBytesStmt, 0);
+-
+-            /* Set the status to a success value */
+-            SQLStatus = SQLITE_OK;
+-        }
+-        else
+-        {
+-            fprintf(stderr, "Error code %s received while evaluating the SQL statement: %s\n",
+-                    sqlite3_errmsg(db),
+-                    TotalBytesSQL);
+-        }
+-    }
+-    else
+-    {
+-        fprintf(stderr, "Error code %s, received while preparing SQL statement: %s\n",
+-                sqlite3_errmsg(db),
+-                TotalBytesSQL);
+-    }
+-
+-    sqlite3_finalize(TotalBytesStmt);
+-    TotalBytesStmt = NULL;
+-    return SQLStatus;
++    if (BundleCnt == NULL) return SQLITE_MISUSE;
++    uint64_t Result = 0;
++    int Status = BPLib_SQL_ReadAccountingValue(db, GetNumBundlesAccountingSQL, UINT32_MAX, &Result);
++    if (Status == SQLITE_OK) *BundleCnt = (uint32_t)Result;
++    return Status;
++}
++
++SQL_Status_t BPLib_SQL_GetNumEgressed(sqlite3 *db, size_t *EgressCnt)
++{
++    if (EgressCnt == NULL) return SQLITE_MISUSE;
++    uint64_t Result = 0;
++    int Status = BPLib_SQL_ReadAccountingValue(db, GetNumEgressedAccountingSQL, SIZE_MAX, &Result);
++    if (Status == SQLITE_OK) *EgressCnt = (size_t)Result;
++    return Status;
++}
++
++SQL_Status_t BPLib_SQL_GetTotalBundleBytes(sqlite3 *db, uint64_t *TotalBytes)
++{
++    if (TotalBytes == NULL) return SQLITE_MISUSE;
++    uint64_t Result = 0;
++    int Status = BPLib_SQL_ReadAccountingValue(db, TotalBytesAccountingSQL, UINT64_MAX, &Result);
++    if (Status == SQLITE_OK) *TotalBytes = Result;
++    return Status;
+ }
+ 
+ /* Read one integer PRAGMA without publishing a partial result. */

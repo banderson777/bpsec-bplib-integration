@@ -1,0 +1,302 @@
+--- before/bplib/bpa/stor/src/bplib_stor_sql.c
++++ after/bplib/bpa/stor/src/bplib_stor_sql.c
+@@ -43,12 +43,6 @@
+ 
+ /* SQL query statements */
+ 
+-sqlite3_stmt* GetNumBundlesStmt;
+-sqlite3_stmt* GetNumEgressedStmt;
+-sqlite3_stmt* TotalBytesStmt;
+-sqlite3_stmt* GetExpiredStmt;
+-sqlite3_stmt* DeleteBundleStmt;
+-sqlite3_stmt* GetEgressedStmt;
+ 
+ /* SQL query strings */
+ 
+@@ -319,6 +313,7 @@
+ 
+ SQL_Status_t BPLib_SQL_GetNumStoredBundles(sqlite3 *db, uint32_t *BundleCnt)
+ {
++    sqlite3_stmt *GetNumBundlesStmt = NULL;
+     SQL_Status_t SQLStatus;
+ 
+     SQLStatus = sqlite3_prepare_v2(db, GetNumBundlesSQL, -1, &GetNumBundlesStmt, NULL);
+@@ -346,6 +341,7 @@
+ 
+ SQL_Status_t BPLib_SQL_GetNumEgressed(sqlite3* db, size_t *EgressCnt)
+ {
++    sqlite3_stmt *GetNumEgressedStmt = NULL;
+     SQL_Status_t SQLStatus;
+ 
+     SQLStatus = sqlite3_prepare_v2(db, GetNumEgressedSQL, -1, &GetNumEgressedStmt, NULL);
+@@ -372,6 +368,7 @@
+ 
+ SQL_Status_t BPLib_SQL_GetTotalBundleBytes(sqlite3* db, uint64_t* TotalBytes)
+ {
++    sqlite3_stmt *TotalBytesStmt = NULL;
+     SQL_Status_t SQLStatus;
+ 
+     /* Load up the SQL command */
+@@ -437,7 +434,7 @@
+ /* Collect first, then delete atomically. Custody and byte accounting follow
+  * COMMIT so a failed DELETE cannot discard the in-memory custody entry. */
+ static SQL_Status_t BPLib_SQL_DiscardBatch(BPLib_Instance_t *Inst, size_t *NumDiscarded,
+-                                         sqlite3_stmt *Select, bool Expired)
++                                         sqlite3_stmt *Select, sqlite3_stmt *DeleteBundleStmt, bool Expired)
+ {
+     sqlite3 *db = Inst->BundleStorage.db;
+     SQL_Status_t Status;
+@@ -513,24 +510,29 @@
+     return Status;
+ }
+ 
+-static BPLib_Status_t BPLib_SQL_Discard(BPLib_Instance_t *Inst, size_t *NumDiscarded, bool Expired)
++/* Own both statements across collection, deletion, rollback and finalization. */
++static SQL_Status_t BPLib_SQL_DiscardOwned(BPLib_Instance_t *Inst, size_t *NumDiscarded, bool Expired)
+ {
+     if (NumDiscarded) *NumDiscarded = 0;
+-    if (Inst == NULL || NumDiscarded == NULL) return BPLIB_NULL_PTR_ERROR;
+-    sqlite3_stmt **Select = Expired ? &GetExpiredStmt : &GetEgressedStmt;
+-    *Select = NULL;
+-    DeleteBundleStmt = NULL;
++    if (Inst == NULL || NumDiscarded == NULL) return SQLITE_MISUSE;
++    sqlite3_stmt *Select = NULL, *DeleteBundleStmt = NULL;
+     SQL_Status_t Status = sqlite3_prepare_v2(Inst->BundleStorage.db,
+-        Expired ? GetExpiredSQL : GetEgressedSQL, -1, Select, NULL);
++        Expired ? GetExpiredSQL : GetEgressedSQL, -1, &Select, NULL);
+     if (Status == SQLITE_OK)
+         Status = sqlite3_prepare_v2(Inst->BundleStorage.db, DeleteBundleSQL, -1, &DeleteBundleStmt, NULL);
+     if (Status == SQLITE_OK)
+-        Status = BPLib_SQL_DiscardBatch(Inst, NumDiscarded, *Select, Expired);
+-    sqlite3_finalize(*Select);
++        Status = BPLib_SQL_DiscardBatch(Inst, NumDiscarded, Select, DeleteBundleStmt, Expired);
++    sqlite3_finalize(Select);
+     sqlite3_finalize(DeleteBundleStmt);
+-    *Select = NULL;
+-    DeleteBundleStmt = NULL;
+-    return Status == SQLITE_OK ? BPLIB_SUCCESS : BPLIB_STOR_SQL_DISCARD_ERR;
++    return Status;
++}
++
++static BPLib_Status_t BPLib_SQL_Discard(BPLib_Instance_t *Inst, size_t *NumDiscarded, bool Expired)
++{
++    if (NumDiscarded) *NumDiscarded = 0;
++    if (Inst == NULL || NumDiscarded == NULL) return BPLIB_NULL_PTR_ERROR;
++    return BPLib_SQL_DiscardOwned(Inst, NumDiscarded, Expired) == SQLITE_OK ?
++        BPLIB_SUCCESS : BPLIB_STOR_SQL_DISCARD_ERR;
+ }
+ 
+ BPLib_Status_t BPLib_SQL_DiscardExpired(BPLib_Instance_t *Inst, size_t *NumDiscarded)
+@@ -541,7 +543,7 @@
+ SQL_Status_t BPLib_SQL_DiscardExpiredImpl(sqlite3 *db, size_t *NumDiscarded, BPLib_Instance_t *Inst)
+ {
+     (void)db;
+-    return BPLib_SQL_DiscardBatch(Inst, NumDiscarded, GetExpiredStmt, true);
++    return BPLib_SQL_DiscardOwned(Inst, NumDiscarded, true);
+ }
+ 
+ BPLib_Status_t BPLib_SQL_DiscardEgressed(BPLib_Instance_t *Inst, size_t *NumDiscarded)
+@@ -551,7 +553,7 @@
+ 
+ SQL_Status_t BPLib_SQL_DiscardEgressedImpl(BPLib_Instance_t *Inst, size_t *NumDiscarded)
+ {
+-    return BPLib_SQL_DiscardBatch(Inst, NumDiscarded, GetEgressedStmt, false);
++    return BPLib_SQL_DiscardOwned(Inst, NumDiscarded, false);
+ }
+ 
+ BPLib_Status_t BPLib_SQL_Cleanup(BPLib_Instance_t* Inst)
+--- before/bplib/bpa/stor/src/bplib_stor_sql_load.c
++++ after/bplib/bpa/stor/src/bplib_stor_sql_load.c
+@@ -34,10 +34,6 @@
+ 
+ /* SQL query statements */
+ 
+-sqlite3_stmt* FindBlobStmt;
+-sqlite3_stmt* FindForEgressIDStmt;
+-sqlite3_stmt* MarkEgressedStmt;
+-sqlite3_stmt* ResetRetransmitStmt;
+ 
+ /* SQL query strings */
+ 
+@@ -46,8 +42,6 @@
+ "FROM bundle_blobs JOIN bundle_data ON bundle_data.id = bundle_blobs.bundle_row\n"
+ "WHERE bundle_row = ? ORDER BY bundle_blobs.id;";
+ 
+-char FindForEgressIdSQL[BPLIB_SQL_MAX_STRLEN] = {0};
+-char FindForEgressIdRetransmitSQL[BPLIB_SQL_MAX_STRLEN] = {0};
+ 
+ const char* MarkEgressedSQL =
+ "UPDATE bundle_data SET egress_attempted = 1 WHERE (id = ? AND is_custodial = 0);";
+@@ -112,18 +106,10 @@
+     ** sqlite to use the right index, otherwise it will try to use the much slower
+     ** egress_attempted index by default, which will result in worse performance.
+     */
+-    if (LocalDelivery)
+-    {
+-        snprintf(FindForEgressIdSQL, BPLIB_SQL_MAX_STRLEN, FindForEgressIdLocalBaseSQL,
+-                WhereClause);
+-    }
+-    else
+-    {
+-        snprintf(FindForEgressIdSQL, BPLIB_SQL_MAX_STRLEN, FindForEgressIdBaseSQL,
+-                WhereClause);
+-    }
+-
+-    FindForEgressIdSQL[strlen(FindForEgressIdSQL)] = '\0';
++    char *FindForEgressIdSQL = sqlite3_mprintf(
++        LocalDelivery ? FindForEgressIdLocalBaseSQL : FindForEgressIdBaseSQL, WhereClause);
++    if (FindForEgressIdSQL == NULL) return BPLIB_STOR_SQL_LOAD_IDS_ERR;
++    sqlite3_stmt *FindForEgressIDStmt = NULL;
+ 
+     /* Prepare Search Statements needed for this batch query */
+     SQLStatus = sqlite3_prepare_v2(db, FindForEgressIdSQL, -1, &FindForEgressIDStmt, 0);
+@@ -136,7 +122,7 @@
+     if (Status == BPLIB_SUCCESS)
+     {
+         /* Run Batch Load Logic */
+-        SQLStatus = BPLib_SQL_FindForEIDsImpl(Inst, Batch, DestEIDs, NumEIDs, BPLIB_STOR_LOADBATCHSIZE, LocalDelivery);
++        SQLStatus = BPLib_SQL_FindForEIDsImpl(Inst, Batch, DestEIDs, NumEIDs, BPLIB_STOR_LOADBATCHSIZE, LocalDelivery, FindForEgressIDStmt);
+ 
+         if (SQLStatus != SQLITE_OK)
+         {
+@@ -146,14 +132,14 @@
+ 
+     /* Cleanup/Finalize */
+     sqlite3_finalize(FindForEgressIDStmt);
+-    FindForEgressIDStmt = NULL;
++    sqlite3_free(FindForEgressIdSQL);
+ 
+     return Status;
+ }
+ 
+ SQL_Status_t BPLib_SQL_FindForEIDsImpl(BPLib_Instance_t* Inst, BPLib_STOR_LoadBatch_t* Batch,
+                                         BPLib_EID_Pattern_t* DestEIDs, size_t NumEIDs,
+-                                        size_t MaxBundles, bool LocalDelivery)
++                                        size_t MaxBundles, bool LocalDelivery, sqlite3_stmt *FindForEgressIDStmt)
+ {
+     SQL_Status_t  SQLStatus;
+     sqlite3*      db;
+@@ -277,23 +263,22 @@
+     if (Batch->Size > BPLIB_STOR_LOADBATCHSIZE) return BPLIB_STOR_PARAM_ERR;
+     if (Batch->Size == 0) return BPLIB_SUCCESS;
+     sqlite3 *db = Inst->BundleStorage.db;
+-    MarkEgressedStmt = NULL;
+-    ResetRetransmitStmt = NULL;
++    sqlite3_stmt *MarkEgressedStmt = NULL;
++    sqlite3_stmt *ResetRetransmitStmt = NULL;
+     SQL_Status_t Status = sqlite3_prepare_v2(db,
+         LocalDelivery ? MarkEgressedLocalSQL : MarkEgressedSQL, -1, &MarkEgressedStmt, NULL);
+     if (Status == SQLITE_OK && !LocalDelivery)
+         Status = sqlite3_prepare_v2(db, ResetRetransmitTriggerSQL, -1, &ResetRetransmitStmt, NULL);
+     if (Status == SQLITE_OK)
+-        Status = BPLib_SQL_MarkBatchEgressedImpl(Inst, Batch, LocalDelivery);
++        Status = BPLib_SQL_MarkBatchEgressedImpl(Inst, Batch, LocalDelivery, MarkEgressedStmt, ResetRetransmitStmt);
+     sqlite3_finalize(MarkEgressedStmt);
+     sqlite3_finalize(ResetRetransmitStmt);
+-    MarkEgressedStmt = NULL;
+-    ResetRetransmitStmt = NULL;
+     return Status == SQLITE_OK ? BPLIB_SUCCESS : BPLIB_STOR_SQL_MARK_EGRESSED_ERR;
+ }
+ 
+ SQL_Status_t BPLib_SQL_MarkBatchEgressedImpl(BPLib_Instance_t *Inst,
+-                                          BPLib_STOR_LoadBatch_t *Batch, bool LocalDelivery)
++                                          BPLib_STOR_LoadBatch_t *Batch, bool LocalDelivery,
++                                          sqlite3_stmt *MarkEgressedStmt, sqlite3_stmt *ResetRetransmitStmt)
+ {
+     sqlite3 *db = Inst->BundleStorage.db;
+     size_t NumEgressed = 0;
+@@ -436,6 +421,7 @@
+     if (SQLStatus != SQLITE_DONE)
+         return SQLStatus == SQLITE_NOMEM ? BPLIB_STOR_NO_MEM_ERR : BPLIB_STOR_SQL_LOAD_ERR;
+ 
++    sqlite3_stmt *FindBlobStmt = NULL;
+     SQLStatus = sqlite3_prepare_v2(db, FindBlobSQL, -1, &FindBlobStmt, 0);
+     if (SQLStatus != SQLITE_OK)
+     {
+@@ -445,11 +431,10 @@
+ 
+     if (Status == BPLIB_SUCCESS)
+     {
+-        SQLStatus = BPLib_SQL_LoadBundleImpl(Inst, BundleRowID, Bundle);
++        SQLStatus = BPLib_SQL_LoadBundleImpl(Inst, BundleRowID, Bundle, FindBlobStmt);
+     }
+ 
+     sqlite3_finalize(FindBlobStmt);
+-    FindBlobStmt = NULL;
+ 
+     if (SQLStatus == SQLITE_NOMEM)
+     {
+@@ -468,7 +453,7 @@
+ }
+ 
+ SQL_Status_t BPLib_SQL_LoadBundleImpl(BPLib_Instance_t* Inst, int64_t BundleRowID,
+-                                        BPLib_Bundle_t** Bundle)
++                                        BPLib_Bundle_t** Bundle, sqlite3_stmt *FindBlobStmt)
+ {
+     SQL_Status_t       SQLStatus;
+     sqlite3_blob*      blob;
+--- before/bplib/bpa/stor/src/bplib_stor_sql_load.h
++++ after/bplib/bpa/stor/src/bplib_stor_sql_load.h
+@@ -27,20 +27,8 @@
+ 
+ #include "bplib_stor_sql.h"
+ 
+-/* ======= */
+-/* Globals */
+-/* ======= */
+-
+-/* SQL query statements */
+-extern sqlite3_stmt* FindBlobStmt;
+-extern sqlite3_stmt* FindForEgressIDStmt;
+-extern sqlite3_stmt* MarkEgressedStmt;
+-
+-/* SQL query strings */
+-
+-extern const char* FindBlobSQL;
+-extern       char  FindForEgressIdSQL[BPLIB_SQL_MAX_STRLEN];
+-extern const char* MarkEgressedSQL;
++/* Statement and generated query ownership is local to each invocation.
++ * Callers must continue to serialize access to each instance/connection. */
+ 
+ /* =================== */
+ /* Function Prototypes */
+@@ -51,18 +39,19 @@
+ 
+ SQL_Status_t BPLib_SQL_FindForEIDsImpl(BPLib_Instance_t* Inst, BPLib_STOR_LoadBatch_t* Batch,
+                                         BPLib_EID_Pattern_t* DestEIDs, size_t NumEIDs,
+-                                        size_t MaxBundles, bool LocalDelivery);
++                                        size_t MaxBundles, bool LocalDelivery, sqlite3_stmt *FindForEgressIDStmt);
+ 
+ BPLib_Status_t BPLib_SQL_MarkBatchEgressed(BPLib_Instance_t* Inst, 
+                             BPLib_STOR_LoadBatch_t* Batch, bool LocalDelivery);
+ 
+ SQL_Status_t BPLib_SQL_MarkBatchEgressedImpl(BPLib_Instance_t* Inst, 
+-                                    BPLib_STOR_LoadBatch_t* Batch, bool LocalDelivery);
++                                    BPLib_STOR_LoadBatch_t* Batch, bool LocalDelivery,
++                                    sqlite3_stmt *MarkEgressedStmt, sqlite3_stmt *ResetRetransmitStmt);
+ 
+ BPLib_Status_t BPLib_SQL_LoadBundle(BPLib_Instance_t* Inst, int64_t BundleRowID,
+                                     BPLib_Bundle_t** Bundle);
+ 
+ SQL_Status_t BPLib_SQL_LoadBundleImpl(BPLib_Instance_t* Inst, int64_t BundleRowID,
+-                                        BPLib_Bundle_t** Bundle);
++                                        BPLib_Bundle_t** Bundle, sqlite3_stmt *FindBlobStmt);
+ 
+ #endif--- before/bplib/bpa/stor/inc/bplib_stor_sql.h
++++ after/bplib/bpa/stor/inc/bplib_stor_sql.h
+@@ -35,14 +35,7 @@
+ /* Globals */
+ /* ======= */
+ 
+-/* SQL query statements */
+-
+-extern sqlite3_stmt* GetNumBundlesStmt;
+-extern sqlite3_stmt* TotalBytesStmt;
+-extern sqlite3_stmt* DiscardExpiredStmt;
+-extern sqlite3_stmt* ExpiredBytesStmt;
+-extern sqlite3_stmt* DiscardEgressedStmt;
+-extern sqlite3_stmt* EgressedBytesStmt;
++/* Prepared statements are owned by individual calls, never shared globally. */
+ 
+ /* SQL query strings */
+ 

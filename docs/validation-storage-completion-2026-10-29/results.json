@@ -1,0 +1,226 @@
+[
+  {
+    "name": "outage-2-3",
+    "run_dir": "/tmp/bpsec-complete-20261029/outage-2-3-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/outage-2-3-clock-final.log",
+    "exit_code": 0,
+    "seconds": 73.51,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node_faults.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/outage-2-3-clock-final",
+      "--port-base",
+      "24600",
+      "--timeout",
+      "90",
+      "--edge",
+      "2-3"
+    ]
+  },
+  {
+    "name": "storage-failure",
+    "run_dir": "/tmp/bpsec-complete-20261029/storage-failure-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/storage-failure-clock-final.log",
+    "exit_code": 0,
+    "seconds": 24.51,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/storage-failure-clock-final",
+      "--port-base",
+      "24620",
+      "--timeout",
+      "90",
+      "--storage-fail-node",
+      "2"
+    ]
+  },
+  {
+    "name": "source-iv-restart",
+    "run_dir": "/tmp/bpsec-complete-20261029/source-iv-restart-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/source-iv-restart-clock-final.log",
+    "exit_code": 0,
+    "seconds": 41.97,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/source-iv-restart-clock-final",
+      "--port-base",
+      "24640",
+      "--timeout",
+      "90",
+      "--audit-ivs-across-node1-restart"
+    ]
+  },
+  {
+    "name": "baseline",
+    "run_dir": "/tmp/bpsec-complete-20261029/baseline-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/baseline-clock-final.log",
+    "exit_code": 0,
+    "seconds": 39.4,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/baseline-clock-final",
+      "--port-base",
+      "24660",
+      "--timeout",
+      "90"
+    ]
+  },
+  {
+    "name": "outage-3-4",
+    "run_dir": "/tmp/bpsec-complete-20261029/outage-3-4-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/outage-3-4-clock-final.log",
+    "exit_code": 0,
+    "seconds": 88.39,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node_faults.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/outage-3-4-clock-final",
+      "--port-base",
+      "24680",
+      "--timeout",
+      "90",
+      "--edge",
+      "3-4"
+    ]
+  },
+  {
+    "name": "outage-4-5",
+    "run_dir": "/tmp/bpsec-complete-20261029/outage-4-5-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/outage-4-5-clock-final.log",
+    "exit_code": 0,
+    "seconds": 85.43,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node_faults.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/outage-4-5-clock-final",
+      "--port-base",
+      "24700",
+      "--timeout",
+      "90",
+      "--edge",
+      "4-5"
+    ]
+  },
+  {
+    "name": "lost-ccs",
+    "run_dir": "/tmp/bpsec-complete-20261029/lost-ccs-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/lost-ccs-clock-final.log",
+    "exit_code": 0,
+    "seconds": 63.75,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/lost-ccs-clock-final",
+      "--port-base",
+      "24720",
+      "--timeout",
+      "90",
+      "--drop-ccs-node",
+      "2"
+    ]
+  },
+  {
+    "name": "node5-restart",
+    "run_dir": "/tmp/bpsec-complete-20261029/node5-restart-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/node5-restart-clock-final.log",
+    "exit_code": 0,
+    "seconds": 63.18,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/node5-restart-clock-final",
+      "--port-base",
+      "24740",
+      "--timeout",
+      "90",
+      "--restart-node5-after-receipt"
+    ]
+  },
+  {
+    "name": "wrong-key",
+    "run_dir": "/tmp/bpsec-complete-20261029/wrong-key-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/wrong-key-clock-final.log",
+    "exit_code": 0,
+    "seconds": 19.55,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/wrong-key-clock-final",
+      "--port-base",
+      "24760",
+      "--timeout",
+      "90",
+      "--wrong-key"
+    ]
+  },
+  {
+    "name": "tampered-ciphertext",
+    "run_dir": "/tmp/bpsec-complete-20261029/tampered-ciphertext-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/tampered-ciphertext-clock-final.log",
+    "exit_code": 0,
+    "seconds": 20.76,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/tampered-ciphertext-clock-final",
+      "--port-base",
+      "24780",
+      "--timeout",
+      "90",
+      "--tamper-ciphertext"
+    ]
+  },
+  {
+    "name": "missing-bcb",
+    "run_dir": "/tmp/bpsec-complete-20261029/missing-bcb-clock-final",
+    "log": "/tmp/bpsec-complete-20261029/missing-bcb-clock-final.log",
+    "exit_code": 0,
+    "seconds": 17.98,
+    "command": [
+      "/usr/bin/python3",
+      "/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration/demo/test_five_node.py",
+      "--build-dir",
+      "/tmp/bpsec-complete-20261029/build",
+      "--run-dir",
+      "/tmp/bpsec-complete-20261029/missing-bcb-clock-final",
+      "--port-base",
+      "24800",
+      "--timeout",
+      "90",
+      "--omit-bcb"
+    ]
+  }
+]

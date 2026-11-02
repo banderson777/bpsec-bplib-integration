@@ -1,0 +1,13 @@
+--- /tmp/bpsec-read-20261030/bpnode_demo-before.c	2026-10-30 10:57:39.858173410 -0400
++++ bpnode/fsw/src/bpnode_demo.c	2026-10-30 10:59:04.942712200 -0400
+@@ -46,7 +46,9 @@
+     FILE *file = fopen(path, "rb");
+     if (!file) return -1;
+     *length = fread(buffer, 1, capacity, file);
+-    int result = ferror(file) || fgetc(file) != EOF ? -1 : 0;
++    int result = ferror(file) ? -1 : 0;
++    /* The EOF probe can itself raise an I/O error after an exact-fit read. */
++    if (!result && (fgetc(file) != EOF || ferror(file))) result = -1;
+     if (fclose(file)) result = -1;
+     return result;
+ }

@@ -1,0 +1,14 @@
+Integration: /tmp/bpsec-ccs-20261030/integration with configured checkout cFS headers.
+New target: storage_binding_regression; actual SQL chunk writer and real SQLite binding state.
+Transaction fixture: storage_commit_regression, two-bundle batches, controlled wire sizes and real SQLite length limits.
+Full suite: ctest --test-dir /tmp/bpsec-ccs-20261030/integration --output-on-failure
+ASan: /tmp/bpsec-ccs-20261030/asan
+C flags: -fsanitize=address,undefined -fno-omit-frame-pointer -fno-pie
+Link flags: -fsanitize=address,undefined -no-pie
+Environment: ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1
+Native build: GIT_DIR=/dev/null cmake --build /tmp/bpsec-ccs-20261030/build/cfs --target mission-all -j4
+Native install: GIT_DIR=/dev/null cmake --build /tmp/bpsec-ccs-20261030/build/cfs --target mission-install
+Generated demo startup restored from mission/cfe_es_startup.scr after install.
+Native commands/fresh paths: cases.json; exits and timings: results.json.
+Initial full-suite request timed out in automatic permission review before execution; one authorized retry succeeded.
+The prior TSan runtime startup limitation remains; TSan was not rerun here.

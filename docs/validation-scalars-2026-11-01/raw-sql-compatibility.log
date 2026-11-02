@@ -1,0 +1,1 @@
+PASS: exported raw accounting SQL definitions are unchanged from the pre-fix source. Validated helpers use private immutable queries.

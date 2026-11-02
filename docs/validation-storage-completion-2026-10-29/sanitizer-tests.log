@@ -1,0 +1,190 @@
+Start testing: Oct 29 19:12 EDT
+----------------------------------------------------------
+15/26 Testing: storage_commit_regression
+15/26 Test: storage_commit_regression
+Command: "/tmp/bpsec-storage-followup-20261029-asan/storage_commit_regression"
+Directory: /tmp/bpsec-storage-followup-20261029-asan
+"storage_commit_regression" start time: Oct 29 19:12 EDT
+Output:
+----------------------------------------------------------
+Batch commit failed, RC=1811
+Failed to commit transaction
+Batch commit failed, RC=787
+PASS insert/COMMIT failures roll back, refuse custody, free batches, and never enqueue; success acknowledges only after commit
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"storage_commit_regression" end time: Oct 29 19:12 EDT
+"storage_commit_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/26 Testing: storage_error_discard_expired_regression
+16/26 Test: storage_error_discard_expired_regression
+Command: "/tmp/bpsec-storage-followup-20261029-asan/storage_error_regression" "discard_expired"
+Directory: /tmp/bpsec-storage-followup-20261029-asan
+"storage_error_discard_expired_regression" start time: Oct 29 19:12 EDT
+Output:
+----------------------------------------------------------
+delete failure: status=-293 count=0 rows=2 CT-deletes=0 open-txn=0
+PASS atomic error propagation, rollback, cleanup, accounting, and successful retry
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"storage_error_discard_expired_regression" end time: Oct 29 19:12 EDT
+"storage_error_discard_expired_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/26 Testing: storage_error_discard_egressed_regression
+17/26 Test: storage_error_discard_egressed_regression
+Command: "/tmp/bpsec-storage-followup-20261029-asan/storage_error_regression" "discard_egressed"
+Directory: /tmp/bpsec-storage-followup-20261029-asan
+"storage_error_discard_egressed_regression" start time: Oct 29 19:12 EDT
+Output:
+----------------------------------------------------------
+delete failure: status=-293 count=0 rows=2 CT-deletes=0 open-txn=0
+PASS atomic error propagation, rollback, cleanup, accounting, and successful retry
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"storage_error_discard_egressed_regression" end time: Oct 29 19:12 EDT
+"storage_error_discard_egressed_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/26 Testing: storage_error_mark_egress_regression
+18/26 Test: storage_error_mark_egress_regression
+Command: "/tmp/bpsec-storage-followup-20261029-asan/storage_error_regression" "mark_egress"
+Directory: /tmp/bpsec-storage-followup-20261029-asan
+"storage_error_mark_egress_regression" start time: Oct 29 19:12 EDT
+Output:
+----------------------------------------------------------
+mark failure: status=-302 flags=0 not-egressed=2
+PASS atomic error propagation, rollback, cleanup, accounting, and successful retry
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"storage_error_mark_egress_regression" end time: Oct 29 19:12 EDT
+"storage_error_mark_egress_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/26 Testing: storage_error_custody_update_regression
+19/26 Test: storage_error_custody_update_regression
+Command: "/tmp/bpsec-storage-followup-20261029-asan/storage_error_regression" "custody_update"
+Directory: /tmp/bpsec-storage-followup-20261029-asan
+"storage_error_custody_update_regression" start time: Oct 29 19:12 EDT
+Output:
+----------------------------------------------------------
+custody mark failure: status=-306 timestamps=200
+PASS atomic error propagation, rollback, cleanup, accounting, and successful retry
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"storage_error_custody_update_regression" end time: Oct 29 19:12 EDT
+"storage_error_custody_update_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/26 Testing: storage_error_load_regression
+20/26 Test: storage_error_load_regression
+Command: "/tmp/bpsec-storage-followup-20261029-asan/storage_error_regression" "load"
+Directory: /tmp/bpsec-storage-followup-20261029-asan
+"storage_error_load_regression" start time: Oct 29 19:12 EDT
+Output:
+----------------------------------------------------------
+Stored BLOB is too large for buffer. DB is corrupted 0 > 2032
+Stored BLOB is too large for buffer. DB is corrupted 2033 > 2032
+Expected to read metadata chunk and got wrong size 1 != 1000
+Programming Error: FindBlobSQL prepare failed, error=no such table: bundle_blobs
+PASS atomic error propagation, rollback, cleanup, accounting, and successful retry
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"storage_error_load_regression" end time: Oct 29 19:12 EDT
+"storage_error_load_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/26 Testing: storage_error_custody_queue_regression
+21/26 Test: storage_error_custody_queue_regression
+Command: "/tmp/bpsec-storage-followup-20261029-asan/storage_error_regression" "custody_queue"
+Directory: /tmp/bpsec-storage-followup-20261029-asan
+"storage_error_custody_queue_regression" start time: Oct 29 19:12 EDT
+Output:
+----------------------------------------------------------
+PASS atomic error propagation, rollback, cleanup, accounting, and successful retry
+<end of output>
+Test time =   0.18 sec
+----------------------------------------------------------
+Test Passed.
+"storage_error_custody_queue_regression" end time: Oct 29 19:12 EDT
+"storage_error_custody_queue_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/26 Testing: storage_error_lookup_regression
+22/26 Test: storage_error_lookup_regression
+Command: "/tmp/bpsec-storage-followup-20261029-asan/storage_error_regression" "lookup"
+Directory: /tmp/bpsec-storage-followup-20261029-asan
+"storage_error_lookup_regression" start time: Oct 29 19:12 EDT
+Output:
+----------------------------------------------------------
+PASS atomic error propagation, rollback, cleanup, accounting, and successful retry
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"storage_error_lookup_regression" end time: Oct 29 19:12 EDT
+"storage_error_lookup_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/26 Testing: storage_recovery_regression
+24/26 Test: storage_recovery_regression
+Command: "/tmp/bpsec-storage-followup-20261029-asan/storage_recovery_regression" "recovery"
+Directory: /tmp/bpsec-storage-followup-20261029-asan
+"storage_recovery_regression" start time: Oct 29 19:12 EDT
+Output:
+----------------------------------------------------------
+PASS portable administrative-record recovery and synchronous custody durability
+<end of output>
+Test time =   0.22 sec
+----------------------------------------------------------
+Test Passed.
+"storage_recovery_regression" end time: Oct 29 19:12 EDT
+"storage_recovery_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/26 Testing: storage_durability_regression
+25/26 Test: storage_durability_regression
+Command: "/tmp/bpsec-storage-followup-20261029-asan/storage_recovery_regression" "durability"
+Directory: /tmp/bpsec-storage-followup-20261029-asan
+"storage_durability_regression" start time: Oct 29 19:12 EDT
+Output:
+----------------------------------------------------------
+PASS portable administrative-record recovery and synchronous custody durability
+<end of output>
+Test time =   0.25 sec
+----------------------------------------------------------
+Test Passed.
+"storage_durability_regression" end time: Oct 29 19:12 EDT
+"storage_durability_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/26 Testing: storage_constructed_regression
+26/26 Test: storage_constructed_regression
+Command: "/tmp/bpsec-storage-followup-20261029-asan/storage_recovery_regression" "constructed"
+Directory: /tmp/bpsec-storage-followup-20261029-asan
+"storage_constructed_regression" start time: Oct 29 19:12 EDT
+Output:
+----------------------------------------------------------
+PASS portable administrative-record recovery and synchronous custody durability
+<end of output>
+Test time =   0.15 sec
+----------------------------------------------------------
+Test Passed.
+"storage_constructed_regression" end time: Oct 29 19:12 EDT
+"storage_constructed_regression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 29 19:12 EDT

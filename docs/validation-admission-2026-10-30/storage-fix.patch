@@ -1,0 +1,57 @@
+--- /tmp/bpsec-admission-20261030/stor-before.c	2026-10-30 11:34:38.173862697 -0400
++++ bplib/bpa/stor/src/bplib_stor.c	2026-10-30 11:41:06.787209000 -0400
+@@ -267,6 +267,7 @@
+     BPLib_BundleCache_t* CacheInst;
+     BPLib_Bundle_t *CustodialBundles[BPLIB_STOR_INSERTBATCHSIZE];
+     size_t          CustodialBundlesStored;
++    bool            RejectedCapacity = false;
+ 
+     Status = BPLIB_SUCCESS;
+     CustodialBundlesStored = 0;
+@@ -280,17 +281,25 @@
+ 
+     pthread_mutex_lock(&CacheInst->lock);
+ 
+-    if (Inst->BundleStorage.BytesStorageInUse + Bundle->Meta.TotalBytes >= BPLIB_MAX_STORED_BUNDLE_BYTES)
++    size_t Remaining = CacheInst->BytesStorageInUse < BPLIB_MAX_STORED_BUNDLE_BYTES
++        ? BPLIB_MAX_STORED_BUNDLE_BYTES - CacheInst->BytesStorageInUse : 0;
++    /* Queued bundles have not yet contributed to committed usage. Reserve their
++     * declared sizes before admitting another member of this batch. */
++    for (size_t Index = 0; Index < CacheInst->InsertBatchSize; ++Index)
++    {
++        size_t Pending = CacheInst->InsertBatch[Index]->Meta.TotalBytes;
++        if (Pending >= Remaining) { Remaining = 0; break; }
++        Remaining -= Pending;
++    }
++    if (Bundle->Meta.TotalBytes >= Remaining)
+     {
+         BPLib_EM_SendEvent(BPLIB_CT_NO_STOR_ERR_EID, BPLib_EM_EventType_ERROR,
+-                            "Cannot store and accept bundle, not enough storage (%ld bytes remaining).",
+-                            (BPLIB_MAX_STORED_BUNDLE_BYTES - Inst->BundleStorage.BytesStorageInUse));
++                            "Cannot store and accept bundle, not enough storage (%zu bytes remaining).", Remaining);
+         BPLib_AS_Increment(BPLIB_EID_INSTANCE, BUNDLE_COUNT_DELETED_NO_STORAGE, 1);
+         BPLib_AS_Increment(BPLIB_EID_INSTANCE, BUNDLE_COUNT_DELETED, 1);
+         BPLib_AS_Increment(BPLIB_EID_INSTANCE, BUNDLE_COUNT_DISCARDED, 1);
+ 
+-        BPLib_MEM_BundleFree(&(Inst->pool), Bundle);
+-
++        RejectedCapacity = true;
+         Status = BPLIB_NO_STOR_ERR;
+     }
+     else
+@@ -307,6 +316,15 @@
+ 
+     pthread_mutex_unlock(&CacheInst->lock);
+ 
++    if (RejectedCapacity)
++    {
++        /* Admission may already have created an uncommitted CTDB entry. Release
++         * it so retransmission can retry, without nesting CT under the SQL lock. */
++        if (Bundle->Meta.IsCustodial)
++            (void) BPLib_CT_SignalCustody(Inst, Bundle, BPLib_CT_CustodyRefused, false);
++        BPLib_MEM_BundleFree(&Inst->pool, Bundle);
++    }
++
+     /* Finalize custodial signaling for stored bundles */
+     if (CustodialBundlesStored > 0)
+     {

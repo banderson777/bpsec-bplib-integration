@@ -1,0 +1,7 @@
+{
+  "receipts": {
+    "000000-00000.adu": "f1bdd72df2a16e660c8980f96d402ab192eba4f5aa1b4a04ecbc3a9d6ba63f1b"
+  },
+  "complete_before_restart": false,
+  "expected_records": 7
+}

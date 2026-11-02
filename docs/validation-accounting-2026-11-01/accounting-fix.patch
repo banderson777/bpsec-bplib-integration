@@ -1,0 +1,98 @@
+--- before/bplib_stor_sql.c
++++ after/bplib_stor_sql.c
+@@ -239,47 +239,54 @@
+ 
+ SQL_Status_t BPLib_SQL_InitTable(BPLib_Instance_t* Inst)
+ {
+-    SQL_Status_t SQLStatus;
+-    uint32_t     NumStoredBundles;
+-    uint64_t     TotalBundleBytes;
+-    size_t       NumEgressed;
+-
+-    NumStoredBundles = 0;
+-    TotalBundleBytes = 0;
+-    NumEgressed      = 0;
+-
+-    /* Create the table if it doesn't already exist */
+-    SQLStatus = sqlite3_exec(Inst->BundleStorage.db, CreateTableSQL, 0, 0, NULL);
+-    if (SQLStatus != SQLITE_OK)
+-    {
+-        return SQLStatus;
+-    }
+-
+-    /* Determine how many bundles are presently in storage, and set the stored counter to this value */
+-    SQLStatus = BPLib_SQL_GetNumStoredBundles(Inst->BundleStorage.db, &NumStoredBundles);
+-    if (SQLStatus != SQLITE_OK)
+-    {
+-        return SQLStatus;
+-    }
+-    
+-    Inst->BundleStorage.BundleCountStored = NumStoredBundles;
+-
+-    SQLStatus = BPLib_SQL_GetNumEgressed(Inst->BundleStorage.db, &NumEgressed);
+-    if (SQLStatus != SQLITE_OK)
+-    {
+-        return SQLStatus;
+-    }
+-
+-    Inst->BundleStorage.BundleCountNotEgressed = NumStoredBundles - NumEgressed;
+-
+-    /* Find the total number of bytes of bundles stored */
+-    SQLStatus = BPLib_SQL_GetTotalBundleBytes(Inst->BundleStorage.db, &TotalBundleBytes);
+-    if (SQLStatus == SQLITE_OK)
+-    {
+-        Inst->BundleStorage.BytesStorageInUse = TotalBundleBytes;
+-    }
+-
+-    return SQLStatus;
++    /* One SELECT observes a consistent accounting snapshot. Reject malformed
++     * metadata rather than letting SUM coercion or unsigned conversion hide it. */
++    const char *AccountingSQL =
++        "SELECT COUNT(*), COUNT(CASE WHEN egress_attempted=1 THEN 1 END), "
++        "COALESCE(SUM(bundle_bytes),0), "
++        "COUNT(CASE WHEN typeof(bundle_bytes)!='integer' OR bundle_bytes<0 OR "
++        "typeof(egress_attempted)!='integer' OR egress_attempted NOT IN (0,1) THEN 1 END) "
++        "FROM bundle_data;";
++    sqlite3_stmt *Accounting = NULL;
++    sqlite3_int64 Values[4] = {0};
++    SQL_Status_t Status = sqlite3_exec(Inst->BundleStorage.db, CreateTableSQL, 0, 0, NULL);
++    if (Status != SQLITE_OK) return Status;
++    Status = sqlite3_prepare_v2(Inst->BundleStorage.db, AccountingSQL, -1, &Accounting, NULL);
++    if (Status == SQLITE_OK)
++    {
++        Status = sqlite3_step(Accounting);
++        if (Status == SQLITE_ROW)
++        {
++            Status = SQLITE_OK;
++            for (size_t i = 0; i < 4; ++i)
++            {
++                if (sqlite3_column_type(Accounting, i) != SQLITE_INTEGER ||
++                    (Values[i] = sqlite3_column_int64(Accounting, i)) < 0)
++                { Status = SQLITE_CORRUPT; break; }
++            }
++            if (Status == SQLITE_OK && (Values[3] != 0 || Values[1] > Values[0]))
++                Status = SQLITE_CORRUPT;
++            if (Status == SQLITE_OK && ((uint64_t)Values[0] > UINT32_MAX ||
++                                       (uint64_t)Values[2] > SIZE_MAX))
++                Status = SQLITE_TOOBIG;
++            if (Status == SQLITE_OK)
++            {
++                Status = sqlite3_step(Accounting);
++                Status = Status == SQLITE_DONE ? SQLITE_OK :
++                         Status == SQLITE_ROW ? SQLITE_CORRUPT : Status;
++            }
++        }
++        else if (Status == SQLITE_DONE) Status = SQLITE_CORRUPT;
++    }
++    int FinalStatus = sqlite3_finalize(Accounting);
++    if (Status == SQLITE_OK) Status = FinalStatus;
++    if (Status != SQLITE_OK) return Status;
++
++    /* Publish together only after the read and cleanup have succeeded. */
++    Inst->BundleStorage.BundleCountStored = (uint32_t)Values[0];
++    Inst->BundleStorage.BundleCountNotEgressed = (size_t)(Values[0] - Values[1]);
++    Inst->BundleStorage.BytesStorageInUse = (size_t)Values[2];
++    return SQLITE_OK;
+ }
+ 
+ BPLib_Status_t BPLib_SQL_Init(BPLib_Instance_t* Inst, const char* DbName)
