@@ -5,6 +5,7 @@ Use separate Linux or Windows/WSL terminals for `node`. The controller never
 loads endpoint keys into relay processes. Runtime state is isolated per run.
 """
 import argparse
+import errno
 import fcntl
 import hashlib
 import json
@@ -123,7 +124,13 @@ def check_nodes(processes, log_directory):
         if log.exists():
             with log.open('rb') as stream:
                 stream.seek(getattr(process, 'log_offset', 0))
-                text = stream.read().decode(errors='replace')
+                try:
+                    text = stream.read().decode(errors='replace')
+                except OSError as exc:
+                    if exc.errno in (errno.ENODATA, errno.EAGAIN, getattr(errno, 'EWOULDBLOCK', errno.EAGAIN)):
+                        text = ''
+                    else:
+                        raise
         if 'Error initializing BPLib' in text:
             raise RuntimeError(f'BPNode application initialization failed on node {number}; inspect {log}')
         ready = ready and f'DEMO node={number} recovered ' in text

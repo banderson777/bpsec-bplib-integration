@@ -53,9 +53,15 @@ def main():
             args.audit_ivs_across_node1_restart)) > 1:
         parser.error('choose one fault injection per run')
     run = args.run_dir.resolve()
-    run.mkdir(parents=True, exist_ok=False)
+    if run.exists():
+        if not run.is_dir():
+            raise FileExistsError(f'run path is not a directory: {run}')
+        if any(run.iterdir()):
+            raise FileExistsError(f'run directory already exists and is not empty: {run}')
+    else:
+        run.mkdir(parents=True, exist_ok=True)
     segments = run / 'segments'
-    segments.mkdir()
+    segments.mkdir(exist_ok=True)
     for index, size in enumerate((9000, 17, 8000)):
         (segments / f'segment-{index:06d}.ts').write_bytes(bytes((i + index) % 256 for i in range(size)))
     runtime = run / 'runtime'

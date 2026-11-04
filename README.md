@@ -15,6 +15,83 @@ Clone with `--recurse-submodules`, then run `bash scripts/bootstrap.sh --native-
 The [publication guide](docs/publishing.md) explains how all component changes are
 saved to GitHub and how complete-source release archives include their dependencies.
 
+## Run the five-node mode in separate terminal sessions
+
+The optional five-node lab is run as five independent native Linux processes, one
+for each node. Use a dedicated terminal for each node and keep them all in the same
+WSL2 Linux environment. Keep the checkout in WSL's Linux filesystem (for example,
+`$HOME/src/bpsec-bplib-integration`); CMake's many-file mission build can be very
+slow from a Windows-mounted OneDrive path such as `/mnt/c/Users/...`.
+
+```bash
+set -e
+
+# In every terminal, use the same workspace and run directory
+export BPSEC_WORKSPACE="/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration"
+export BPSEC_BUILD="$BPSEC_WORKSPACE/build/native"
+export BPSEC_RUN="$BPSEC_WORKSPACE/build/runs/five-node-demo-1"
+export BPSEC_SEGMENTS="$HOME/bpsec-video-segments"
+cd "$BPSEC_WORKSPACE"
+```
+
+Build the mission once and wait for the command to finish successfully before
+continuing. Do not interrupt CMake; configuration and compilation can take a while.
+If repeating a lab, change the `five-node-demo-1` suffix in `BPSEC_RUN` to an unused
+name and use that same path in every terminal.
+
+```bash
+set -e
+python3 demo/five_node.py build --build-dir "$BPSEC_BUILD"
+```
+
+Prepare the video segments and run directory only after the build succeeds. The
+`prepare` command creates `BPSEC_RUN`, so do not create that directory yourself.
+
+```bash
+set -e
+mkdir -p "$BPSEC_SEGMENTS"
+ffmpeg -hide_banner -y -f lavfi -i testsrc2=size=320x240:rate=10 \
+  -t 12 -an -c:v mpeg2video -g 10 -f segment -segment_time 2 \
+  -reset_timestamps 1 "$BPSEC_SEGMENTS/segment-%06d.ts"
+python3 demo/five_node.py prepare \
+  --build-dir "$BPSEC_BUILD" \
+  --run-dir "$BPSEC_RUN" \
+  --segment-dir "$BPSEC_SEGMENTS"
+```
+
+Start the nodes in separate terminals in this order: 5, 4, 3, 2, then 1. Each
+node uses its own isolated runtime directory under `$BPSEC_RUN/nodeN` and the same
+`--port-base` for the full lab.
+
+```bash
+# Terminal 5: MOC / sink / decrypt
+python3 demo/five_node.py node --run-dir "$BPSEC_RUN" --node 5 --port-base 34000
+
+# Terminal 4: relay / cloud node
+python3 demo/five_node.py node --run-dir "$BPSEC_RUN" --node 4 --port-base 34000
+
+# Terminal 3: relay / ground node
+python3 demo/five_node.py node --run-dir "$BPSEC_RUN" --node 3 --port-base 34000
+
+# Terminal 2: relay / relay node
+python3 demo/five_node.py node --run-dir "$BPSEC_RUN" --node 2 --port-base 34000
+
+# Terminal 1: source / encrypt node
+python3 demo/five_node.py node --run-dir "$BPSEC_RUN" --node 1 --port-base 34000
+```
+
+If you are running the automated deterministic transfer instead of a video clip,
+use the single-controller command below from a normal terminal:
+
+```bash
+python3 demo/test_five_node.py --build-dir "$BPSEC_BUILD" --run-dir "$BPSEC_RUN" --timeout 90
+```
+
+This command launches the same five node processes internally as a controller,
+verifies the transfer byte-for-byte, waits for custody to drain, and preserves
+logs and runtime state under the selected run directory. The manual five-terminal
+flow is intended when you want to observe each node in its own terminal window.
+
 ## Start here
 
 - [Code guide](docs/code-guide.md): architecture, source inventory, ownership,

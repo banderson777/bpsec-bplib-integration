@@ -39,9 +39,15 @@ def main():
     if args.replay_retained_duplicates and args.edge != '2-3':
         parser.error('--replay-retained-duplicates requires --edge 2-3')
     run = args.run_dir.resolve()
-    run.mkdir(parents=True, exist_ok=False)
+    if run.exists():
+        if not run.is_dir():
+            raise FileExistsError(f'run path is not a directory: {run}')
+        if any(run.iterdir()):
+            raise FileExistsError(f'run directory already exists and is not empty: {run}')
+    else:
+        run.mkdir(parents=True, exist_ok=True)
     source = run / 'segments'
-    source.mkdir()
+    source.mkdir(exist_ok=True)
     (source / 'segment-000000.ts').write_bytes(bytes((i * 29) % 256 for i in range(1024)))
     runtime = run / 'runtime'
     prepare(runtime, args.build_dir.resolve(), source, 128)
