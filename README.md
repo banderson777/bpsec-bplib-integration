@@ -26,8 +26,8 @@ slow from a Windows-mounted OneDrive path such as `/mnt/c/Users/...`.
 ```bash
 set -e
 
-# In every terminal, use the same workspace and run directory
-export BPSEC_WORKSPACE="/mnt/c/Users/bande/OneDrive/Documents/source/bpsec-bplib-integration"
+# Set this to the folder where you cloned the project. Use the same path in every terminal.
+export BPSEC_WORKSPACE="$HOME/src/bpsec-bplib-integration"
 export BPSEC_BUILD="$BPSEC_WORKSPACE/build/native"
 export BPSEC_RUN="$BPSEC_WORKSPACE/build/runs/five-node-demo-1"
 export BPSEC_SEGMENTS="$HOME/bpsec-video-segments"
@@ -100,7 +100,7 @@ to input names.
 
 ```bash
 export BPSEC_RUN="$BPSEC_WORKSPACE/build/runs/five-node-watch-1"
-export BPSEC_WATCH="/home/banderson777/incoming-video"
+export BPSEC_WATCH="$HOME/incoming-video"
 mkdir -p "$BPSEC_WATCH"
 python3 demo/five_node.py prepare-stream --build-dir "$BPSEC_BUILD" --run-dir "$BPSEC_RUN"
 ```
