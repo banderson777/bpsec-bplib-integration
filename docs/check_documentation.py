@@ -10,6 +10,8 @@ from urllib.parse import unquote, urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
+SOURCE_DIRS = ("integration", "client-test", "demo", "scripts", "cfs-buildconfig")
+PYTHON_DIRS = ("client-test", "demo", "scripts", "docs")
 GUIDES = (
     "README.md", "docs/code-guide.md", "docs/build-and-test.md", "docs/quickstart.md", "docs/publishing.md", "THIRD_PARTY.md",
     "docs/windows-build.md", "docs/security-fixes-validation.md",
@@ -26,10 +28,14 @@ def check_inventory(errors):
     """Require every direct local source/build manifest in the guide inventory."""
     guide = (ROOT / "docs/code-guide.md").read_text(encoding="utf-8")
     count = 0
-    for directory in ("integration", "client-test"):
-        for path in sorted((ROOT / directory).iterdir()):
-            if path.suffix not in (".c", ".h", ".py") and path.name not in (
-                    "CMakeLists.txt", "requirements.txt"):
+    for directory in SOURCE_DIRS:
+        base = ROOT / directory
+        # The mission source is nested; other directories can contain build
+        # trees, virtual environments, and runtime artifacts.
+        paths = base.rglob("*") if directory == "cfs-buildconfig" else base.iterdir()
+        for path in sorted(paths):
+            if not path.is_file() or (path.suffix not in (".c", ".h", ".py", ".sh", ".cmake", ".scr") and path.name not in (
+                    "CMakeLists.txt", "requirements.txt")):
                 continue
             name = path.relative_to(ROOT).as_posix()
             if f"`{name}`" not in guide:
@@ -41,7 +47,8 @@ def check_inventory(errors):
 def check_python(errors):
     """Parse demo files and require module/public top-level and method docs."""
     count = 0
-    for path in sorted((ROOT / "client-test").glob("*.py")):
+    paths = (path for directory in PYTHON_DIRS for path in (ROOT / directory).glob("*.py"))
+    for path in sorted(paths):
         tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
         name = path.relative_to(ROOT).as_posix()
         if not ast.get_docstring(tree):

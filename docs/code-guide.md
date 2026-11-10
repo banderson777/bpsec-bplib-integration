@@ -26,7 +26,8 @@ relay can authenticate/decrypt records. These client-test simulations do not cal
 
 ## Local source inventory
 
-Every source directly under `integration/` and `client-test/` is listed here.
+This inventory covers project-owned integration code, demos, scripts, and
+mission configuration.
 Dependency modules retain their own source comments and guides linked from the
 [root README](../README.md). Generated builds, staging trees, recordings, and
 databases are outside this inventory.
@@ -72,6 +73,23 @@ databases are outside this inventory.
 | `client-test/segment_viewer.py` | Poll contiguous segment filenames; optional remux/player pipeline |
 | `client-test/test_security.py` | Authentication/storage/CLI regression suite |
 | `client-test/requirements.txt` | Python package requirements |
+| `demo/five_node.py` | Native mission build, runtime preparation, input queue, process launch, live playback, and output verification |
+| `demo/test_five_node.py` | Baseline transfer, custody drain, and optional security, storage, and endpoint restart scenarios |
+| `demo/test_five_node_faults.py` | Link outage, relay restart, and retained duplicate replay scenarios |
+| `demo/test_five_node_stream.py` | Streaming record encoding, growing playlist, and archive verification tests |
+| `demo/test_node_health.py` | Host process and BPNode application readiness tests |
+| `demo/test_security.py` | Endpoint wire security tests against the compiled BSL bridge |
+| `scripts/bootstrap.sh` | Validate prerequisites, build dependencies and native targets, then run the selected checks |
+| `scripts/package_source.py` | Export committed source and pinned submodules with a file hash manifest |
+| `docs/check_documentation.py` | Check source inventory, public Python docstrings, and relative links |
+| `cfs-buildconfig/targets.cmake` | Mission identity, CPU assignments, and application selection |
+| `cfs-buildconfig/global_build_options.cmake` | Shared compiler diagnostics and optional sanitizer settings |
+| `cfs-buildconfig/mission_build_custom.cmake`, `cfs-buildconfig/arch_build_custom.cmake` | Mission and architecture customization hooks |
+| `cfs-buildconfig/install_custom.cmake`, `cfs-buildconfig/extra_install.cmake` | Mission install hooks and extra runtime files |
+| `cfs-buildconfig/default_osconfig.cmake`, `cfs-buildconfig/native_osconfig.cmake` | OSAL defaults and native platform overrides |
+| `cfs-buildconfig/cfe_es_startup.scr`, `cfs-buildconfig/cfe_perfids.h` | Application startup entries and performance ID assignments |
+| `cfs-buildconfig/tables/sch_lab_table.c`, `cfs-buildconfig/tables/to_lab_sub.c` | Scheduler and telemetry subscription tables |
+| `cfs-buildconfig/inc/ci_lab_topicids.h`, `cfs-buildconfig/inc/to_lab_topicids.h` | Command-ingest and telemetry-output topic IDs |
 
 Local dependency additions include the block-access API in
 `bplib/ci/mem/inc/bplib_mem.h` and `bplib/ci/mem/src/bplib_mem.c`, the BPNode TCP
@@ -81,6 +99,30 @@ contact changes above, and `bpnode/fsw/src/bpnode_video_sink.c`/`.h`.
 with contact addresses, destination routes, telemetry topic IDs, and the target's
 file-system mapping. See [contact configuration](../integration/README.md) and
 the [mixed-protocol example](../integration/bpnode-tcpclv4-example.md).
+
+## Five-node streaming records
+
+The controller queues application data units in `node1/input` as numbered
+`.adu` files. Each record starts with a four-byte ASCII tag and the 16-byte
+run session ID. The remaining integers are unsigned 32-bit values in network
+byte order. These are demo payloads carried by BPv7, not BPv7 block formats.
+
+| Tag | Fields after the session ID | Consumer |
+| --- | --- | --- |
+| `BPD1` | Segment index, part index, part count, total segment count, payload byte count, then payload bytes | Node 5 retains the authenticated parts and publishes a segment when all parts are present. Streaming records use zero for the unknown total. |
+| `BPE2` | One-based video number, first segment index, segment count | Node 5 concatenates the published segment range into one replay archive. |
+| `BPF1` | One-based video number | Node 1 advances `file-ack` after accepting the preceding records. This marker never goes on the wire. |
+| `BPE1` | Final segment count, zero, zero, final segment count, zero | Node 5 validates the full segment set and publishes `output/complete`. An idle stream can close with zero segments. |
+
+Run one watcher per run. Queue files and the manifest are replaced atomically
+so live readers do not see partial writes. A `.sent` suffix means node 1
+accepted the input; it does not establish BP custody or delivery to node 5.
+Node 5 publishes authenticated output separately, and `verify` checks each
+segment hash and archive byte range against the manifest and published segments.
+Live playback serves the contiguous prefix of available segments through an HLS
+event playlist on loopback. The playlist ends after the completion marker and
+the last listed segment are both present. See the
+[operator runbook](five-node-video-test.md#watch-a-folder) for startup and recovery.
 
 ## Transport lifetime, ownership, and errors
 

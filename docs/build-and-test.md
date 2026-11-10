@@ -113,6 +113,7 @@ a complete host BPA with OSAL startup.
 | `storage_recovery_regression`, `storage_durability_regression`, `storage_constructed_regression`, `storage_ccs_parse_regression`, `storage_ccs_sender_regression` | Real administrative decoding and persistence, restored origins, allocation cleanup, legacy recovery, crashes around commit, local ADU encoding, exact-fit guards, custody disposition map parsing, and bounded outgoing CCS construction |
 | `storage_init_regression` | Real SQLite transient reader-lock recovery, bounded permanent-lock failure, statement and failed-handle cleanup |
 | `deployment_health_regression` | Live native host with failed BPNode, current-process restart readiness, startup timeout, host exit |
+| `five_node_stream_regression` | Streaming record encoding, contiguous HLS playlist publication, and archive byte verification |
 | `video_security_regression` | Authentication, keys/nonces, custody persistence/replay, Python CLI transfers, continuous EOF completeness |
 | `bpnode_ingress_regression` | Actual ingress task exits on error and passes the TCP-specific timeout; framework boundaries stubbed |
 | `video_sink_regression` | Actual sink append and serialized short writes; decoder/framework stubbed |
@@ -120,7 +121,7 @@ a complete host BPA with OSAL startup.
 The BPNode ingress, video sink, and custody entries appear only on POSIX when
 `CFS_BUILD/native/default/apps/bpnode/CMakeFiles/bpnode.dir/flags.make` exists.
 That detection requires a configured Makefile-based cFS build with usable
-generated headers. The Python entry appears only if CMake finds an interpreter;
+generated headers. The Python tests appear only if CMake finds an interpreter;
 finding Python does not install its packages. Inspect `ctest -N` to avoid mistaking
 an omitted test for a pass. POSIX socket tests are excluded on Windows.
 

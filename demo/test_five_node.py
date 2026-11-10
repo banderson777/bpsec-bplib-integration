@@ -18,6 +18,7 @@ from five_node import check_nodes, node_command, prepare, verify, wait_for_nodes
 
 
 def custody_count(runtime, node):
+    """Read the node's stored custody count, or return None if unavailable."""
     database = runtime / f'node{node}/bplib-storage.db'
     try:
         with closing(sqlite3.connect(f'file:{database}?mode=ro', uri=True, timeout=1)) as db:

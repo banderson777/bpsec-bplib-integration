@@ -103,6 +103,11 @@ def initialize_run(directory, build_dir):
 
 
 def write_json_atomic(path, value):
+    """Replace a JSON file atomically so readers see the old or new document.
+
+    The caller must serialize writers to the same path. This is a visibility
+    guarantee for live readers, not a power-loss durability guarantee.
+    """
     temporary = path.with_name(path.name + '.tmp')
     temporary.write_text(json.dumps(value, indent=2))
     os.replace(temporary, path)
@@ -161,7 +166,12 @@ def file_completion_record(session, file_number, first_segment, segment_count):
 
 
 def stream_file_segments(source, temporary_directory, segment_duration):
-    """Transcode one completed input file into MPEG-TS segments and durations."""
+    """Transcode one stable input into a list of (MPEG-TS bytes, duration) pairs.
+
+    FFmpeg must be on PATH. Its output is staged under temporary_directory;
+    segment bytes are loaded into memory. A failed transcode raises
+    subprocess.CalledProcessError, and an empty result raises ValueError.
+    """
     output_pattern = temporary_directory / 'segment-%06d.ts'
     segment_list = temporary_directory / 'segments.csv'
     subprocess.run([
@@ -186,7 +196,13 @@ def stream_file_segments(source, temporary_directory, segment_duration):
 
 def watch_folder(directory, watch_directory, pattern, poll_interval, stable_seconds,
                  segment_duration, chunk):
-    """Poll a folder, queue stable matching files FIFO, and close the stream on Ctrl+C."""
+    """Queue stable input files in modification-time order for one streaming run.
+
+    Use one watcher per run. Intervals and segment duration are in seconds;
+    chunk is the maximum record payload in bytes (1–4096). A source is renamed
+    only after node 1 acknowledges its queue marker. Ctrl+C while idle queues
+    EOF, while an interrupted file requires a fresh run.
+    """
     if poll_interval <= 0 or stable_seconds < 0 or segment_duration <= 0:
         raise ValueError('poll interval and segment duration must be positive; stable time cannot be negative')
     if not 1 <= chunk <= 4096:
@@ -383,7 +399,11 @@ def wait_for_nodes(processes, log_directory, timeout=30):
 
 
 def verify(directory, timeout):
-    """Wait for authenticated completion and compare every output segment hash."""
+    """Wait up to timeout seconds for completion and verify the manifest outputs.
+
+    Compare segment lengths and hashes, then check each archive against the
+    bytewise concatenation of its segments. A timeout of zero checks immediately.
+    """
     manifest = json.loads((directory / 'manifest.json').read_text())
     output = directory / 'node5/output'
     deadline = time.monotonic() + timeout

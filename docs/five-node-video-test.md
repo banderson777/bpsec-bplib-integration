@@ -169,9 +169,9 @@ For continuous file intake, use a streaming run instead of the finite `prepare`
 workflow. The watcher uses FFmpeg to transcode matched files to MPEG-2 video in
 MPEG-TS segments; audio is omitted. It waits until a file's size and modification
 time are unchanged for `--stable-seconds`, then processes the oldest modification
-time first, using filename as a tie-breaker. Source files are left in place, and
-the run's `watch-state.json` prevents the same file identity from being sent twice
-in that run. Use a new, empty incoming folder when beginning another run.
+time first, using filename as a tie-breaker. Files stay under their original
+names until node 1 acknowledges them. The run's `watch-state.json` tracks
+processed file identities. Use a new, empty incoming folder for a new run.
 
 After rebuilding the mission with the updated demo code, prepare a new run once:
 
