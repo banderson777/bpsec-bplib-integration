@@ -5,17 +5,24 @@ Use separate Linux or Windows/WSL terminals for `node`. The controller never
 loads endpoint keys into relay processes. Runtime state is isolated per run.
 """
 import argparse
+import csv
 import errno
+import functools
 import fcntl
 import hashlib
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 import json
+import math
 import os
 from pathlib import Path
 import shutil
 import struct
 import subprocess
 import sys
+import tempfile
+import threading
 import time
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -69,13 +76,9 @@ CFE_TBL_FILEDEF(Schedule, SCH_LAB.Schedule, Five node schedule, sch_lab_table.tb
     shutil.copy2(mission / 'cfe_es_startup.scr', directory / 'install/cpu1/cf/cfe_es_startup.scr')
 
 
-def prepare(directory, build_dir, segments, chunk):
-    """Create a new recording with isolated nodes, keys, inputs, and manifest."""
+def initialize_run(directory, build_dir):
+    """Create isolated node runtimes and a shared session/key for a new run."""
     if directory.exists(): raise ValueError('run directory already exists; use a new path or resume with node')
-    files = sorted(segments.glob('segment-*.ts'))
-    if not files: raise ValueError('no segment-*.ts input files')
-    if len(files) > 100000: raise ValueError('at most 100000 segments are supported')
-    if not 1 <= chunk <= 4096: raise ValueError('chunk size must be 1..4096')
     installed = build_dir / 'install/cpu1'
     if not (installed / 'core-cpu1').is_file(): raise ValueError('build the demo first')
     directory.mkdir(parents=True, mode=0o700)
@@ -90,6 +93,22 @@ def prepare(directory, build_dir, segments, chunk):
     # Optional BPNODE_DEMO_FEED_GATE fault tests remove this marker before
     # launch and recreate it to release the source at a chosen checkpoint.
     (inputs / 'release').write_text('ready\n')
+    return session, inputs
+
+
+def write_json_atomic(path, value):
+    temporary = path.with_name(path.name + '.tmp')
+    temporary.write_text(json.dumps(value, indent=2))
+    os.replace(temporary, path)
+
+
+def prepare(directory, build_dir, segments, chunk):
+    """Create a new finite recording with isolated nodes, keys, and queued ADUs."""
+    files = sorted(segments.glob('segment-*.ts'))
+    if not files: raise ValueError('no segment-*.ts input files')
+    if len(files) > 100000: raise ValueError('at most 100000 segments are supported')
+    if not 1 <= chunk <= 4096: raise ValueError('chunk size must be 1..4096')
+    session, inputs = initialize_run(directory, build_dir)
     manifest = []; sequence = 0
     for segment, path in enumerate(files):
         data = path.read_bytes()
@@ -102,6 +121,217 @@ def prepare(directory, build_dir, segments, chunk):
     (inputs / f'{sequence:08d}.adu').write_bytes(b'BPE1' + session + struct.pack('!IIIII', len(files), 0, 0, len(files), 0))
     (directory / 'manifest.json').write_text(json.dumps(dict(session=session.hex(), segments=manifest, records=sequence + 1, build=str(build_dir)), indent=2))
     print(f'Prepared {len(files)} segments / {sequence + 1} records in {directory}')
+
+
+def prepare_stream(directory, build_dir):
+    """Create a run whose source ADU queue remains open until the watcher ends."""
+    session, inputs = initialize_run(directory, build_dir)
+    (inputs / 'stream').write_text('streaming input\n')
+    (inputs / 'file-ack').write_bytes(bytes(4))
+    write_json_atomic(directory / 'manifest.json', dict(
+        session=session.hex(), segments=[], files=[], records=0, build=str(build_dir), streaming=True
+    ))
+    print(f'Prepared streaming run in {directory}')
+
+
+def segment_records(session, segment_id, data, chunk):
+    """Encode a segment as streaming BPD1 records with an unknown final count."""
+    part_count = max(1, (len(data) + chunk - 1) // chunk)
+    for part in range(part_count):
+        piece = data[part * chunk:(part + 1) * chunk]
+        yield b'BPD1' + session + struct.pack(
+            '!IIIII', segment_id, part, part_count, 0, len(piece)
+        ) + piece
+
+
+def file_marker(session, file_number):
+    """Create a local-only node-1 queue marker following one input file."""
+    return b'BPF1' + session + struct.pack('!I', file_number)
+
+
+def file_completion_record(session, file_number, first_segment, segment_count):
+    """Create the protected end-of-video record consumed by node 5."""
+    return b'BPE2' + session + struct.pack('!III', file_number, first_segment, segment_count)
+
+
+def stream_file_segments(source, temporary_directory, segment_duration):
+    """Transcode one completed input file into MPEG-TS segments and durations."""
+    output_pattern = temporary_directory / 'segment-%06d.ts'
+    segment_list = temporary_directory / 'segments.csv'
+    subprocess.run([
+        'ffmpeg', '-hide_banner', '-loglevel', 'error', '-i', str(source), '-an',
+        '-c:v', 'mpeg2video', '-force_key_frames', f'expr:gte(t,n_forced*{segment_duration})',
+        '-f', 'segment', '-segment_time', str(segment_duration),
+        '-segment_list', str(segment_list), '-segment_list_type', 'csv', str(output_pattern),
+    ], check=True)
+    segments = []
+    with segment_list.open(newline='') as stream:
+        for row in csv.reader(stream):
+            if len(row) < 2:
+                continue
+            path = Path(row[0])
+            if not path.is_absolute():
+                path = temporary_directory / path
+            segments.append((path.read_bytes(), float(row[1])))
+    if not segments:
+        raise ValueError(f'ffmpeg produced no video segments for {source}')
+    return segments
+
+
+def watch_folder(directory, watch_directory, pattern, poll_interval, stable_seconds,
+                 segment_duration, chunk):
+    """Poll a folder, queue stable matching files FIFO, and close the stream on Ctrl+C."""
+    if poll_interval <= 0 or stable_seconds < 0 or segment_duration <= 0:
+        raise ValueError('poll interval and segment duration must be positive; stable time cannot be negative')
+    if not 1 <= chunk <= 4096:
+        raise ValueError('chunk size must be 1..4096')
+    if not watch_directory.is_dir():
+        raise ValueError(f'watch directory does not exist: {watch_directory}')
+    manifest_path = directory / 'manifest.json'
+    manifest = json.loads(manifest_path.read_text())
+    if not manifest.get('streaming'):
+        raise ValueError('run is not streaming; create it with prepare-stream')
+    inputs = directory / 'node1/input'
+    if (inputs / 'eof').exists():
+        raise ValueError('stream input is already closed')
+    session = bytes.fromhex(manifest['session'])
+    state_path = directory / 'watch-state.json'
+    state = json.loads(state_path.read_text()) if state_path.exists() else {'processed': []}
+    processed = set(state['processed'])
+    seen = {}
+    record_number = int(manifest['records'])
+    ack_path = inputs / 'file-ack'
+
+    def acknowledged_file_number():
+        raw = ack_path.read_bytes()
+        if len(raw) != 4:
+            raise RuntimeError(f'invalid node-1 file acknowledgement: {ack_path}')
+        return int.from_bytes(raw, 'big')
+
+    for file_entry in manifest.get('files', []):
+        if file_entry.get('accepted_by_node1'):
+            original = watch_directory / file_entry['source']
+            sent_path = original.with_name(original.name + '.sent')
+            if original.exists() and not sent_path.exists():
+                os.replace(original, sent_path)
+            processed.add(file_entry['identity'])
+    write_json_atomic(state_path, {'processed': sorted(processed)})
+    if manifest.get('files') and not manifest['files'][-1].get('accepted_by_node1'):
+        raise RuntimeError('stream has a file not acknowledged by node 1; discard this run and prepare a fresh stream')
+
+    def file_identity(path, stat):
+        return f'{path.resolve()}|{stat.st_size}|{stat.st_mtime_ns}'
+
+    def next_stable_file():
+        candidates = sorted(
+            (path for path in watch_directory.glob(pattern) if path.is_file()),
+            key=lambda path: (path.stat().st_mtime_ns, path.name),
+        )
+        now = time.monotonic()
+        for path in candidates:
+            stat = path.stat()
+            identity = file_identity(path, stat)
+            if identity in processed:
+                continue
+            signature = (stat.st_size, stat.st_mtime_ns)
+            previous = seen.get(identity)
+            if previous is None or previous[0] != signature:
+                seen[identity] = (signature, now)
+                return None
+            if now - previous[1] < stable_seconds:
+                return None
+            return path, identity, signature
+        return None
+
+    def queue_record(data):
+        nonlocal record_number
+        path = inputs / f'{record_number:08d}.adu'
+        temporary = path.with_suffix('.tmp')
+        temporary.write_bytes(data)
+        os.replace(temporary, path)
+        record_number += 1
+
+    def process_file(path, identity, signature):
+        nonlocal manifest
+        sent_path = path.with_name(path.name + '.sent')
+        if sent_path.exists():
+            raise FileExistsError(f'sent marker already exists: {sent_path}')
+        with tempfile.TemporaryDirectory(prefix='bpsec-watch-', dir=str(directory)) as temp_name:
+            encoded_segments = stream_file_segments(path, Path(temp_name), segment_duration)
+            after = path.stat()
+            if (after.st_size, after.st_mtime_ns) != signature:
+                raise RuntimeError(f'input changed while it was being transcoded: {path}')
+            first_segment = len(manifest['segments'])
+            if first_segment + len(encoded_segments) > 100000:
+                raise ValueError('stream exceeds the 100000-segment limit')
+            file_number = len(manifest.setdefault('files', [])) + 1
+            file_entry = dict(
+                file_number=file_number,
+                source=path.name,
+                first_segment=first_segment,
+                segment_count=len(encoded_segments),
+                identity=identity,
+                size=signature[0],
+                mtime_ns=signature[1],
+                accepted_by_node1=False,
+            )
+            manifest['files'].append(file_entry)
+            write_json_atomic(manifest_path, manifest)
+            for offset, (data, duration) in enumerate(encoded_segments):
+                segment_id = first_segment + offset
+                pieces = [data[index:index + chunk] for index in range(0, len(data), chunk)] or [b'']
+                if len(pieces) > 65536:
+                    raise ValueError(f'{path} produced a segment with too many parts')
+                manifest['segments'].append(dict(
+                    segment=segment_id,
+                    size=len(data),
+                    sha256=hashlib.sha256(data).hexdigest(),
+                    duration=duration,
+                    discontinuity=offset == 0 and segment_id > 0,
+                    source=path.name,
+                ))
+                manifest['records'] += len(pieces)
+                for record in segment_records(session, segment_id, data, chunk):
+                    queue_record(record)
+                write_json_atomic(manifest_path, manifest)
+            queue_record(file_completion_record(
+                session, file_number, first_segment, len(encoded_segments)
+            ))
+            manifest['records'] += 1
+            queue_record(file_marker(session, file_number))
+            manifest['records'] += 1
+            write_json_atomic(manifest_path, manifest)
+        while acknowledged_file_number() < file_number:
+            time.sleep(0.1)
+        file_entry['accepted_by_node1'] = True
+        write_json_atomic(manifest_path, manifest)
+        os.replace(path, sent_path)
+        processed.add(identity)
+        write_json_atomic(state_path, {'processed': sorted(processed)})
+        print(f'Node 1 accepted {path.name}; renamed to {sent_path.name} ({len(encoded_segments)} segment(s))', flush=True)
+
+    print(f'Watching {watch_directory} for {pattern}; oldest stable files are queued first.', flush=True)
+    processing_file = False
+    try:
+        while True:
+            candidate = next_stable_file()
+            if candidate:
+                processing_file = True
+                process_file(*candidate)
+                processing_file = False
+            else:
+                time.sleep(poll_interval)
+    except KeyboardInterrupt:
+        if processing_file:
+            raise RuntimeError('watcher interrupted while processing a file; discard this run and prepare a fresh stream') from None
+        segment_count = len(manifest['segments'])
+        eof_record = b'BPE1' + session + struct.pack('!IIIII', segment_count, 0, 0, segment_count, 0)
+        queue_record(eof_record)
+        manifest['records'] = record_number
+        manifest['streaming'] = False
+        write_json_atomic(manifest_path, manifest)
+        (inputs / 'eof').write_text('end of stream\n')
+        print(f'Input closed: {segment_count} segment(s), {record_number} record(s) queued.', flush=True)
 
 
 def node_command(directory, number, port_base):
@@ -159,6 +389,115 @@ def verify(directory, timeout):
         if len(data) != entry['size'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
             raise RuntimeError(f'segment {entry["segment"]} differs from source')
     print(f'PASS: {len(manifest["segments"])} segments match source byte for byte')
+    for file_entry in manifest.get('files', []):
+        if not file_entry.get('accepted_by_node1'):
+            raise RuntimeError(f'node 1 did not acknowledge {file_entry["source"]}')
+        archive = output / 'videos' / f'video-{file_entry["file_number"]:06d}.ts'
+        first = file_entry['first_segment']
+        count = file_entry['segment_count']
+        with archive.open('rb') as stream:
+            for segment_id in range(first, first + count):
+                data = (output / f'ground-{segment_id:06d}.ts').read_bytes()
+                if stream.read(len(data)) != data:
+                    raise RuntimeError(f'video archive {archive.name} differs at segment {segment_id}')
+            if stream.read(1):
+                raise RuntimeError(f'video archive {archive.name} has unexpected trailing bytes')
+    if manifest.get('files'):
+        print(f'PASS: {len(manifest["files"])} per-video archives match their received segments')
+
+
+def live_playlist(output, entries, segment_duration, complete):
+    """Build an HLS event playlist from currently published stream segments."""
+    durations = [float(entry.get('duration', segment_duration)) for entry in entries]
+    lines = [
+        '#EXTM3U',
+        '#EXT-X-VERSION:3',
+        f'#EXT-X-TARGETDURATION:{math.ceil(max([segment_duration] + durations))}',
+        '#EXT-X-MEDIA-SEQUENCE:0',
+        '#EXT-X-PLAYLIST-TYPE:EVENT',
+    ]
+    published = 0
+    for entry, duration in zip(entries, durations):
+        segment_id = entry['segment']
+        filename = f'ground-{segment_id:06d}.ts'
+        if not (output / filename).is_file():
+            break
+        if entry.get('discontinuity'):
+            lines.append('#EXT-X-DISCONTINUITY')
+        lines.extend((f'#EXTINF:{duration:.3f},', filename))
+        published += 1
+    if published == len(entries) and complete:
+        lines.append('#EXT-X-ENDLIST')
+    return ('\n'.join(lines) + '\n').encode()
+
+
+def view(directory, player, segment_duration, startup_timeout):
+    """Play complete node-5 segments as they arrive, via a local HLS playlist."""
+    manifest_path = directory / 'manifest.json'
+    if not manifest_path.is_file():
+        raise ValueError(f'run manifest not found: {manifest_path}')
+    if segment_duration <= 0 or startup_timeout < 0:
+        raise ValueError('segment duration must be positive and startup timeout cannot be negative')
+    player_path = shutil.which(player)
+    if not player_path:
+        raise FileNotFoundError(f'{player} not found; install FFmpeg with ffplay available on PATH')
+
+    output = directory / 'node5/output'
+    deadline = time.monotonic() + startup_timeout if startup_timeout else None
+    while True:
+        manifest = json.loads(manifest_path.read_text())
+        entries = manifest['segments']
+        first_segment = output / f'ground-{entries[0]["segment"]:06d}.ts' if entries else None
+        if first_segment and first_segment.is_file():
+            break
+        if (output / 'complete').is_file():
+            raise RuntimeError('node 5 completed without publishing a video segment')
+        if deadline is not None and time.monotonic() >= deadline:
+            raise TimeoutError(f'node 5 did not publish the first segment within {startup_timeout:g} seconds')
+        time.sleep(0.1)
+
+    class LivePlaylistHandler(SimpleHTTPRequestHandler):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, directory=str(output), **kwargs)
+
+        def do_GET(self):
+            if urlsplit(self.path).path != '/live.m3u8':
+                return super().do_GET()
+            latest = json.loads(manifest_path.read_text())
+            content = live_playlist(
+                output, latest['segments'], segment_duration, (output / 'complete').is_file()
+            )
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/vnd.apple.mpegurl')
+            self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
+            self.send_header('Content-Length', str(len(content)))
+            self.end_headers()
+            self.wfile.write(content)
+
+        def log_message(self, format, *args):
+            pass
+
+    handler = functools.partial(LivePlaylistHandler)
+    server = ThreadingHTTPServer(('127.0.0.1', 0), handler)
+    server_thread = threading.Thread(target=server.serve_forever, daemon=True)
+    process = None
+    server_thread.start()
+    playlist_url = f'http://127.0.0.1:{server.server_port}/live.m3u8'
+    print(f'Live viewer: {playlist_url}', flush=True)
+    try:
+        process = subprocess.Popen([
+            player_path, '-autoexit', '-window_title', 'BPNode Node 5 Live Video', playlist_url
+        ])
+        return_code = process.wait()
+        if return_code:
+            raise RuntimeError(f'{player} exited with status {return_code}')
+    finally:
+        if process is not None and process.poll() is None:
+            process.terminate()
+            process.wait()
+        server.shutdown()
+        server.server_close()
+        server_thread.join()
 
 
 def main():
@@ -169,16 +508,36 @@ def main():
     preparer = sub.add_parser('prepare'); preparer.add_argument('--build-dir', type=Path, default=ROOT / 'demo/build')
     preparer.add_argument('--run-dir', type=Path, required=True); preparer.add_argument('--segment-dir', type=Path, required=True)
     preparer.add_argument('--chunk-bytes', type=int, default=4096)
+    stream_preparer = sub.add_parser('prepare-stream'); stream_preparer.add_argument('--build-dir', type=Path, default=ROOT / 'demo/build')
+    stream_preparer.add_argument('--run-dir', type=Path, required=True)
+    watcher = sub.add_parser('watch'); watcher.add_argument('--run-dir', type=Path, required=True)
+    watcher.add_argument('--watch-dir', type=Path, required=True)
+    watcher.add_argument('--pattern', default='*.mp4')
+    watcher.add_argument('--poll-interval', type=float, default=1.0)
+    watcher.add_argument('--stable-seconds', type=float, default=2.0)
+    watcher.add_argument('--segment-duration', type=float, default=2.0)
+    watcher.add_argument('--chunk-bytes', type=int, default=4096)
     runner = sub.add_parser('node'); runner.add_argument('--run-dir', type=Path, required=True)
     runner.add_argument('--node', type=int, choices=range(1, 6), required=True); runner.add_argument('--port-base', type=int, default=4600)
     checker = sub.add_parser('verify'); checker.add_argument('--run-dir', type=Path, required=True)
     checker.add_argument('--timeout', type=float, default=300)
+    viewer = sub.add_parser('view'); viewer.add_argument('--run-dir', type=Path, required=True)
+    viewer.add_argument('--player', default='ffplay')
+    viewer.add_argument('--segment-duration', type=float, default=2.0)
+    viewer.add_argument('--startup-timeout', type=float, default=300)
     args = parser.parse_args()
     if hasattr(args, 'build_dir'): args.build_dir = args.build_dir.resolve()
     if hasattr(args, 'run_dir'): args.run_dir = args.run_dir.resolve()
+    if hasattr(args, 'watch_dir'): args.watch_dir = args.watch_dir.resolve()
     if args.command == 'build': build(args.build_dir)
     elif args.command == 'prepare': prepare(args.run_dir, args.build_dir, args.segment_dir, args.chunk_bytes)
+    elif args.command == 'prepare-stream': prepare_stream(args.run_dir, args.build_dir)
+    elif args.command == 'watch': watch_folder(
+        args.run_dir, args.watch_dir, args.pattern, args.poll_interval, args.stable_seconds,
+        args.segment_duration, args.chunk_bytes
+    )
     elif args.command == 'verify': verify(args.run_dir, args.timeout)
+    elif args.command == 'view': view(args.run_dir, args.player, args.segment_duration, args.startup_timeout)
     else:
         command, env = node_command(args.run_dir, args.node, args.port_base)
         os.chdir(args.run_dir / f'node{args.node}')

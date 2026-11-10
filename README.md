@@ -52,16 +52,18 @@ set -e
 mkdir -p "$BPSEC_SEGMENTS"
 ffmpeg -hide_banner -y -f lavfi -i testsrc2=size=320x240:rate=10 \
   -t 12 -an -c:v mpeg2video -g 10 -f segment -segment_time 2 \
-  -reset_timestamps 1 "$BPSEC_SEGMENTS/segment-%06d.ts"
+  "$BPSEC_SEGMENTS/segment-%06d.ts"
 python3 demo/five_node.py prepare \
   --build-dir "$BPSEC_BUILD" \
   --run-dir "$BPSEC_RUN" \
   --segment-dir "$BPSEC_SEGMENTS"
 ```
 
-Start the nodes in separate terminals in this order: 5, 4, 3, 2, then 1. Each
-node uses its own isolated runtime directory under `$BPSEC_RUN/nodeN` and the same
-`--port-base` for the full lab.
+Start nodes 5, 4, 3, and 2 in separate terminals. Each node uses its own isolated
+runtime directory under `$BPSEC_RUN/nodeN` and the same `--port-base` for the full
+lab. In a sixth terminal, start the live viewer after node 5 is running; it waits
+for the first authenticated segment. Then start node 1 to begin the transfer. The
+viewer opens with `ffplay` and plays each complete segment as node 5 publishes it.
 
 ```bash
 # Terminal 5: MOC / sink / decrypt
@@ -76,9 +78,52 @@ python3 demo/five_node.py node --run-dir "$BPSEC_RUN" --node 3 --port-base 34000
 # Terminal 2: relay / relay node
 python3 demo/five_node.py node --run-dir "$BPSEC_RUN" --node 2 --port-base 34000
 
+# Terminal 6: live video viewer (start before node 1)
+python3 demo/five_node.py view --run-dir "$BPSEC_RUN"
+
 # Terminal 1: source / encrypt node
 python3 demo/five_node.py node --run-dir "$BPSEC_RUN" --node 1 --port-base 34000
 ```
+
+### Watch a folder for video files
+
+For continuous intake, create a fresh streaming run instead of using `prepare`.
+The watcher waits until files stop changing, orders them by oldest modification
+time (filename breaks ties), transcodes each to MPEG-TS, and queues its bundles
+to node 1. After node 1 accepts all bundles for a file, the watcher renames it
+from `name.mp4` to `name.mp4.sent`. See the
+[five-node video guide](docs/five-node-video-test.md#watch-a-folder)
+for the full seven-terminal startup and shutdown sequence. Node 5 automatically
+plays received segments in FIFO order and saves one replayable TS file per video
+under `$BPSEC_RUN/node5/output/videos/`; the run manifest maps archive numbers
+to input names.
+
+```bash
+export BPSEC_RUN="$BPSEC_WORKSPACE/build/runs/five-node-watch-1"
+export BPSEC_WATCH="/home/banderson777/incoming-video"
+mkdir -p "$BPSEC_WATCH"
+python3 demo/five_node.py prepare-stream --build-dir "$BPSEC_BUILD" --run-dir "$BPSEC_RUN"
+```
+
+Start nodes 5, 4, 3, and 2, then the viewer in its own terminal. Start node 1,
+then run the watcher in a seventh terminal. Keep both long-running commands in
+separate terminals:
+
+```bash
+# Terminal 6: live playback; waits for node 5 and then plays the growing queue
+python3 demo/five_node.py view --run-dir "$BPSEC_RUN" --startup-timeout 0
+```
+
+```bash
+# Terminal 7: continuously poll for completed MP4 files
+python3 demo/five_node.py watch --run-dir "$BPSEC_RUN" \
+  --watch-dir "$BPSEC_WATCH" --pattern '*.mp4' \
+  --poll-interval 1 --stable-seconds 2 --segment-duration 2
+```
+
+The watcher stays active until Ctrl+C. Stop it while it is waiting between files;
+it queues the end marker so node 5 can finish and the viewer can close. Use a new
+run directory for each streaming session.
 
 If you are running the automated deterministic transfer instead of a video clip,
 use the single-controller command below from a normal terminal:

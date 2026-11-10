@@ -97,7 +97,7 @@ files named `segment-*.ts`). Run this once in the build terminal:
 mkdir -p "$HOME/bpsec-video-segments"
 ffmpeg -hide_banner -y -f lavfi -i testsrc2=size=320x240:rate=10 \
   -t 12 -an -c:v mpeg2video -g 10 -f segment -segment_time 2 \
-  -reset_timestamps 1 "$HOME/bpsec-video-segments/segment-%06d.ts"
+  "$HOME/bpsec-video-segments/segment-%06d.ts"
 python3 demo/five_node.py prepare --build-dir "$BPSEC_BUILD" \
   --run-dir "$BPSEC_RUN" --segment-dir "$HOME/bpsec-video-segments"
 ```
@@ -145,6 +145,86 @@ flowchart LR
     N4 -. CCS .-> N3
     N3 -. CCS .-> N2
     N2 -. CCS .-> N1
+```
+
+## Live playback at node 5
+
+Install FFmpeg with `ffplay` available on `PATH` and use a WSLg-enabled WSL
+session (or another Linux display). Start nodes 5, 4, 3, and 2 first. In a sixth
+terminal, run this before starting node 1:
+
+```sh
+python3 demo/five_node.py view --run-dir "$BPSEC_RUN"
+```
+
+The viewer waits for node 5's first fully authenticated, atomically published
+segment, then plays the growing output through a local HLS playlist. Playback
+advances at completed-segment boundaries (2 seconds with the generated clip).
+The player closes when node 5 publishes `output/complete`. For source segments
+longer than 2 seconds, pass their maximum duration with `--segment-duration`.
+
+## Watch a folder
+
+For continuous file intake, use a streaming run instead of the finite `prepare`
+workflow. The watcher uses FFmpeg to transcode matched files to MPEG-2 video in
+MPEG-TS segments; audio is omitted. It waits until a file's size and modification
+time are unchanged for `--stable-seconds`, then processes the oldest modification
+time first, using filename as a tie-breaker. Source files are left in place, and
+the run's `watch-state.json` prevents the same file identity from being sent twice
+in that run. Use a new, empty incoming folder when beginning another run.
+
+After rebuilding the mission with the updated demo code, prepare a new run once:
+
+```sh
+export BPSEC_RUN="$HOME/bpsec-five-node-stream-1"
+export BPSEC_WATCH="/home/banderson777/incoming-video"
+mkdir -p "$BPSEC_WATCH"
+python3 demo/five_node.py prepare-stream --build-dir "$BPSEC_BUILD" \
+  --run-dir "$BPSEC_RUN"
+```
+
+In each terminal, set the same `BPSEC_WORKSPACE`, `BPSEC_BUILD`, and `BPSEC_RUN`
+values. Start nodes 5, 4, 3, and 2, then start the viewer before node 1. A zero
+startup timeout makes the viewer wait indefinitely for the first received file:
+
+```sh
+python3 demo/five_node.py view --run-dir "$BPSEC_RUN" --startup-timeout 0
+```
+
+Start node 1, then start the folder watcher in its own terminal. The default
+pattern is `*.mp4`; set `--pattern` to another shell glob for other FFmpeg-readable
+video types. The interval, stability delay, segment duration, and ADU chunk size
+are configurable:
+
+```sh
+python3 demo/five_node.py watch --run-dir "$BPSEC_RUN" \
+  --watch-dir "$BPSEC_WATCH" --pattern '*.mp4' \
+  --poll-interval 1 --stable-seconds 2 \
+  --segment-duration 2 --chunk-bytes 4096
+```
+
+The watcher prints `Node 1 accepted <name>` and renames the source with a `.sent`
+suffix after the node-1 acknowledgement arrives. Leave it running to monitor for
+more files. To finish the session, wait until it is idle between files and press
+Ctrl+C in the watcher terminal; it queues the final record and closes the stream.
+Let node 5 publish `output/complete` and the viewer exit before stopping the nodes.
+If interrupted during a file's transcode/queue, discard that run and prepare a
+fresh stream run; unacknowledged input files remain unrenamed.
+
+Each input file gets a protected end-of-video record after its segments. Node 5
+uses it to assemble an atomically published replay copy at
+`$BPSEC_RUN/node5/output/videos/video-NNNNNN.ts`. These are MPEG-TS archives of
+the transcoded video, not the original MP4 bytes. The parent `manifest.json`
+`files` list maps each archive number to its original source name. Live playback
+uses FIFO segment order and marks source-file boundaries, so later videos are
+appended to the active playlist instead of replacing the current video.
+
+To replay archived videos later in FIFO order:
+
+```sh
+for video in "$BPSEC_RUN"/node5/output/videos/video-*.ts; do
+  ffplay -autoexit -loglevel error "$video"
+done
 ```
 
 ## Verify and play
