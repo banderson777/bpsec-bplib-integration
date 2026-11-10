@@ -114,11 +114,18 @@ int main(void)
     int original = open(".", O_RDONLY | O_DIRECTORY); assert(original >= 0);
     assert(mkdtemp(directory) && chdir(directory) == 0);
     assert(mkdir("receipts", 0700) == 0 && mkdir("output", 0700) == 0);
-    uint8_t first[44], second[44], end[40] = {0}, bytes[32]; size_t length;
+    uint8_t first[44], second[44], end[40] = {0}, bytes[40]; size_t length;
     record(first, 0); record(second, 1);
+    /* An empty stream can close, but only with a consistent EOF record. */
     uint8_t empty_session[40] = {0}; memcpy(empty_session, "BPE1", 4);
+    put32(empty_session + 20, 1);
     assert(deliver(empty_session, sizeof(empty_session)) != 0);
     assert(access("output/complete", F_OK) != 0);
+    put32(empty_session + 20, 0);
+    assert(deliver(empty_session, sizeof(empty_session)) == 0);
+    assert(read_file("output/complete", bytes, sizeof(bytes), &length) == 0 &&
+           length == sizeof(empty_session) && memcmp(bytes, empty_session, length) == 0);
+    assert(unlink("output/complete") == 0);
     /* Failed receipt-directory sync must fail again on duplicate replay, even
      * while the segment remains incomplete. The same inode must survive retry. */
     fail_directory("receipts");
