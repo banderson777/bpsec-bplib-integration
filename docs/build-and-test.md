@@ -40,13 +40,19 @@ with the staged package directory for your installation:
 
 ```sh
 cmake -S bplib -B bplib/build -DBPLIB_OS_LAYER=OSAL \
-  -DNasaOsal_DIR="$PWD/bplib/osal-staging/usr/local/lib/cmake"
+  -DBPLIB_ENABLE_UNIT_TESTS=ON \
+  -DNasaOsal_DIR="$PWD/bplib/osal-staging/usr/lib/cmake" \
+  -DQCBOR_INCLUDE_DIRS="$PWD/BSL/testroot/usr/include"
 cmake --build bplib/build
 ctest --test-dir bplib/build --output-on-failure
 ```
 
 The OSAL package location depends on its install prefix; locate `NasaOsalConfig.cmake`
 and pass its containing directory if the example differs from your staging tree.
+The standalone BPLib link step also needs QCBOR on the linker's search path.
+If it is only staged under `BSL/testroot/usr`, set `LIBRARY_PATH` and
+`LD_LIBRARY_PATH` to the staged directory containing `libqcbor` before building
+and testing.
 BPLib's unit tests and BSL's tests are separate from the integration tests.
 
 Python demos and the integration security regression need Python 3 and:
