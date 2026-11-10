@@ -5,8 +5,12 @@ import json
 import struct
 import tempfile
 import unittest
+from unittest.mock import patch
 
-from five_node import file_completion_record, file_marker, live_playlist, segment_records, verify
+from five_node import (
+    file_completion_record, file_marker, live_playlist, segment_records,
+    stream_file_segments, verify,
+)
 
 
 class StreamingRecords(unittest.TestCase):
@@ -44,6 +48,19 @@ class StreamingRecords(unittest.TestCase):
 
 
 class GrowingPlaylist(unittest.TestCase):
+    def test_ffmpeg_timestamps_become_segment_durations(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            (output / 'segments.csv').write_text(
+                'segment-000000.ts,0.000000,1.250000\n'
+                'segment-000001.ts,1.250000,2.000000\n'
+            )
+            (output / 'segment-000000.ts').write_bytes(b'first')
+            (output / 'segment-000001.ts').write_bytes(b'second')
+            with patch('five_node.subprocess.run'):
+                segments = stream_file_segments(output / 'clip.mp4', output, 1.0)
+            self.assertEqual(segments, [(b'first', 1.25), (b'second', 0.75)])
+
     def test_playlist_exposes_only_published_segments_then_ends(self):
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary)

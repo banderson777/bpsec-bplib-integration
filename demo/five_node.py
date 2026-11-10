@@ -183,12 +183,16 @@ def stream_file_segments(source, temporary_directory, segment_duration):
     segments = []
     with segment_list.open(newline='') as stream:
         for row in csv.reader(stream):
-            if len(row) < 2:
-                continue
+            if len(row) != 3:
+                raise ValueError(f'invalid FFmpeg segment list row: {row!r}')
             path = Path(row[0])
             if not path.is_absolute():
                 path = temporary_directory / path
-            segments.append((path.read_bytes(), float(row[1])))
+            # FFmpeg lists start and end timestamps on a shared time axis.
+            duration = float(row[2]) - float(row[1])
+            if not math.isfinite(duration) or duration <= 0:
+                raise ValueError(f'invalid FFmpeg segment duration for {path}')
+            segments.append((path.read_bytes(), duration))
     if not segments:
         raise ValueError(f'ffmpeg produced no video segments for {source}')
     return segments
