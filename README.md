@@ -185,7 +185,7 @@ flow is intended when you want to observe each node in its own terminal window.
 | `bplib/` | Bundle Protocol library; [README](bplib/README.md), [API guide instructions](bplib/docs/README.md) |
 | `bpnode/` | cFS application and mission configuration; [README](bpnode/README.md) |
 | `BSL/` | BPSec library and Mock BPA; [README](BSL/README.md) |
-| `BSL-docs/` | BSL product/user guide sources; [README](BSL-docs/README.md) |
+| BSL manuals | [AMMOS BSL product and user guides](https://nasa-ammos.github.io/BSL-docs/) |
 | `cfs-bundle/`, `cfs-buildconfig/` | cFS sources and local mission build configuration |
 | `external/` | External implementations used as topology references; see their own READMEs |
 | `cfs-build/`, nested build/staging folders | Generated output tied to its original build environment |
