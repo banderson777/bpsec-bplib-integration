@@ -8,6 +8,7 @@ from five_node import check_nodes, wait_for_nodes
 
 class NodeHealth(unittest.TestCase):
     def test_live_host_with_failed_application(self):
+        """Reject application initialization failure even when the host process is alive."""
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             (root / 'node1.log').write_text('Error initializing BPLib, RC = -336\n')
@@ -16,6 +17,7 @@ class NodeHealth(unittest.TestCase):
                 check_nodes({1: host}, root)
 
     def test_restart_requires_current_application_readiness(self):
+        """Ignore readiness from a previous process and report current host exit."""
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             log = root / 'node1.log'

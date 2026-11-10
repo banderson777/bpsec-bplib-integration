@@ -21,6 +21,7 @@ typedef struct
     BPLib_Status_t status;
 } SessionArgs_t;
 
+/** Receive one encoded bundle into caller-provided storage and save its size and status. */
 static void *receive_worker(void *arg)
 {
     ReceiveArgs_t *args = arg;
@@ -29,6 +30,7 @@ static void *receive_worker(void *arg)
     return NULL;
 }
 
+/** Perform one side of session negotiation and save the status for the joining thread. */
 static void *session_worker(void *arg)
 {
     SessionArgs_t *args = arg;
@@ -36,6 +38,7 @@ static void *session_worker(void *arg)
     return NULL;
 }
 
+/** Negotiate the TCPCLv4 hop concurrently on the active and passive peers. */
 static int start_tcpclv4(BPLib_TCPCLA_t *active, BPLib_TCPCLA_t *passive)
 {
     SessionArgs_t active_args = {.cla = active, .active = true, .status = BPLIB_ERROR};
@@ -51,6 +54,7 @@ static int start_tcpclv4(BPLib_TCPCLA_t *active, BPLib_TCPCLA_t *passive)
     return active_args.status == BPLIB_SUCCESS && passive_args.status == BPLIB_SUCCESS ? 0 : 1;
 }
 
+/** Forward a fixture from a TCPCLv4 hop into an STCP hop and compare its bytes. */
 int main(void)
 {
     BPLib_TCPCLA_t moon = {0}, relay_in = {0}, relay_out = {0}, hardy = {0};

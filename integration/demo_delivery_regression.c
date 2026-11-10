@@ -8,6 +8,7 @@
 static ino_t failing_directory;
 static unsigned failures_left, injected_failures, skip_matching_syncs;
 int __real_fsync(int fd);
+/** Inject an error at the selected directory sync while forwarding other calls unchanged. */
 int __wrap_fsync(int fd)
 {
     struct stat value;
@@ -19,6 +20,7 @@ int __wrap_fsync(int fd)
     }
     return __real_fsync(fd);
 }
+/** Arm one sync failure for the inode of the specified directory. */
 static void fail_directory(const char *path)
 {
     struct stat value;
@@ -30,6 +32,7 @@ static void fail_directory(const char *path)
  * read error from a clean EOF, including the exact-capacity boundary. */
 static struct { size_t length, position; bool read_error, close_error; unsigned closes; } probe;
 FILE *__real_fopen(const char *path, const char *mode);
+/** Emit synthetic bytes, then report clean EOF or an injected read error. */
 static ssize_t probe_read(void *cookie, char *buffer, size_t capacity)
 {
     (void)cookie;
@@ -43,12 +46,14 @@ static ssize_t probe_read(void *cookie, char *buffer, size_t capacity)
     memset(buffer, 0xa5, bytes); probe.position += bytes;
     return bytes;
 }
+/** Record stream cleanup and return the configured close status. */
 static int probe_close(void *cookie)
 {
     (void)cookie; probe.closes++;
     if (probe.close_error) { errno = EIO; return -1; }
     return 0;
 }
+/** Serve the synthetic read probe by name; open all real paths normally. */
 FILE *__wrap_fopen(const char *path, const char *mode)
 {
     if (strcmp(path, "test-read-probe") == 0)
@@ -59,6 +64,7 @@ FILE *__wrap_fopen(const char *path, const char *mode)
     }
     return __real_fopen(path, mode);
 }
+/** Check bounded reads, overflow detection, and cleanup across read and close failures. */
 static void read_failures(void)
 {
     uint8_t bytes[8]; size_t length;
@@ -80,10 +86,12 @@ static void read_failures(void)
         }
     }
 }
+/** Write one unsigned network-order field into the fixture ADU. */
 static void put32(uint8_t *p, uint32_t value)
 {
     p[0] = value >> 24; p[1] = value >> 16; p[2] = value >> 8; p[3] = value;
 }
+/** Build the selected part of a two-part BPD1 segment. */
 static void record(uint8_t *data, unsigned part)
 {
     memset(data, 0, 44);
@@ -92,6 +100,7 @@ static void record(uint8_t *data, unsigned part)
     put32(data + 32, 1); put32(data + 36, 4);
     memcpy(data + 40, part ? "EFGH" : "ABCD", 4);
 }
+/** Give a published file a known timestamp and capture its identity for replay checks. */
 static struct stat stamp(const char *path)
 {
     struct timespec times[2] = {{123456789, 0}, {123456789, 0}};
@@ -100,6 +109,7 @@ static struct stat stamp(const char *path)
     assert(stat(path, &value) == 0);
     return value;
 }
+/** Assert that replay preserved the published inode, size, and modification time. */
 static void unchanged(const char *path, struct stat before)
 {
     struct stat after;
@@ -107,6 +117,8 @@ static void unchanged(const char *path, struct stat before)
     assert(after.st_ino == before.st_ino && after.st_size == before.st_size);
     assert(after.st_mtim.tv_sec == before.st_mtim.tv_sec && after.st_mtim.tv_nsec == before.st_mtim.tv_nsec);
 }
+/** Exercise authenticated receipt and completion publication, injected sync failures, and
+ * immutable replay. */
 int main(void)
 {
     read_failures();

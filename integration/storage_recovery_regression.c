@@ -16,9 +16,12 @@
 
 static BPLib_Instance_t instance;
 static int allocations, fail_after = -1;
+/** Initialize the test allocator without reserving a flight memory region. */
 BPLib_Status_t BPLib_MEM_PoolImplInit(BPLib_MEM_PoolImpl_t *p, void *m, size_t s, size_t b)
 { (void)p; (void)m; (void)s; (void)b; return BPLIB_SUCCESS; }
+/** Complete pool shutdown after the test releases its heap blocks. */
 void BPLib_MEM_PoolImplDestroy(BPLib_MEM_PoolImpl_t *p) { (void)p; }
+/** Allocate and count a block, honoring the injected allocation failure. */
 void *BPLib_MEM_PoolImplAlloc(BPLib_MEM_PoolImpl_t *p, size_t size)
 {
     (void)p;
@@ -28,19 +31,29 @@ void *BPLib_MEM_PoolImplAlloc(BPLib_MEM_PoolImpl_t *p, size_t size)
     if (ptr) { memset(ptr,0xa5,size); ++allocations; }
     return ptr;
 }
+/** Free a fixture allocation and update the live allocation count. */
 void BPLib_MEM_PoolImplFree(BPLib_MEM_PoolImpl_t *p, void *ptr)
 { (void)p; free(ptr); --allocations; }
+/** Report test memory use from the live allocation count. */
 size_t BPLib_MEM_GetBytesInUseImpl(BPLib_MEM_PoolImpl_t *p) { (void)p; return allocations*2048; }
+/** Return the free-space reading used by the memory fixture. */
 size_t BPLib_MEM_GetBytesFreeImpl(BPLib_MEM_PoolImpl_t *p) { (void)p; return 0; }
+/** Return deterministic monotonic time for SQL scheduling and expiration. */
 int64_t BPLib_TIME_GetMonotonicTime(void) { return 1000; }
+/** Return the fixture DTN time for metadata expiration calculations. */
 uint64_t BPLib_TIME_GetCurrentDtnTime(void) { return 100; }
+/** Supply a deterministic configuration value in place of mission tables. */
 uint32_t BPLib_NC_GetNodeConfigValue(BPLib_NC_Config_t config) { (void)config; return 3600000; }
+/** Accept events without the flight event service. */
 BPLib_Status_t BPLib_EM_SendEvent(uint16_t id, BPLib_EM_EventType_t type, const char *format, ...)
 { (void)id; (void)type; (void)format; return BPLIB_SUCCESS; }
+/** Ignore telemetry increments outside the test’s assertions. */
 void BPLib_AS_Increment(BPLib_EID_t eid, BPLib_AS_Counter_t counter, uint32_t amount)
 { (void)eid; (void)counter; (void)amount; }
+/** Execute a fixture SQL command and require success. */
 static void sql(const char *text)
 { assert(sqlite3_exec(instance.BundleStorage.db,text,NULL,NULL,NULL)==SQLITE_OK); }
+/** Fetch a scalar from the active store and finalize the query. */
 static int scalar(const char *text)
 {
     sqlite3_stmt *stmt=NULL;
@@ -49,6 +62,7 @@ static int scalar(const char *text)
     int value=sqlite3_column_int(stmt,0);
     sqlite3_finalize(stmt); return value;
 }
+/** Require all temporary allocations and SQLite statements to have been released. */
 static void idle(void)
 {
     assert(allocations==0);
@@ -60,6 +74,7 @@ static unsigned char wire[]={
     0x82,1,0, 0x82,1,0, 0x1a,0,0x0f,0x42,0x40, 0x44,0,0,0,0,
     0x85,1,1,0,0,0x43,0x82,13,0xa0, 0xff
 };
+/** Initialize the isolated instance, locks, and support needed by real decoding. */
 static void initialize(void)
 {
     memset(&instance,0,sizeof(instance));
@@ -71,6 +86,7 @@ static void initialize(void)
     BPLib_CRC_Init();
     BPLib_CBOR_GenerateBlockCrc(wire,BPLib_CRC_Type_CRC32C,1,30);
 }
+/** Decode and persist the known wire fixture using the production storage path. */
 static void store(void)
 {
     BPLib_Bundle_t *bundle=BPLib_MEM_BundleAlloc(&instance.pool,wire,sizeof(wire));
@@ -92,6 +108,7 @@ static void store(void)
     assert(scalar("SELECT sum(length(blob_data)) FROM bundle_blobs")==sizeof(wire));
     idle();
 }
+/** Reload the fixture and validate payload, origin metadata, and temporary resource cleanup. */
 static void verify(void)
 {
     BPLib_Bundle_t *bundle=(void *)1;
@@ -107,6 +124,7 @@ static void verify(void)
     assert(memcmp(copy,wire,sizeof(wire))==0);
     BPLib_MEM_BundleFree(&instance.pool,bundle); idle();
 }
+/** Reopen the database after a store and verify the persisted bundle can be reconstructed. */
 static void recovery(const char *path)
 {
     store();
@@ -157,6 +175,7 @@ static void recovery(const char *path)
     assert(bundle->Meta.IngressID==UINT32_MAX && !bundle->Meta.LocalBundle);
     BPLib_MEM_BundleFree(&instance.pool,bundle); idle();
 }
+/** Verify that a locally built ADU is stored as a complete wire bundle and restored correctly. */
 static void constructed(void)
 {
     /* The local API owns just ADU bytes until the dirty headers are encoded. */
@@ -212,6 +231,7 @@ static void constructed(void)
 }
 static BPLib_CT_OpenCcs_t sent_ccs[128];
 static size_t sent_count;
+/** Capture serialized outgoing custody collections for sender assertions. */
 void BPLib_ARP_ProcessInProgressCcs(BPLib_Instance_t *inst, BPLib_CT_OpenCcs_t *open)
 {
     (void)inst;
@@ -241,8 +261,10 @@ void BPLib_ARP_ProcessInProgressCcs(BPLib_Instance_t *inst, BPLib_CT_OpenCcs_t *
     }
     sent_ccs[sent_count++]=*open;
 }
+/** Return the fixed remote endpoint for outgoing CCS fixtures. */
 static BPLib_EID_t sender_peer(void)
 { BPLib_EID_t peer=BPLIB_EID_INSTANCE; peer.Node=2; return peer; }
+/** Insert one sequence and disposition into the active outgoing CCS slot. */
 static size_t sender_add(uint64_t number,uint64_t id,BPLib_CT_DispositionCode_t code)
 {
     BPLib_CustodyBlockData_t cteb={0}; cteb.BundleSeqNum=number; cteb.BundleSeqId=id;
@@ -252,17 +274,20 @@ static size_t sender_add(uint64_t number,uint64_t id,BPLib_CT_DispositionCode_t 
     assert(BPLib_CT_AddToOpenCcs(&instance,slot,0,&cteb,code)==BPLIB_SUCCESS);
     return slot;
 }
+/** Reset open CCS state, capture history, and the size trigger for one case. */
 static void sender_reset(void)
 {
     memset(instance.Ct.OpenCcss,0,sizeof(instance.Ct.OpenCcss)); sent_count=0;
     instance.ContCtxt[0].Config.CSSizeTrigger=UINT32_MAX;
     instance.ContCtxt[0].Config.CSTimeTrigger=1000000;
 }
+/** Flush the selected open custody collection through the capture callback. */
 static void sender_flush(void)
 {
     for (size_t i=0;i<BPLIB_CT_MAX_OPEN_CCS;++i)
         if (instance.Ct.OpenCcss[i].InProgress) BPLib_CT_BuildAndSendOpenCcs_Impl(&instance,&instance.Ct.OpenCcss[i]);
 }
+/** Find a sequence in the captured signals for a particular disposition and stream. */
 static bool sender_contains(uint64_t number,uint64_t id,BPLib_CT_DispositionCode_t code)
 {
     for (size_t i=0;i<sent_count;++i) for (size_t j=0;j<BPLIB_CT_MAX_SEQ_COLLECTIONS;++j)
@@ -278,6 +303,7 @@ static bool sender_contains(uint64_t number,uint64_t id,BPLib_CT_DispositionCode
     }
     return false;
 }
+/** Exercise outgoing CCS range construction, replay, limits, and stream separation. */
 static void ccs_sender(void)
 {
     sender_reset();
@@ -331,8 +357,10 @@ static void ccs_sender(void)
     assert(BPLib_CT_GetOpenCcsIdx(NULL,&peer,7)==BPLIB_CT_MAX_OPEN_CCS);
     idle();
 }
+/** Terminate the child at the selected SQLite commit boundary. */
 static void crash(sqlite3_context *context, int argc, sqlite3_value **argv)
 { (void)context; (void)argc; (void)argv; _exit(71); }
+/** Run a store in a separate process, optionally terminating during commit. */
 static void child(const char *path, bool during_commit)
 {
     assert(BPLib_SQL_Init(&instance,path)==BPLIB_SUCCESS);
@@ -344,6 +372,7 @@ static void child(const char *path, bool during_commit)
     assert(BPLib_STOR_AddToCustodialUpdateBatch(&instance,123,BPLIB_CT_MARK_DELETE)==BPLIB_SUCCESS);
     _exit(72); /* Simulate loss before the in-memory custody state is updated. */
 }
+/** Compare recovered rows after a child exits during or after commit. */
 static void durability(const char *path)
 {
     store();
@@ -362,6 +391,8 @@ static void durability(const char *path)
     }
     assert(BPLib_SQL_Init(&instance,path)==BPLIB_SUCCESS);
 }
+/** Decode administrative custody collections and reject unsupported disposition or range
+ * encodings. */
 static void ccs_parse(void)
 {
     BPLib_CT_BundleSeqCollection_t parsed[BPLIB_CT_MAX_RECVD_SEQ_COLLECTIONS];
@@ -387,6 +418,8 @@ static void ccs_parse(void)
     assert(BPLib_QCBOR_BundleSeqCollectionParserImpl(NULL,parsed,&count)==BPLIB_NULL_PTR_ERROR && count==0);
     assert(BPLib_QCBOR_BundleSeqCollectionParserImpl(NULL,parsed,NULL)==BPLIB_NULL_PTR_ERROR);
 }
+/** Select a recovery, durability, constructed-bundle, or CCS check and clean up the test
+ * database. */
 int main(int argc,char **argv)
 {
     assert(argc==2); initialize();

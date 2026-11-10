@@ -2,6 +2,8 @@
 
 #include <stdlib.h>
 
+/** Dequeue one encoded bundle for this contact, send it, and free temporary storage. A failed
+ * send does not requeue the bundle. */
 BPLib_Status_t BPLib_TCPCLA_Egress(BPLib_TCPCLA_t *cla, BPLib_Instance_t *inst,
                                    uint32_t timeout_ms)
 {
@@ -16,6 +18,8 @@ BPLib_Status_t BPLib_TCPCLA_Egress(BPLib_TCPCLA_t *cla, BPLib_Instance_t *inst,
     return status;
 }
 
+/** Receive one encoded bundle into temporary storage and enqueue it for this contact. Release
+ * the buffer on every path. */
 BPLib_Status_t BPLib_TCPCLA_Ingress(BPLib_TCPCLA_t *cla, BPLib_Instance_t *inst,
                                     uint32_t timeout_ms)
 {

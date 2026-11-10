@@ -8,11 +8,15 @@
 #include <qcbor/qcbor_decode.h>
 #include <string.h>
 
+/** Recover the borrowed BPLib bundle from the BSL reference; return NULL for a missing
+ * reference or payload. */
 static BPLib_Bundle_t *bundle(const BSL_BundleRef_t *r)
 {
     return (r && r->data) ? (BPLib_Bundle_t *)r->data : NULL;
 }
 
+/** Export primary scalar metadata and the payload block number to a newly initialized BSL
+ * block. The caller releases its allocation with BSL_PrimaryBlock_deinit(). */
 int BPLib_BSL_BundleMetadata(const BSL_BundleRef_t *r, BSL_PrimaryBlock_t *out)
 {
     BPLib_Bundle_t *b = bundle(r);
@@ -33,6 +37,8 @@ int BPLib_BSL_BundleMetadata(const BSL_BundleRef_t *r, BSL_PrimaryBlock_t *out)
     return 0;
 }
 
+/** Copy the requested payload block's canonical metadata to caller storage. Other block numbers
+ * are not exposed by this adapter. */
 int BPLib_BSL_BlockMetadata(const BSL_BundleRef_t *r, uint64_t n, BSL_CanonicalBlock_t *out)
 {
     BPLib_Bundle_t *b = bundle(r);
@@ -47,6 +53,8 @@ int BPLib_BSL_BlockMetadata(const BSL_BundleRef_t *r, uint64_t n, BSL_CanonicalB
     return 0;
 }
 
+/** Decode and re-encode a nonempty wire bundle with Mock BPA, releasing intermediate state
+ * before returning the codec status. */
 int BPLib_BSL_WireRoundTrip(const BSL_Data_t *wire_in, BSL_Data_t *wire_out)
 {
     if (!wire_in || !wire_out || !wire_in->ptr || !wire_in->len) return -1;

@@ -10,7 +10,9 @@
 #include <string.h>
 
 static BPLib_Instance_t instance;
+/** Tell SQLite to interrupt a query at its next progress callback. */
 static int interrupt_query(void *unused) { (void)unused; return 1; }
+/** Release the fixture’s reader transaction after a short delay to test startup retry. */
 static void *release_reader(void *arg)
 {
     struct timespec pause = {0, 150000000};
@@ -18,6 +20,7 @@ static void *release_reader(void *arg)
     assert(sqlite3_exec(arg, "COMMIT", NULL, NULL, NULL) == SQLITE_OK);
     return NULL;
 }
+/** Create a temporary database with a held reader transaction for initialization tests. */
 static sqlite3 *locked_database(char *path)
 {
     int fd = mkstemp(path); assert(fd >= 0); close(fd);
@@ -29,18 +32,22 @@ static sqlite3 *locked_database(char *path)
     assert(sqlite3_exec(db, "BEGIN; SELECT * FROM monitor;", NULL, NULL, NULL) == SQLITE_OK);
     return db;
 }
+/** Set distinctive accounting values before an operation that must fail without publishing
+ * results. */
 static void sentinels(void)
 {
     instance.BundleStorage.BundleCountStored=91;
     instance.BundleStorage.BundleCountNotEgressed=92;
     instance.BundleStorage.BytesStorageInUse=93;
 }
+/** Verify that a failed operation left the accounting sentinels intact. */
 static void preserved(void)
 {
     assert(instance.BundleStorage.BundleCountStored==91);
     assert(instance.BundleStorage.BundleCountNotEgressed==92);
     assert(instance.BundleStorage.BytesStorageInUse==93);
 }
+/** Check startup accounting from persisted rows in a temporary database. */
 static void metadata(const char *rows,bool valid,uint32_t stored,size_t pending,size_t bytes)
 {
     char path[]="/tmp/bplib-accounting-XXXXXX";int fd=mkstemp(path);assert(fd>=0 && close(fd)==0);
@@ -59,15 +66,18 @@ static void metadata(const char *rows,bool valid,uint32_t stored,size_t pending,
     else {assert(status==BPLIB_STOR_SQL_INIT_ERR && instance.BundleStorage.db==NULL);preserved();}
     assert(unlink(path)==0);
 }
+/** Deny reads of the stored-byte column to inject an accounting preparation failure. */
 static int deny_bytes(void *unused,int action,const char *table,const char *column,const char *db,const char *trigger)
 {
     (void)unused;(void)db;(void)trigger;
     return action==SQLITE_READ && table && column && strcmp(table,"bundle_data")==0 && strcmp(column,"bundle_bytes")==0 ? SQLITE_DENY : SQLITE_OK;
 }
+/** Arm interruption after SQLite emits a traced row. */
 static int fail_after_row(unsigned event,void *arg,void *stmt,void *unused)
 {
     (void)event;(void)stmt;(void)unused;sqlite3_progress_handler(arg,1,interrupt_query,NULL);return 0;
 }
+/** Inject malformed rows or SQL errors and check that startup publishes no partial accounting. */
 static void recovery_fault(bool step)
 {
     assert(BPLib_SQL_Init(&instance,":memory:")==BPLIB_SUCCESS);sqlite3 *db=instance.BundleStorage.db;
@@ -84,6 +94,7 @@ static void recovery_fault(bool step)
     assert(instance.BundleStorage.BundleCountStored==2 && instance.BundleStorage.BundleCountNotEgressed==1 && instance.BundleStorage.BytesStorageInUse==30);
     assert(sqlite3_close(db)==SQLITE_OK);instance.BundleStorage.db=NULL;
 }
+/** Dispatch selected startup accounting cases, including recovery failures. */
 static void accounting_checks(const char *mode)
 {
     if(!mode || !strcmp(mode,"negative"))metadata("INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES(-1,0);",false,0,0,0);
@@ -105,27 +116,34 @@ static void accounting_checks(const char *mode)
     metadata("INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES(0,0),(10,0),(20,1);",true,3,2,30);
     if(SIZE_MAX>=UINT64_C(3000000000))metadata("INSERT INTO bundle_data(bundle_bytes,egress_attempted) VALUES(3000000000,1);",true,1,0,(size_t)UINT64_C(3000000000));
 }
+/** Invoke the selected public accounting API and normalize its output for comparison. */
 static SQL_Status_t scalar_call(unsigned kind,sqlite3 *db,uint64_t *value)
 {
     if(kind==0){uint32_t v=(uint32_t)*value;SQL_Status_t status=BPLib_SQL_GetNumStoredBundles(db,&v);*value=v;return status;}
     if(kind==1){size_t v=(size_t)*value;SQL_Status_t status=BPLib_SQL_GetNumEgressed(db,&v);*value=v;return status;}
     return BPLib_SQL_GetTotalBundleBytes(db,value);
 }
+/** Replace the fixture rows before running one scalar accounting case. */
 static void scalar_rows(sqlite3 *db,const char *rows)
 {
     assert(sqlite3_exec(db,"DELETE FROM bundle_data;",NULL,NULL,NULL)==SQLITE_OK);
     assert(sqlite3_exec(db,rows,NULL,NULL,NULL)==SQLITE_OK);
 }
+/** Check that an invalid aggregate result is rejected and the caller output is unchanged. */
 static void scalar_invalid(sqlite3 *db,unsigned kind,const char *rows)
 {
     scalar_rows(db,rows);uint64_t value=77;SQL_Status_t status=scalar_call(kind,db,&value);
     fprintf(stderr,"scalar kind=%u status=%u value=%llu rows=%s\n",kind,status,(unsigned long long)value,rows);
     assert(status!=SQLITE_OK && value==77 && sqlite3_next_stmt(db,NULL)==NULL);
 }
+/** Reject SQLite SELECT authorization for the accounting preparation case. */
 static int deny_select(void *unused,int action,const char *table,const char *column,const char *db,const char *trigger)
 {(void)unused;(void)table;(void)column;(void)db;(void)trigger;return action==SQLITE_SELECT ? SQLITE_DENY : SQLITE_OK;}
+/** Ignore input rows in the synthetic aggregate used to force a count result. */
 static void forced_count_step(sqlite3_context *ctx,int argc,sqlite3_value **argv){(void)ctx;(void)argc;(void)argv;}
+/** Return the count configured in SQLite’s aggregate user data. */
 static void forced_count_final(sqlite3_context *ctx){sqlite3_result_int64(ctx,*(sqlite3_int64 *)sqlite3_user_data(ctx));}
+/** Exercise the public scalar accounting APIs with valid, corrupt, and interrupted queries. */
 static void scalar_checks(const char *mode)
 {
     assert(BPLib_SQL_Init(&instance,":memory:")==BPLIB_SUCCESS);sqlite3 *db=instance.BundleStorage.db;
@@ -182,6 +200,7 @@ static void scalar_checks(const char *mode)
     assert(sqlite3_next_stmt(db,NULL)==NULL && sqlite3_get_autocommit(db));
     assert(sqlite3_close(db)==SQLITE_OK);instance.BundleStorage.db=NULL;
 }
+/** Run the selected accounting case or the default startup lock and scalar checks. */
 int main(int argc,char **argv)
 {
     if(argc>1){if(strncmp(argv[1],"scalar-",7)==0)scalar_checks(argv[1]);else accounting_checks(argv[1]);return 0;}

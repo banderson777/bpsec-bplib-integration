@@ -14,16 +14,21 @@ static BPLib_Instance_t instances[2];
 static pthread_mutex_t gate=PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t changed=PTHREAD_COND_INITIALIZER;
 static bool paused,entered,resume;
+/** Supply a deterministic configuration value in place of mission tables. */
 uint32_t BPLib_NC_GetNodeConfigValue(BPLib_NC_Config_t config){(void)config;return 65536;}
+/** Return deterministic monotonic time for SQL scheduling and expiration. */
 int64_t BPLib_TIME_GetMonotonicTime(void){return 1000;}
+/** Execute setup SQL on the selected instance and require success. */
 static void execute(unsigned n,const char *sql)
 { assert(sqlite3_exec(instances[n].BundleStorage.db,sql,NULL,NULL,NULL)==SQLITE_OK); }
+/** Read one SQLite scalar from the selected instance and finalize the statement. */
 static int scalar(unsigned n,const char *sql)
 {
     sqlite3_stmt *query=NULL;assert(sqlite3_prepare_v2(instances[n].BundleStorage.db,sql,-1,&query,NULL)==SQLITE_OK);
     assert(sqlite3_step(query)==SQLITE_ROW);int count=sqlite3_column_int(query,0);
     assert(sqlite3_finalize(query)==SQLITE_OK);return count;
 }
+/** Pause the first instance inside SQL so the second instance can exercise overlapping work. */
 static void pause_update(sqlite3_context *context,int argc,sqlite3_value **argv)
 {
     (void)argc;(void)argv;
@@ -40,7 +45,9 @@ static void pause_update(sqlite3_context *context,int argc,sqlite3_value **argv)
     sqlite3_result_int(context,0);
 }
 
+/** Observe custody-entry deletion at the SQL commit boundary without using a live CTDB. */
 void BPLib_CT_DeleteBundleFromCtdb(BPLib_Instance_t *inst,uint32_t id){(void)inst;(void)id;}
+/** Pause after a selected SQLite row to force deterministic overlap between instances. */
 static int trace_row(unsigned event,void *unused,void *stmt,void *value)
 {
     (void)event;(void)unused;(void)stmt;(void)value;
@@ -48,6 +55,7 @@ static int trace_row(unsigned event,void *unused,void *stmt,void *value)
     if(paused){entered=true;assert(pthread_cond_signal(&changed)==0);while(!resume)assert(pthread_cond_wait(&changed,&gate)==0);}
     assert(pthread_mutex_unlock(&gate)==0);return 0;
 }
+/** Clear data and synchronization state and prepare rows for the selected operation. */
 static void reset(unsigned kind)
 {
     for(unsigned n=0;n<2;++n)
@@ -63,6 +71,8 @@ static void reset(unsigned kind)
     }
 }
 typedef struct{unsigned node,kind;BPLib_Status_t status;size_t count;uint32_t total;uint64_t bytes;BPLib_STOR_LoadBatch_t batch;} Task;
+/** Perform the selected SQL operation under the instance lock and capture its status and
+ * accounting. */
 static void *run(void *arg)
 {
     Task *t=arg;BPLib_Instance_t *inst=&instances[t->node];sqlite3 *db=inst->BundleStorage.db;
@@ -77,12 +87,15 @@ static void *run(void *arg)
     else t->status=BPLib_SQL_GetTotalBundleBytes(db,&t->bytes);
     assert(pthread_mutex_unlock(&inst->BundleStorage.lock)==0);return NULL;
 }
+/** Inject the selected read, delete, or update authorization failure. */
 static int deny(void *arg,int action,const char *table,const char *column,const char *database,const char *trigger)
 {
     (void)database;(void)trigger;
     if(arg)return (action==SQLITE_DELETE || (action==SQLITE_UPDATE && column && strcmp(column,"retransmit_timestamp")==0)) ? SQLITE_DENY : SQLITE_OK;
     return table && strcmp(table,"bundle_data")==0 && (action==SQLITE_UPDATE || action==SQLITE_DELETE || action==SQLITE_READ) ? SQLITE_DENY : SQLITE_OK;
 }
+/** Run two instances concurrently and check each one’s results, rollback, and statement
+ * cleanup. */
 static void overlap(unsigned kind,unsigned failure)
 {
     reset(kind);
@@ -117,6 +130,7 @@ static void overlap(unsigned kind,unsigned failure)
 /* Actual SQLite geometry and failure paths for storage telemetry. */
 static int interrupt_query(void *unused){(void)unused;return 1;}
 typedef struct{sqlite3 *db;const char *query;} SizeInterrupt;
+/** Interrupt the selected database-size query when its statement begins. */
 static int interrupt_size_step(unsigned event,void *arg,void *statement,void *unused)
 {
     (void)event;(void)unused;SizeInterrupt *fault=arg;
@@ -124,11 +138,14 @@ static int interrupt_size_step(unsigned event,void *arg,void *statement,void *un
         sqlite3_progress_handler(fault->db,1,interrupt_query,NULL);
     return 0;
 }
+/** Reject the named SQLite pragma and allow other database operations. */
 static int deny_pragma(void *arg,int action,const char *name,const char *value,const char *database,const char *trigger)
 {
     (void)value;(void)database;(void)trigger;
     return action==SQLITE_PRAGMA && name && strcmp(name,(const char *)arg)==0 ? SQLITE_DENY : SQLITE_OK;
 }
+/** Verify byte accounting across page sizes and check that failed size queries preserve
+ * outputs. */
 static void size_checks(bool failure_only)
 {
     BPLib_Instance_t inst={0};size_t bytes=99;
@@ -181,6 +198,8 @@ static int interrupt_selection(unsigned event,void *arg,void *statement,void *un
     (void)event;(void)statement;(void)unused;
     sqlite3_progress_handler(arg,1,interrupt_query,NULL);return 0;
 }
+/** Inject preparation and iteration errors, then verify selection leaves no partial batch and
+ * can retry. */
 static void selection_failure_checks(bool capacity_only)
 {
     for(unsigned local=0;local<2;++local)
@@ -210,6 +229,7 @@ static void selection_failure_checks(bool capacity_only)
         }
     }
 }
+/** Initialize two independent stores, run overlap and fault cases, then close both stores. */
 int main(int argc,char **argv)
 {
     for(unsigned n=0;n<2;++n){assert(BPLib_SQL_Init(&instances[n],":memory:")==BPLIB_SUCCESS);assert(pthread_mutex_init(&instances[n].BundleStorage.lock,NULL)==0);assert(sqlite3_create_function(instances[n].BundleStorage.db,"test_gate",0,SQLITE_UTF8,(void *)(uintptr_t)n,pause_update,NULL,NULL)==SQLITE_OK);execute(n,"CREATE TRIGGER pause_change AFTER UPDATE ON bundle_data WHEN NEW.bundle_id=1 BEGIN SELECT test_gate();END;CREATE TRIGGER pause_delete AFTER DELETE ON bundle_data WHEN OLD.bundle_id=1 BEGIN SELECT test_gate();END;");}

@@ -6,6 +6,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+/** Send one length-prefixed bundle over loopback and compare the bytes received. */
 static int test_stcp(void)
 {
     BPLib_TCPCLA_t sender = {0}, receiver = {0};
@@ -35,6 +36,7 @@ typedef struct
     int status;
 } TCPCLThreadArgs_t;
 
+/** Connect as the active TCPCLv4 peer, negotiate, send the fixture, and record the result. */
 static void *tcpclv4_active_thread(void *arg)
 {
     TCPCLThreadArgs_t *args = arg;
@@ -49,6 +51,7 @@ static void *tcpclv4_active_thread(void *arg)
     return NULL;
 }
 
+/** Run the passive peer against the active worker and check delivery. */
 static int test_tcpclv4(void)
 {
     int sockets[2];
@@ -76,6 +79,7 @@ static int test_tcpclv4(void)
     return 0;
 }
 
+/** Run both protocol round trips and return a failure if either check fails. */
 int main(void)
 {
     if (test_stcp() != 0 || test_tcpclv4() != 0) return 1;

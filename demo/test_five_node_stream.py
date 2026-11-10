@@ -17,6 +17,7 @@ class StreamingRecords(unittest.TestCase):
     """Check the byte layout shared by the watcher and BPNode receiver."""
 
     def test_file_marker_carries_session_and_sequence(self):
+        """Check the local marker layout used to advance node 1’s acknowledgement."""
         session = bytes(range(16))
         marker = file_marker(session, 12)
         self.assertEqual(marker[:4], b'BPF1')
@@ -24,6 +25,7 @@ class StreamingRecords(unittest.TestCase):
         self.assertEqual(struct.unpack('!I', marker[20:]), (12,))
 
     def test_file_completion_record_carries_archive_range(self):
+        """Check the session and archive range that node 5 decodes from BPE2."""
         session = bytes(range(16))
         marker = file_completion_record(session, 3, 8, 5)
         self.assertEqual(marker[:4], b'BPE2')
@@ -31,6 +33,7 @@ class StreamingRecords(unittest.TestCase):
         self.assertEqual(struct.unpack('!III', marker[20:]), (3, 8, 5))
 
     def test_records_carry_unknown_total_and_exact_chunk_metadata(self):
+        """Check each streaming part’s index and length, then reconstruct the original bytes."""
         session = bytes(range(16))
         records = list(segment_records(session, 7, b'abcdefghij', 4))
 
@@ -44,6 +47,7 @@ class StreamingRecords(unittest.TestCase):
         self.assertEqual(b''.join(record[40:] for record in records), b'abcdefghij')
 
     def test_empty_segment_still_has_one_record(self):
+        """Require an explicit empty part so the receiver can publish a zero-byte segment."""
         records = list(segment_records(bytes(16), 0, b'', 4096))
         self.assertEqual(len(records), 1)
         self.assertEqual(struct.unpack('!IIIII', records[0][20:40]), (0, 0, 1, 0, 0))
@@ -53,6 +57,7 @@ class GrowingPlaylist(unittest.TestCase):
     """Check elapsed timing and publication order without a live player."""
 
     def test_ffmpeg_timestamps_become_segment_durations(self):
+        """Verify the FFmpeg CSV end minus start time, including a short final segment."""
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary)
             (output / 'segments.csv').write_text(
@@ -66,6 +71,7 @@ class GrowingPlaylist(unittest.TestCase):
             self.assertEqual(segments, [(b'first', 1.25), (b'second', 0.75)])
 
     def test_playlist_exposes_only_published_segments_then_ends(self):
+        """Hide unavailable segments and close the playlist only after publication."""
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary)
             entries = [
@@ -90,6 +96,7 @@ class VideoArchives(unittest.TestCase):
     """Check verification of the sink's per-video archive against its segments."""
 
     def test_verify_checks_archives_against_received_segments(self):
+        """Verify a completed archive against the ordered bytes of its constituent segments."""
         with tempfile.TemporaryDirectory() as temporary:
             run = Path(temporary)
             output = run / 'node5/output'

@@ -171,6 +171,7 @@ def main():
     ground_store = GroundStore(args.output_dir, codec)
     stop = threading.Event(); errors = []
     def worker(function, *arguments):
+        """Record a relay or ground failure and signal the other worker to stop."""
         try:
             function(*arguments)
         except BaseException as exc:

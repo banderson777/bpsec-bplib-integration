@@ -12,14 +12,17 @@
 
 static uint64_t allocated = 1000;
 static BPLib_Status_t allocator_status;
+/** Supply the next synthetic custody sequence ID and a configurable allocator status. */
 static BPLib_Status_t allocate(uint64_t *id)
 {
     *id = ++allocated;
     return allocator_status;
 }
 
+/** Accept test events without starting flight telemetry services. */
 BPLib_Status_t BPLib_EM_SendEvent(uint16_t id, BPLib_EM_EventType_t type, const char *text, ...)
 { (void)id; (void)type; (void)text; return BPLIB_SUCCESS; }
+/** Acknowledge fixture collections without processing their data. */
 BPLib_Status_t BPLib_CT_ProcessBundleSeqCollection(BPLib_Instance_t *inst, BPLib_CT_BundleSeqCollection_t *collection)
 { (void)inst; (void)collection; return BPLIB_SUCCESS; }
 
@@ -27,17 +30,24 @@ BPLib_EID_t BPLIB_EID_INSTANCE;
 static BPLib_CT_DbEntry_t entry;
 static BPLib_Status_t update_status;
 static bool lookup_null;
+/** Return the controlled lookup result, including success with a missing entry. */
 BPLib_Status_t BPLib_CT_GetEntryFromCtdbWithId(BPLib_CT_Context_t *ct,uint32_t id,BPLib_CT_DbEntry_t **out)
 { (void)ct; (void)id; *out=lookup_null ? NULL : &entry; return BPLIB_SUCCESS; }
+/** Return the active sequence ID for the fixture contact. */
 uint64_t BPLib_CT_GetSequenceId(BPLib_CT_Context_t *ct,uint32_t contact)
 { return ct->SeqCounters[contact].Id; }
+/** Advance the fixture counter, asserting the caller has already handled rollover. */
 uint64_t BPLib_CT_GetNextSequenceNum(BPLib_CT_Context_t *ct,uint32_t contact)
 { assert(ct->SeqCounters[contact].Counter<UINT64_MAX); return ct->SeqCounters[contact].Counter++; }
+/** Inject the configured index update result; publish the new key only on success. */
 BPLib_Status_t BPLib_CT_UpdateEntry(BPLib_Instance_t *inst,BPLib_CT_DbEntry_t *item,uint64_t id,uint64_t number)
 { (void)inst; if (update_status != BPLIB_SUCCESS) return update_status; item->SeqId=id; item->SeqNum=number; return BPLIB_SUCCESS; }
+/** Copy the fixture endpoint used by the custody block. */
 void BPLib_EID_CopyEids(BPLib_EID_t *out,BPLib_EID_t value) { *out=value; }
+/** Discard accounting updates outside this test’s assertions. */
 void BPLib_AS_Increment(BPLib_EID_t eid,BPLib_AS_Counter_t counter,uint32_t amount)
 { (void)eid; (void)counter; (void)amount; }
+/** Require a new sequence stream when the contact counter would wrap. */
 static void sequence_rollover(BPLib_Instance_t *inst)
 {
     BPLib_Bundle_t bundle={0};
@@ -59,6 +69,7 @@ static void sequence_rollover(BPLib_Instance_t *inst)
     assert(!bundle.blocks.ExtBlocks[0].Header.RequiresEncode);
     allocator_status=BPLIB_SUCCESS;
 }
+/** Verify failed indexing does not publish new custody extension fields. */
 static void sequence_insert_failure(BPLib_Instance_t *inst)
 {
     BPLib_Bundle_t bundle={0};
@@ -80,6 +91,7 @@ static void sequence_insert_failure(BPLib_Instance_t *inst)
     assert(BPLib_CT_UpdateBundle(inst,&bundle)==BPLIB_NOT_FOUND_ERR);
     lookup_null=false;
 }
+/** Exercise sequence allocation and custody error paths using an error-checking lock. */
 int main(void)
 {
     BPLib_Instance_t instance = {0};

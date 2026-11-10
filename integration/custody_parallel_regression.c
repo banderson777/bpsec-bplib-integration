@@ -12,16 +12,21 @@ static BPLib_Instance_t instances[2];
 static pthread_mutex_t gate=PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t changed=PTHREAD_COND_INITIALIZER;
 static bool paused,entered,resume;
+/** Supply a deterministic configuration value in place of mission tables. */
 uint32_t BPLib_NC_GetNodeConfigValue(BPLib_NC_Config_t config){(void)config;return 65536;}
+/** Return deterministic monotonic time for SQL scheduling and expiration. */
 int64_t BPLib_TIME_GetMonotonicTime(void){return 1000;}
+/** Execute setup SQL on the selected instance and require success. */
 static void execute(unsigned n,const char *sql)
 { assert(sqlite3_exec(instances[n].BundleStorage.db,sql,NULL,NULL,NULL)==SQLITE_OK); }
+/** Read one SQLite scalar from the selected instance and finalize the statement. */
 static int scalar(unsigned n,const char *sql)
 {
     sqlite3_stmt *query=NULL;assert(sqlite3_prepare_v2(instances[n].BundleStorage.db,sql,-1,&query,NULL)==SQLITE_OK);
     assert(sqlite3_step(query)==SQLITE_ROW);int count=sqlite3_column_int(query,0);
     assert(sqlite3_finalize(query)==SQLITE_OK);return count;
 }
+/** Pause the first instance inside SQL so the second instance can exercise overlapping work. */
 static void pause_update(sqlite3_context *context,int argc,sqlite3_value **argv)
 {
     (void)argc;(void)argv;
@@ -37,6 +42,7 @@ static void pause_update(sqlite3_context *context,int argc,sqlite3_value **argv)
     }
     sqlite3_result_int(context,0);
 }
+/** Restore two independent databases and reset the overlap gate before each scenario. */
 static void reset(void)
 {
     for(unsigned n=0;n<2;++n)
@@ -49,6 +55,7 @@ static void reset(void)
     }
 }
 typedef struct{unsigned node,kind;BPLib_Status_t status;size_t count;} Task;
+/** Apply a custody batch under the selected instance’s storage lock and record its status. */
 static void *run(void *arg)
 {
     Task *task=arg;BPLib_Instance_t *inst=&instances[task->node];
@@ -69,11 +76,14 @@ static void *run(void *arg)
     }
     assert(pthread_mutex_unlock(&inst->BundleStorage.lock)==0);return NULL;
 }
+/** Reject updates to bundle_data to inject statement preparation failure. */
 static int deny_update(void *unused,int action,const char *table,const char *column,const char *database,const char *trigger)
 {
     (void)unused;(void)column;(void)database;(void)trigger;
     return action==SQLITE_UPDATE && table && strcmp(table,"bundle_data")==0 ? SQLITE_DENY : SQLITE_OK;
 }
+/** Hold one custody update open while the second instance runs, with optional write or commit
+ * failure. */
 static void overlap(unsigned kind,unsigned failure)
 {
     reset();
@@ -106,6 +116,8 @@ static void overlap(unsigned kind,unsigned failure)
         else {assert((n ? b.count : a.count)==2);assert(scalar(n,n ? "SELECT count(*) FROM bundle_data WHERE retransmit_trigger=101" : "SELECT count(*) FROM bundle_data WHERE retransmit_trigger=100")==2);}
     }
 }
+/** Exercise parallel custody transactions and verify failed work leaves no statements or lost
+ * outer transaction. */
 int main(int argc,char **argv)
 {
     for(unsigned n=0;n<2;++n)

@@ -17,12 +17,14 @@ static bool initialized;
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static const char key_name[] = "five-node-video";
 
+/** Mock BPA callback that constructs the fixed security-source EID for this endpoint policy. */
 static int security_source(void *unused, BSL_HostEID_t *eid)
 {
     (void)unused;
     return mock_bpa_eid_from_text(eid, "ipn:10.0", NULL);
 }
 
+/** Match the decoded endpoint against a zero-authority IPN node and service pair. */
 static bool ipn(const BSL_HostEID_t *eid, uint64_t node, uint64_t service)
 {
     const bsl_mock_eid_t *value = eid->handle;
@@ -31,6 +33,8 @@ static bool ipn(const BSL_HostEID_t *eid, uint64_t node, uint64_t service)
         value->ssp.as_ipn.svc_num == service;
 }
 
+/** Install Mock BPA descriptors, load the endpoint key, and register the AES-GCM context before
+ * workers start. Release partially initialized state on failure. */
 int BPLib_BSL_SecurityInit(const uint8_t key[32])
 {
     if (!key || initialized) return -1;
@@ -55,6 +59,8 @@ int BPLib_BSL_SecurityInit(const uint8_t key[32])
     return 0;
 }
 
+/** Release the process-local context, key store, and host descriptors once workers have
+ * stopped. */
 void BPLib_BSL_SecurityClose(void)
 {
     if (!initialized) return;
@@ -64,6 +70,8 @@ void BPLib_BSL_SecurityClose(void)
     initialized = false;
 }
 
+/** Check that a required abstract security block parameter exists and has the expected integer
+ * value. */
 static bool parameter(const BSL_AbsSecBlock_t *asb, int64_t id, int64_t expected)
 {
     BSLB_VariantPtr_t *const *entry = BSLB_VariantPtrMap_cget(asb->params, id);
@@ -71,6 +79,8 @@ static bool parameter(const BSL_AbsSecBlock_t *asb, int64_t id, int64_t expected
     return entry && !BSL_Variant_GetAsInt64(BSLB_VariantPtr_cref(*entry), &value) && value == expected;
 }
 
+/** Decode a BCB and validate its declared security source, context, scope, and single payload
+ * target before attempting authentication. */
 static bool accept_policy(const MockBPA_CanonicalBlock_t *block)
 {
     BSL_AbsSecBlock_t asb;
@@ -124,6 +134,8 @@ static int audit_source_iv(const MockBPA_Bundle_t *bundle)
     return -1;
 }
 
+/** Serialize one protect or accept operation under the bridge mutex. Publish encoded bytes only
+ * after policy, crypto, and capacity checks pass. */
 int BPLib_BSL_SecurityTransform(bool protect, const void *input, size_t input_size,
                               void *output, size_t capacity, size_t *output_size)
 {

@@ -12,6 +12,8 @@ static pthread_mutex_t gate=PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t changed=PTHREAD_COND_INITIALIZER;
 static bool pause_first, entered, resume_first;
 BPLib_EID_t BPLIB_EID_INSTANCE;
+/** Emit fixture wire bytes and pause one encoder so two independent stores overlap
+ * deterministically. */
 BPLib_Status_t BPLib_CBOR_EncodeBundle(BPLib_Bundle_t *bundle,void *out,size_t capacity,size_t *length)
 {
     if(bundle->blocks.PrimaryBlock.DestEID.Node==1)
@@ -27,10 +29,15 @@ BPLib_Status_t BPLib_CBOR_EncodeBundle(BPLib_Bundle_t *bundle,void *out,size_t c
     assert(capacity>=4);memset(out,bundle->blocks.PrimaryBlock.DestEID.Node==1 ? 'A' : 'B',4);
     *length=4;return BPLIB_SUCCESS;
 }
+/** Accept fixture endpoints so the test can focus on isolated storage. */
 bool BPLib_EID_IsValid(BPLib_EID_t *eid){(void)eid;return true;}
+/** Supply a deterministic configuration value in place of mission tables. */
 uint32_t BPLib_NC_GetNodeConfigValue(BPLib_NC_Config_t config){(void)config;return 65536;}
+/** Return deterministic monotonic time for SQL scheduling and expiration. */
 int64_t BPLib_TIME_GetMonotonicTime(void){return 1000;}
+/** Return the fixture DTN time for metadata expiration calculations. */
 uint64_t BPLib_TIME_GetCurrentDtnTime(void){return 100;}
+/** Read a single result from the selected instance and finalize its statement. */
 static int scalar(unsigned node,const char *sql)
 {
     sqlite3_stmt *statement=NULL;int result;
@@ -39,6 +46,7 @@ static int scalar(unsigned node,const char *sql)
     assert(sqlite3_finalize(statement)==SQLITE_OK);return result;
 }
 typedef struct{unsigned node,first,count;BPLib_Status_t status;} Task;
+/** Store a batch of numbered fixture bundles on the worker’s assigned instance. */
 static void *store(void *arg)
 {
     Task *task=arg;task->status=BPLIB_SUCCESS;
@@ -65,16 +73,19 @@ static void *store(void *arg)
     }
     return NULL;
 }
+/** Reject blob insertion to exercise one instance’s prepare failure. */
 static int deny_blob(void *unused,int action,const char *table,const char *column,const char *database,const char *trigger)
 {
     (void)unused;(void)column;(void)database;(void)trigger;
     return action==SQLITE_INSERT && table && strcmp(table,"bundle_blobs")==0 ? SQLITE_DENY : SQLITE_OK;
 }
+/** Reject metadata lookup to exercise a failure before blob insertion. */
 static int deny_lookup(void *unused,int action,const char *table,const char *column,const char *database,const char *trigger)
 {
     (void)unused;(void)column;(void)database;(void)trigger;
     return action==SQLITE_READ && table && strcmp(table,"bundle_data")==0 ? SQLITE_DENY : SQLITE_OK;
 }
+/** Run two stores at the same time and verify payload isolation and rollback. */
 static void overlap(unsigned failure)
 {
     unsigned start=failure==2 ? 505 : failure==1 ? 303 : 101;
@@ -95,6 +106,7 @@ static void overlap(unsigned failure)
     for(unsigned n=0;n<2;++n)assert(sqlite3_next_stmt(instances[n].BundleStorage.db,NULL)==NULL);
     assert(pthread_mutex_lock(&gate)==0);pause_first=false;assert(pthread_mutex_unlock(&gate)==0);
 }
+/** Create independent stores and run nominal and faulted overlap scenarios. */
 int main(void)
 {
     for(unsigned n=0;n<2;++n)

@@ -12,34 +12,46 @@
 #include <string.h>
 #include <stdlib.h>
 
+/** Supply a deterministic configuration value in place of mission tables. */
 uint32_t BPLib_NC_GetNodeConfigValue(BPLib_NC_Config_t config) { (void)config; return 65536; }
 static unsigned retry_allocations, retry_queue_calls;
+/** Count portable-load allocation attempts and force allocation failure. */
 BPLib_Bundle_t *BPLib_MEM_BundleAlloc(BPLib_MEM_Pool_t *pool, const void *data, size_t len)
 { (void)pool; (void)data; (void)len; ++retry_allocations; return NULL; }
+/** Reject synthetic portable bundle bytes in this storage fault harness. */
 BPLib_Status_t BPLib_CBOR_DecodeBundle(BPLib_Instance_t *inst, const void *wire, size_t len, BPLib_Bundle_t *bundle)
 { (void)inst; (void)wire; (void)len; (void)bundle; return BPLIB_ERROR; }
 static BPLib_Instance_t instance;
 BPLib_EID_t BPLIB_EID_INSTANCE;
+/** Disable unsolicited custody GC so cases control when storage maintenance runs. */
 bool BPLib_CT_TriggerCustodialGarbageCollection(BPLib_Instance_t *inst) { (void)inst; return true; }
+/** Ignore telemetry increments outside the test’s assertions. */
 void BPLib_AS_Increment(BPLib_EID_t eid, BPLib_AS_Counter_t counter, uint32_t amount)
 { (void)eid; (void)counter; (void)amount; }
+/** Accept events without the flight event service. */
 BPLib_Status_t BPLib_EM_SendEvent(uint16_t id, BPLib_EM_EventType_t type, const char *format, ...)
 { (void)id; (void)type; (void)format; return BPLIB_SUCCESS; }
 /* Queue/memory boundaries are instrumented; SQL, batches and storage orchestration are real. */
 bool BPLib_QM_IsIngressIdle(BPLib_Instance_t *inst){(void)inst;return true;}
+/** Count queue probes and report room so retry paths reach push. */
 bool BPLib_QM_WaitQueueIsFull(BPLib_QM_WaitQueue_t *queue){(void)queue;++retry_queue_calls;return false;}
+/** Count and reject queue insertion attempts without retaining a bundle. */
 bool BPLib_QM_WaitQueueTryPush(BPLib_QM_WaitQueue_t *queue,const void *item,int timeout)
 {(void)queue;(void)item;(void)timeout;++retry_queue_calls;return false;}
+/** Return zero memory use for the telemetry fixture. */
 size_t BPLib_MEM_GetBytesInUse(BPLib_MEM_Pool_t *pool){(void)pool;return 0;}
 static bool fail_allocation;
 void *__real_malloc(size_t size);
+/** Fail one armed allocation; otherwise delegate to the normal allocator. */
 void *__wrap_malloc(size_t size)
 {
     if (fail_allocation) { fail_allocation = false; return NULL; }
     return __real_malloc(size);
 }
 static unsigned custody_deleted, premature_delete;
+/** Return deterministic monotonic time for SQL scheduling and expiration. */
 int64_t BPLib_TIME_GetMonotonicTime(void) { return 1000; }
+/** Read one scalar from the active fixture database and finalize the statement. */
 static int scalar(const char *sql)
 {
     sqlite3_stmt *query = NULL;
@@ -49,14 +61,17 @@ static int scalar(const char *sql)
     sqlite3_finalize(query);
     return value;
 }
+/** Apply fixture SQL and require it to succeed. */
 static void sql(const char *text)
 { assert(sqlite3_exec(instance.BundleStorage.db, text, NULL, NULL, NULL) == SQLITE_OK); }
+/** Count removal of a custody entry to observe committed discard effects. */
 void BPLib_CT_DeleteBundleFromCtdb(BPLib_Instance_t *inst, uint32_t id)
 {
     (void)inst; (void)id;
     ++custody_deleted;
     if (!sqlite3_get_autocommit(instance.BundleStorage.db) || scalar("SELECT count(*) FROM bundle_data")) ++premature_delete;
 }
+/** Replace the database contents with a controlled two-row storage fixture. */
 static void fixture(bool egressed, bool custodial)
 {
     sql("DELETE FROM bundle_data; INSERT INTO bundle_data (id,bundle_id,action_timestamp,retransmit_timestamp,retransmit_trigger,egress_attempted,is_custodial,bundle_bytes) VALUES (1,1,0,100,3000,0,1,10),(2,2,0,100,3000,0,1,20);");
@@ -67,27 +82,32 @@ static void fixture(bool egressed, bool custodial)
     instance.BundleStorage.BundleCountNotEgressed = 2;
     custody_deleted = premature_delete = 0;
 }
+/** Assert the test operation left the connection outside a transaction with no live statements. */
 static void idle(void)
 {
     assert(sqlite3_get_autocommit(instance.BundleStorage.db));
     assert(sqlite3_next_stmt(instance.BundleStorage.db, NULL) == NULL);
 }
+/** Deny deletion from the bundle table to simulate statement preparation failure. */
 static int deny_delete(void *unused, int action, const char *table, const char *column, const char *database, const char *trigger)
 {
     (void)unused; (void)column; (void)database; (void)trigger;
     return action == SQLITE_DELETE && table && strcmp(table,"bundle_data") == 0 ? SQLITE_DENY : SQLITE_OK;
 }
+/** Reject an update to the retransmission trigger during custody handling. */
 static int deny_stop(void *unused, int action, const char *table, const char *column, const char *database, const char *trigger)
 {
     (void)unused; (void)database; (void)trigger;
     return action == SQLITE_UPDATE && table && column && strcmp(table,"bundle_data") == 0 && strcmp(column,"retransmit_trigger") == 0 ? SQLITE_DENY : SQLITE_OK;
 }
+/** Install a deferred constraint failure triggered by the chosen write operation. */
 static void commit_failure(const char *event)
 {
     char text[512];
     snprintf(text,sizeof(text),"CREATE TRIGGER fail_commit AFTER %s ON bundle_data BEGIN INSERT INTO bad VALUES(123); END;",event);
     sql(text);
 }
+/** Verify expired or egressed discard reports failures and preserves custody until commit. */
 static void discard(bool egressed)
 {
     size_t count = 99;
@@ -135,6 +155,7 @@ static void discard(bool egressed)
     assert(operation(&instance,&count) == BPLIB_SUCCESS && count == 0);
     idle();
 }
+/** Check marking a loaded batch as attempted, including rollback on SQL errors. */
 static void egress(void)
 {
     BPLib_STOR_LoadBatch_t batch = {.Size=2,.BundleRowIDs={1,2}};
@@ -159,11 +180,13 @@ static void egress(void)
     batch.Size=0;
     assert(BPLib_SQL_MarkBatchEgressed(&instance,&batch,false) == BPLIB_SUCCESS); idle();
 }
+/** Reject updates to the egress-attempted column for the retry scenario. */
 static int deny_mark(void *unused,int action,const char *table,const char *column,const char *database,const char *trigger)
 {
     (void)unused;(void)database;(void)trigger;
     return action==SQLITE_UPDATE && table && column && strcmp(table,"bundle_data")==0 && strcmp(column,"egress_attempted")==0 ? SQLITE_DENY : SQLITE_OK;
 }
+/** Check that failed egress accounting preserves queued state for another attempt. */
 static void egress_retry(unsigned only)
 {
     for(unsigned local=0;local<2;++local)for(unsigned fault=0;fault<4;++fault)
@@ -198,6 +221,7 @@ static void egress_retry(unsigned only)
         idle();assert(pthread_mutex_trylock(&instance.BundleStorage.lock)==0);assert(pthread_mutex_unlock(&instance.BundleStorage.lock)==0);
     }
 }
+/** Exercise rollback and retry for mixed custody update operations. */
 static void custody(void)
 {
     BPLib_STOR_CtUpdateBatch_t batch = {.Size=2,.BundleIDs={1,2},.Ops={BPLIB_CT_MARK_DELETE,BPLIB_CT_START_RETRANSMIT}};
@@ -236,6 +260,7 @@ static void custody(void)
 }
 /* Poison recycled pool storage and account for every partial-load allocation. */
 static unsigned load_blocks, allocation_call, fail_on_call;
+/** Allocate a tracked legacy load block or fail at the configured allocation. */
 BPLib_MEM_Block_t *BPLib_MEM_BlockAlloc(BPLib_MEM_Pool_t *pool, size_t size)
 {
     (void)pool;
@@ -248,16 +273,19 @@ BPLib_MEM_Block_t *BPLib_MEM_BlockAlloc(BPLib_MEM_Pool_t *pool, size_t size)
     ++load_blocks;
     return block;
 }
+/** Release a legacy fixture block chain and decrement its live allocation count. */
 void BPLib_MEM_BlockListFree(BPLib_MEM_Pool_t *pool, BPLib_MEM_Block_t *head)
 {
     (void)pool;
     while (head) { BPLib_MEM_Block_t *next = head->next; free(head); --load_blocks; head = next; }
 }
+/** Recover and free the fixture block chain that owns this bundle. */
 void BPLib_MEM_BundleFree(BPLib_MEM_Pool_t *pool, BPLib_Bundle_t *bundle)
 {
     BPLib_MEM_Block_t *head=(void *)((char *)bundle - offsetof(BPLib_MEM_Block_t,user_data.Bundle));
     BPLib_MEM_BlockListFree(pool,head);
 }
+/** Populate blob rows for a controlled legacy stored-bundle load. */
 static void load_fixture(int chunk_size)
 {
     sql("DELETE FROM bundle_blobs;");
@@ -272,6 +300,7 @@ static void load_fixture(int chunk_size)
     sqlite3_finalize(stmt);
     allocation_call = fail_on_call = 0;
 }
+/** Exercise load argument checks, corrupt rows, allocation failure, and cleanup. */
 static void load(void)
 {
     BPLib_Bundle_t *bundle = (void *)1;
@@ -337,6 +366,7 @@ static void load(void)
 static BPLib_CT_DbEntry_t queue_entry;
 static unsigned queue_lookup_calls;
 static bool queue_lookup_missing;
+/** Instrument sequence lookups so rejected CCS ranges can be checked for side effects. */
 BPLib_Status_t BPLib_CT_GetEntryFromCtdbWithSeq(BPLib_CT_Context_t *context,
     uint64_t id, uint64_t number, BPLib_CT_DbEntry_t **entry)
 {
@@ -345,6 +375,7 @@ BPLib_Status_t BPLib_CT_GetEntryFromCtdbWithSeq(BPLib_CT_Context_t *context,
     *entry=queue_lookup_missing ? NULL : &queue_entry;
     return BPLIB_SUCCESS;
 }
+/** Enqueue one producer’s deterministic custody updates in the contention case. */
 static void *queue_writer(void *unused)
 {
     unsigned producer=(unsigned)(uintptr_t)unused;
@@ -352,6 +383,7 @@ static void *queue_writer(void *unused)
         assert(BPLib_STOR_AddToCustodialUpdateBatch(&instance,10+producer*137+n,BPLIB_CT_MARK_DELETE)==BPLIB_SUCCESS);
     return NULL;
 }
+/** Exercise concurrent custody producers and verify flush or retry preserves their work. */
 static void custody_queue(void)
 {
     fixture(false,true);
@@ -387,6 +419,7 @@ static void custody_queue(void)
     assert(scalar("SELECT sum(egress_attempted) FROM bundle_data")==548);
     assert(instance.BundleStorage.BundleCountNotEgressed==0); idle();
 }
+/** Validate EID selection predicates and reject unsupported or malformed filters. */
 static void lookup(void)
 {
     BPLib_EID_Pattern_t patterns[3]={{.MinNode=0,.MaxNode=0,.MinService=1,.MaxService=1},
@@ -409,6 +442,7 @@ static void lookup(void)
     assert(BPLib_SQL_SetNewRetransmitTrigger(&instance,0,patterns,1,321,&updated)==BPLIB_STOR_PARAM_ERR && updated==0);
     idle();
 }
+/** Check that malformed or unbounded sequence ranges fail before custody lookup. */
 static void ccs_ranges(void)
 {
     BPLib_CT_BundleSeqCollection_t collection={.FirstSeqNum=1,.SeqRangeLen=1,.SeqRange={1},.DispositionCode=BPLib_CT_CustodyAccepted};
@@ -443,6 +477,7 @@ static void ccs_ranges(void)
     assert(queue_lookup_calls==BPLIB_CT_MAX_CCS_SEQUENCE_SPAN);
     pthread_mutex_destroy(&instance.Ct.Lock); idle();
 }
+/** Initialize the store and run the failure mode selected by CTest. */
 int main(int argc, char **argv)
 {
     assert(argc==2 && BPLib_SQL_Init(&instance,":memory:")==BPLIB_SUCCESS);

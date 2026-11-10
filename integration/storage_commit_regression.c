@@ -10,16 +10,20 @@
 
 /* This test isolates transaction/custody behavior, not wire encoding. */
 static size_t wire_size=4;
+/** Produce deterministic synthetic wire bytes so the test can isolate the real storage
+ * transaction. */
 BPLib_Status_t BPLib_CBOR_EncodeBundle(BPLib_Bundle_t *bundle, void *out, size_t capacity, size_t *length)
 {
     assert(capacity>=wire_size); memset(out,0xa5,wire_size); memcpy(out,bundle->blob->user_data.BigData,4); *length=wire_size; return BPLIB_SUCCESS;
 }
+/** Accept fixture endpoint fields without involving the endpoint parser. */
 bool BPLib_EID_IsValid(BPLib_EID_t *eid) { (void)eid; return true; }
 static BPLib_Instance_t instance;
 BPLib_EID_t BPLIB_EID_INSTANCE;
 static unsigned accepted, refused, pushed, freed;
 static int expected_rows=2;
 static BPLib_Bundle_t *outgoing[2];
+/** Read a fixture database count so custody and queue assertions can observe committed rows. */
 static int rows(void)
 {
     sqlite3_stmt *query = NULL;
@@ -29,13 +33,19 @@ static int rows(void)
     sqlite3_finalize(query);
     return count;
 }
+/** Return deterministic monotonic time for SQL scheduling and expiration. */
 int64_t BPLib_TIME_GetMonotonicTime(void) { return 1000; }
+/** Return the fixture DTN time for metadata expiration calculations. */
 uint64_t BPLib_TIME_GetCurrentDtnTime(void) { return 100; }
+/** Supply a deterministic configuration value in place of mission tables. */
 uint32_t BPLib_NC_GetNodeConfigValue(BPLib_NC_Config_t config) { (void)config; return 3600000; }
+/** Ignore telemetry increments outside the test’s assertions. */
 void BPLib_AS_Increment(BPLib_EID_t eid, BPLib_AS_Counter_t counter, uint32_t amount)
 { (void)eid; (void)counter; (void)amount; }
+/** Accept events without the flight event service. */
 BPLib_Status_t BPLib_EM_SendEvent(uint16_t id, BPLib_EM_EventType_t type, const char *format, ...)
 { (void)id; (void)type; (void)format; return BPLIB_SUCCESS; }
+/** Record acceptance or refusal and check that accepted custody follows visible commit. */
 BPLib_Status_t BPLib_CT_SignalCustody(BPLib_Instance_t *inst, BPLib_Bundle_t *bundle, BPLib_CT_DispositionCode_t disposition, bool stored)
 {
     (void)inst; (void)bundle;
@@ -49,12 +59,16 @@ BPLib_Status_t BPLib_CT_SignalCustody(BPLib_Instance_t *inst, BPLib_Bundle_t *bu
     }
     return BPLIB_SUCCESS;
 }
+/** Keep the fixture contact started so accepted work can be queued. */
 BPLib_Status_t BPLib_CLA_GetContactRunState(uint32_t id, BPLib_CLA_ContactRunState_t *state)
 { (void)id; *state = BPLIB_CLA_STARTED; return BPLIB_SUCCESS; }
+/** Capture forwarded bundles for ownership and post-commit assertions. */
 bool BPLib_QM_WaitQueueTryPush(BPLib_QM_WaitQueue_t *queue, const void *item, int timeout)
 { (void)queue; (void)timeout; assert(pushed < 2); outgoing[pushed++] = *(BPLib_Bundle_t *const *)item; return true; }
+/** Release the fixture bundle and its blob when storage gives up ownership. */
 void BPLib_MEM_BundleFree(BPLib_MEM_Pool_t *pool, BPLib_Bundle_t *bundle)
 { (void)pool; free(bundle->blob); free(bundle); ++freed; }
+/** Allocate one synthetic bundle and blob for the requested ID. */
 static BPLib_Bundle_t *make_bundle(unsigned id)
 {
     BPLib_Bundle_t *bundle = calloc(1, sizeof(*bundle)); assert(bundle);
@@ -68,6 +82,7 @@ static BPLib_Bundle_t *make_bundle(unsigned id)
     bundle->Meta.EgressID = 0;
     return bundle;
 }
+/** Exercise one two-bundle transaction and check its custody and forwarding outcome. */
 static void batch(bool success)
 {
     accepted = refused = pushed = freed = 0;
@@ -90,6 +105,7 @@ static void batch(bool success)
         assert(instance.BundleStorage.BundleCountStored == 0 && instance.BundleStorage.BytesStorageInUse == 0);
     }
 }
+/** Verify overflow and full-store conditions refuse admission and preserve accounting. */
 static void capacity_rejection(void)
 {
     size_t used[]={SIZE_MAX-31,1,BPLIB_MAX_STORED_BUNDLE_BYTES,BPLIB_MAX_STORED_BUNDLE_BYTES+1,BPLIB_MAX_STORED_BUNDLE_BYTES-64};
@@ -125,6 +141,7 @@ static void capacity_rejection(void)
     instance.BundleStorage.BytesStorageInUse=0;
     instance.BundleStorage.BundleCountStored=instance.BundleStorage.BundleCountNotEgressed=0;
 }
+/** Inject a trigger or uniqueness failure and require the transaction to reject the write. */
 static void ignored_write(const char *mode)
 {
     const char *trigger;
@@ -148,6 +165,7 @@ static void ignored_write(const char *mode)
     assert(sqlite3_exec(instance.BundleStorage.db,"DROP TRIGGER IF EXISTS reject_unique;DROP TRIGGER IF EXISTS ignore_write;DROP TABLE IF EXISTS unique_guard;",NULL,NULL,NULL)==SQLITE_OK);
     expected_rows=2;
 }
+/** Check that a genuine duplicate is recognized even when the store has no capacity. */
 static void true_duplicates(void)
 {
     size_t bytes=99,duplicates=99,custody=99;
@@ -168,6 +186,7 @@ static void true_duplicates(void)
     for(size_t i=0;i<2;++i)BPLib_MEM_BundleFree(&instance.pool,instance.BundleStorage.InsertBatch[i]);
     instance.BundleStorage.InsertBatchSize=0;
 }
+/** Run commit, rollback, admission, and duplicate checks against SQLite. */
 int main(int argc,char **argv)
 {
     assert(BPLib_SQL_Init(&instance, ":memory:") == BPLIB_SUCCESS);

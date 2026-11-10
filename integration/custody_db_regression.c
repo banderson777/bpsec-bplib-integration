@@ -8,6 +8,7 @@
 
 static size_t live_blocks, allocations;
 static bool fail_allocation;
+/** Allocate an instrumented custody database block or inject allocation failure. */
 BPLib_MEM_Block_t *BPLib_MEM_BlockAlloc(BPLib_MEM_Pool_t *pool, size_t size)
 {
     (void)pool; (void)size;
@@ -17,26 +18,33 @@ BPLib_MEM_Block_t *BPLib_MEM_BlockAlloc(BPLib_MEM_Pool_t *pool, size_t size)
     memset(&block->user_data.DbEntry, 0xa5, sizeof(block->user_data.DbEntry));
     live_blocks++; allocations++; return block;
 }
+/** Release a custody fixture block and update the live allocation count. */
 void BPLib_MEM_BlockFree(BPLib_MEM_Pool_t *pool, BPLib_MEM_Block_t *block)
 { (void)pool; assert(block && live_blocks); live_blocks--; free(block); }
+/** Recover the enclosing fixture block from its user-data address. */
 BPLib_MEM_Block_t *BPLib_MEM_GetBlockFromUserData(void *data)
 { return (BPLib_MEM_Block_t *)((uint8_t *)data - offsetof(BPLib_MEM_Block_t, user_data)); }
+/** Return the indexed custody entry for an ID that must exist. */
 static BPLib_CT_DbEntry_t *by_id(BPLib_Instance_t *inst, uint32_t id)
 {
     BPLib_CT_DbEntry_t *entry = NULL;
     assert(BPLib_CT_GetEntryFromCtdbWithId(&inst->Ct,id,&entry)==BPLIB_SUCCESS && entry);
     return entry;
 }
+/** Check that a missing bundle ID returns not-found and clears the output. */
 static void absent_id(BPLib_Instance_t *inst,uint32_t id)
 {
     BPLib_CT_DbEntry_t *entry=(void *)1;
     assert(BPLib_CT_GetEntryFromCtdbWithId(&inst->Ct,id,&entry)==BPLIB_NOT_FOUND_ERR && entry==NULL);
 }
+/** Check that a missing sequence pair returns not-found and clears the output. */
 static void absent_sequence(BPLib_Instance_t *inst,uint64_t id,uint64_t number)
 {
     BPLib_CT_DbEntry_t *entry=(void *)1;
     assert(BPLib_CT_GetEntryFromCtdbWithSeq(&inst->Ct,id,number,&entry)==BPLIB_NOT_FOUND_ERR && entry==NULL);
 }
+/** Exercise both custody indexes through allocation, insertion, collision, rollback, and
+ * deletion. */
 int main(void)
 {
     BPLib_Instance_t inst={0};

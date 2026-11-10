@@ -45,6 +45,7 @@ struct BPLib_TCPCLA_Pending
     struct BPLib_TCPCLA_Pending *next;
 };
 
+/** Attempt to acquire exclusive dispatcher access without blocking a polling receiver. */
 static bool try_lock(BPLib_TCPCLA_t *cla)
 {
 #ifdef _WIN32
@@ -54,6 +55,7 @@ static bool try_lock(BPLib_TCPCLA_t *cla)
 #endif
 }
 
+/** Release the dispatcher lock held by the current caller. */
 static void unlock(BPLib_TCPCLA_t *cla)
 {
 #ifdef _WIN32
@@ -63,6 +65,7 @@ static void unlock(BPLib_TCPCLA_t *cla)
 #endif
 }
 
+/** Wait for exclusive dispatcher access before sending or closing a context. */
 static void lock(BPLib_TCPCLA_t *cla)
 {
 #ifdef _WIN32
@@ -72,6 +75,8 @@ static void lock(BPLib_TCPCLA_t *cla)
 #endif
 }
 
+/** Return monotonic milliseconds for elapsed I/O deadlines, independent of wall-clock
+ * adjustments. */
 static uint64_t now_ms(void)
 {
 #ifdef _WIN32
@@ -83,6 +88,8 @@ static uint64_t now_ms(void)
 #endif
 }
 
+/** Reset per-operation progress and record a shared absolute deadline. Zero timeout leaves the
+ * wait unbounded. */
 static void begin_io(BPLib_TCPCLA_t *cla, uint32_t timeout_ms)
 {
     cla->IoProgress = 0;
@@ -91,6 +98,8 @@ static void begin_io(BPLib_TCPCLA_t *cla, uint32_t timeout_ms)
 
 static void close_unlocked(BPLib_TCPCLA_t *cla);
 
+/** Return the operation status and discard an unusable connection. An idle timeout may keep the
+ * socket open; caller holds the I/O lock. */
 static BPLib_Status_t finish_io(BPLib_TCPCLA_t *cla, BPLib_Status_t status)
 {
     /* Only an idle timeout is resumable. Never reuse a partly consumed frame. */
@@ -100,6 +109,7 @@ static BPLib_Status_t finish_io(BPLib_TCPCLA_t *cla, BPLib_Status_t status)
     return status;
 }
 
+/** Switch an existing socket to nonblocking mode so readiness polling can enforce deadlines. */
 static bool nonblocking(bplib_socket_t fd)
 {
 #ifdef _WIN32
@@ -117,13 +127,21 @@ static bool nonblocking(bplib_socket_t fd)
 
 static const uint8_t contact[CONTACT_LEN] = {0x64, 0x74, 0x6e, 0x21, 0x04, 0x00};
 
+/** Write a 16-bit unsigned value in network order to two caller-owned bytes. */
 static void put16(uint8_t *p, uint16_t v) { p[0] = (uint8_t)(v >> 8); p[1] = (uint8_t)v; }
+/** Write a 32-bit unsigned value in network order to four caller-owned bytes. */
 static void put32(uint8_t *p, uint32_t v) { p[0] = (uint8_t)(v >> 24); p[1] = (uint8_t)(v >> 16); p[2] = (uint8_t)(v >> 8); p[3] = (uint8_t)v; }
+/** Write a 64-bit unsigned value in network order to eight caller-owned bytes. */
 static void put64(uint8_t *p, uint64_t v) { for (unsigned i = 0; i < 8; ++i) p[i] = (uint8_t)(v >> (56u - 8u * i)); }
+/** Read two network-order bytes without requiring aligned input. */
 static uint16_t get16(const uint8_t *p) { return (uint16_t)(((uint16_t)p[0] << 8) | p[1]); }
+/** Read four network-order bytes without requiring aligned input. */
 static uint32_t get32(const uint8_t *p) { return ((uint32_t)p[0] << 24) | ((uint32_t)p[1] << 16) | ((uint32_t)p[2] << 8) | p[3]; }
+/** Read eight network-order bytes without requiring aligned input. */
 static uint64_t get64(const uint8_t *p) { uint64_t v = 0; for (unsigned i = 0; i < 8; ++i) v = (v << 8) | p[i]; return v; }
 
+/** Wait for the requested readiness events. Recompute the remaining finite timeout if a signal
+ * interrupts polling. */
 static BPLib_Status_t wait_fd(intptr_t fd, short events, uint32_t timeout_ms)
 {
     struct pollfd pfd = {.fd = (bplib_socket_t)fd, .events = events, .revents = 0};
@@ -155,6 +173,8 @@ static BPLib_Status_t wait_fd(intptr_t fd, short events, uint32_t timeout_ms)
     return BPLIB_SUCCESS;
 }
 
+/** Send or receive exactly length bytes using the current operation deadline, recording
+ * progress so callers can distinguish idle timeouts from partial frames. */
 static BPLib_Status_t transfer(BPLib_TCPCLA_t *cla, void *buffer, size_t length,
                                bool writing, uint32_t timeout_ms)
 {
@@ -200,6 +220,8 @@ static BPLib_Status_t transfer(BPLib_TCPCLA_t *cla, void *buffer, size_t length,
     return BPLIB_SUCCESS;
 }
 
+/** Write the local TCPCLv4 session parameters, node ID, and empty extension list to the
+ * attached peer. */
 static BPLib_Status_t send_init(BPLib_TCPCLA_t *cla, uint32_t timeout_ms)
 {
     size_t node_len = strlen(cla->NodeId);
@@ -219,6 +241,8 @@ static BPLib_Status_t send_init(BPLib_TCPCLA_t *cla, uint32_t timeout_ms)
     return status;
 }
 
+/** Read and validate the peer session parameters, then derive transfer, segment, and keepalive
+ * limits. */
 static BPLib_Status_t receive_init(BPLib_TCPCLA_t *cla, uint32_t timeout_ms)
 {
     uint8_t fixed[INIT_FIXED_LEN];
@@ -249,6 +273,7 @@ static BPLib_Status_t receive_init(BPLib_TCPCLA_t *cla, uint32_t timeout_ms)
     return BPLIB_SUCCESS;
 }
 
+/** Acknowledge cumulative bytes of an inbound TCPCLv4 transfer using its ID and segment flags. */
 static BPLib_Status_t send_ack(BPLib_TCPCLA_t *cla, uint64_t id, uint8_t flags,
                                uint64_t acknowledged, uint32_t timeout_ms)
 {
@@ -323,6 +348,8 @@ static BPLib_Status_t dispatch(BPLib_TCPCLA_t *cla, bool expecting_ack,
     return send_ack(cla, segment_id, flags, cla->RxSize, timeout_ms);
 }
 
+/** Pump the dispatcher until the expected transfer ACK arrives, processing inbound traffic in
+ * the meantime. */
 static BPLib_Status_t receive_ack(BPLib_TCPCLA_t *cla, uint64_t id, uint64_t acknowledged,
                                   uint32_t timeout_ms)
 {
@@ -335,6 +362,8 @@ static BPLib_Status_t receive_ack(BPLib_TCPCLA_t *cla, uint64_t id, uint64_t ack
     return BPLIB_SUCCESS;
 }
 
+/** Dispatch frames until a complete transfer is queued, then move its bytes into the caller's
+ * buffer and release the queue node. */
 static BPLib_Status_t receive_v4(BPLib_TCPCLA_t *cla, void *bundle, size_t capacity,
                                 size_t *size, uint32_t timeout_ms)
 {
@@ -357,6 +386,8 @@ static BPLib_Status_t receive_v4(BPLib_TCPCLA_t *cla, void *bundle, size_t capac
     return BPLIB_SUCCESS;
 }
 
+/** Read the four-byte STCP length prefix and one body, rejecting lengths outside the configured
+ * or caller capacity. */
 static BPLib_Status_t receive_stcp(BPLib_TCPCLA_t *cla, void *bundle, size_t capacity,
                                   size_t *size, uint32_t timeout_ms)
 {
@@ -371,6 +402,7 @@ static BPLib_Status_t receive_stcp(BPLib_TCPCLA_t *cla, void *bundle, size_t cap
     return status;
 }
 
+/** Initialize the platform lock and acquire the Winsock lifetime on Windows. */
 static BPLib_Status_t init_lock(BPLib_TCPCLA_t *cla)
 {
 #ifdef _WIN32
@@ -382,6 +414,8 @@ static BPLib_Status_t init_lock(BPLib_TCPCLA_t *cla)
     return BPLIB_SUCCESS;
 }
 
+/** Split one bundle into negotiated TCPCLv4 segments and await the cumulative ACK after each
+ * segment. */
 static BPLib_Status_t send_v4(BPLib_TCPCLA_t *cla, const uint8_t *bundle,
                               size_t size, uint32_t timeout_ms)
 {
@@ -417,11 +451,14 @@ static BPLib_Status_t send_v4(BPLib_TCPCLA_t *cla, const uint8_t *bundle,
     return BPLIB_SUCCESS;
 }
 
+/** Return a borrowed static label for logging the configured protocol. */
 const char *BPLib_TCPCLA_ProtocolName(BPLib_TCPCLA_Protocol_t protocol)
 {
     return protocol == BPLib_TCPCLA_TCPCLV4 ? "tcpclv4" : "stcp";
 }
 
+/** Validate protocol settings and initialize a fresh adapter with no sockets or pending
+ * transfers. */
 BPLib_Status_t BPLib_TCPCLA_InitConfig(BPLib_TCPCLA_t *cla, size_t max_bundle_size,
                                        uint32_t contact_id, BPLib_TCPCLA_Protocol_t protocol,
                                        const char *node_id, uint64_t segment_mru,
@@ -457,6 +494,7 @@ BPLib_Status_t BPLib_TCPCLA_InitConfig(BPLib_TCPCLA_t *cla, size_t max_bundle_si
     return BPLIB_SUCCESS;
 }
 
+/** Initialize an adapter with the default STCP settings and caller-supplied size and contact. */
 BPLib_Status_t BPLib_TCPCLA_Init(BPLib_TCPCLA_t *cla, size_t max_bundle_size,
                                  uint32_t contact_id)
 {
@@ -464,6 +502,8 @@ BPLib_Status_t BPLib_TCPCLA_Init(BPLib_TCPCLA_t *cla, size_t max_bundle_size,
                                    BPLib_TCPCLA_STCP, NULL, 0, 0, 0);
 }
 
+/** Close the attached socket and listener and release pending receive data without taking the
+ * I/O lock. Caller provides exclusive access. */
 static void close_unlocked(BPLib_TCPCLA_t *cla)
 {
     if (cla == NULL) return;
@@ -487,6 +527,7 @@ static void close_unlocked(BPLib_TCPCLA_t *cla)
     cla->PendingTail = NULL; cla->PendingCount = 0;
 }
 
+/** Close transport resources while retaining a context that can reconnect. */
 void BPLib_TCPCLA_Close(BPLib_TCPCLA_t *cla)
 {
     if (!cla) return;
@@ -499,6 +540,8 @@ void BPLib_TCPCLA_Close(BPLib_TCPCLA_t *cla)
     unlock(cla);
 }
 
+/** End a context lifetime by closing transport and releasing platform lock and socket-library
+ * resources. */
 void BPLib_TCPCLA_Destroy(BPLib_TCPCLA_t *cla)
 {
     if (!cla) return;
@@ -510,6 +553,8 @@ void BPLib_TCPCLA_Destroy(BPLib_TCPCLA_t *cla)
 #endif
 }
 
+/** Adopt an already connected socket after nonblocking configuration succeeds. The caller
+ * retains ownership on failure. */
 BPLib_Status_t BPLib_TCPCLA_Attach(BPLib_TCPCLA_t *cla, intptr_t socket_fd)
 {
     if (cla == NULL || socket_fd == BPLIB_INVALID_SOCKET || cla->SocketFd != BPLIB_INVALID_SOCKET)
@@ -519,6 +564,8 @@ BPLib_Status_t BPLib_TCPCLA_Attach(BPLib_TCPCLA_t *cla, intptr_t socket_fd)
     return BPLIB_SUCCESS;
 }
 
+/** Resolve the peer and try candidate addresses until a nonblocking connection succeeds or all
+ * attempts fail. */
 BPLib_Status_t BPLib_TCPCLA_Connect(BPLib_TCPCLA_t *cla, const char *host,
                                     uint16_t port, uint32_t timeout_ms)
 {
@@ -559,6 +606,7 @@ BPLib_Status_t BPLib_TCPCLA_Connect(BPLib_TCPCLA_t *cla, const char *host,
     return cla->SocketFd != BPLIB_INVALID_SOCKET ? BPLIB_SUCCESS : status;
 }
 
+/** Bind and retain a nonblocking listener for the supplied local host, port, and backlog. */
 BPLib_Status_t BPLib_TCPCLA_Listen(BPLib_TCPCLA_t *cla, const char *host,
                                    uint16_t port, int backlog)
 {
@@ -587,6 +635,8 @@ BPLib_Status_t BPLib_TCPCLA_Listen(BPLib_TCPCLA_t *cla, const char *host,
     return status;
 }
 
+/** Wait for one peer and attach it without starting a TCPCLv4 session; close the listener on
+ * failure. */
 BPLib_Status_t BPLib_TCPCLA_Accept(BPLib_TCPCLA_t *cla, uint32_t timeout_ms)
 {
     if (cla == NULL || cla->ListenFd == BPLIB_INVALID_SOCKET ||
@@ -604,6 +654,8 @@ BPLib_Status_t BPLib_TCPCLA_Accept(BPLib_TCPCLA_t *cla, uint32_t timeout_ms)
     return BPLIB_SUCCESS;
 }
 
+/** Exchange contact headers and session initialization in active or passive order before
+ * marking the transport ready. */
 BPLib_Status_t BPLib_TCPCLA_SessionStart(BPLib_TCPCLA_t *cla, bool active, uint32_t timeout_ms)
 {
     if (cla == NULL || cla->SocketFd == BPLIB_INVALID_SOCKET ||
@@ -635,6 +687,7 @@ BPLib_Status_t BPLib_TCPCLA_SessionStart(BPLib_TCPCLA_t *cla, bool active, uint3
     return status;
 }
 
+/** Borrow a nonempty encoded bundle for a serialized STCP or TCPCLv4 send. */
 BPLib_Status_t BPLib_TCPCLA_Send(BPLib_TCPCLA_t *cla, const void *bundle,
                                  size_t size, uint32_t timeout_ms)
 {
@@ -657,6 +710,8 @@ BPLib_Status_t BPLib_TCPCLA_Send(BPLib_TCPCLA_t *cla, const void *bundle,
     return status;
 }
 
+/** Try the dispatcher lock and receive one encoded bundle into caller storage; report zero
+ * bytes on failure. */
 BPLib_Status_t BPLib_TCPCLA_Receive(BPLib_TCPCLA_t *cla, void *bundle,
                                     size_t buffer_size, size_t *size, uint32_t timeout_ms)
 {

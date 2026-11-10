@@ -105,6 +105,7 @@ def main():
     if not files: raise SystemExit("no MPEG-TS segments found; provide --input-video or --segment-dir")
     errors = []
     def worker(function, *arguments):
+        """Run a UDP worker, retaining exceptions for the controller after join."""
         try: function(*arguments)
         except BaseException as exc: errors.append(exc)
     g = threading.Thread(target=worker, args=(ground, a.ground_port, a.output_dir, a.player, codec), daemon=True); g.start()

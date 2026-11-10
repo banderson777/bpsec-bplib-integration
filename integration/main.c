@@ -10,6 +10,8 @@
 BSL_HostDescriptors_t MockBPA_Agent_Descriptors(void *agent);
 #include <stdio.h>
 
+/** Run the metadata bridge and Mock BPA wire round-trip smoke checks. Exit nonzero if setup,
+ * conversion, or validation fails. */
 int main(void)
 {
     if (BSL_HostDescriptors_Set(MockBPA_Agent_Descriptors(NULL)) != 0) return 1;

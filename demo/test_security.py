@@ -17,17 +17,20 @@ def wire(blocks):
 class EndpointSecurity(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        """Load the compiled bridge once and declare its pointer and size argument types."""
         cls.lib = ctypes.CDLL(str(LIBRARY))
         cls.lib.BPLib_BSL_SecurityInit.argtypes = [ctypes.c_void_p]
         cls.lib.BPLib_BSL_SecurityTransform.argtypes = [ctypes.c_bool, ctypes.c_void_p, ctypes.c_size_t, ctypes.c_void_p, ctypes.c_size_t, ctypes.POINTER(ctypes.c_size_t)]
 
     def setUp(self):
+        """Initialize a fresh endpoint key and a minimal BPv7 bundle for each test."""
         self.key = os.urandom(32)
         self.assertEqual(self.lib.BPLib_BSL_SecurityInit(self.key), 0)
         self.addCleanup(self.lib.BPLib_BSL_SecurityClose)
         self.plain = wire([[7, 4, 0, [2, [50, 1]], [2, [10, 1]], [2, [10, 0]], [1000, 1], 3600000], [1, 1, 0, 0, b'authenticated video chunk']])
 
     def transform(self, protect, data, success=True):
+        """Run the bridge and assert either encoded output or a fail-closed buffer."""
         output = ctypes.create_string_buffer(b'x' * 17000)
         length = ctypes.c_size_t(99)
         result = self.lib.BPLib_BSL_SecurityTransform(protect, data, len(data), output, 17000, ctypes.byref(length))
@@ -39,6 +42,7 @@ class EndpointSecurity(unittest.TestCase):
         self.assertEqual(output.raw[:17000], b'x' * 17000)
 
     def test_roundtrip_and_fresh_ivs(self):
+        """Require distinct ciphertext on repeat protection and recover the original bundle."""
         first = self.transform(True, self.plain)
         second = self.transform(True, self.plain)
         self.assertNotEqual(first, second)
@@ -47,6 +51,7 @@ class EndpointSecurity(unittest.TestCase):
         self.assertEqual([block[0] for block in cbor2.loads(first)[1:]], [12, 1])
 
     def test_wrong_key_missing_bcb_and_tampering(self):
+        """Reject missing BCB, changed ciphertext or primary fields, and a different key."""
         protected = self.transform(True, self.plain)
         self.transform(False, self.plain, False)
         blocks = cbor2.loads(protected)
@@ -59,12 +64,14 @@ class EndpointSecurity(unittest.TestCase):
         self.transform(False, protected, False)
 
     def test_wrong_endpoints_and_repeated_protection(self):
+        """Reject non-policy destinations and refuse to add a second BCB."""
         blocks = cbor2.loads(self.plain); blocks[0][3] = [2, [40, 1]]
         self.transform(True, wire(blocks), False)
         protected = self.transform(True, self.plain)
         self.transform(True, protected, False)
 
     def test_mutable_relay_blocks_preserve_endpoint_security(self):
+        """Allow relay updates to previous-node and hop-count blocks without losing authentication."""
         blocks = cbor2.loads(self.plain)
         blocks.insert(1, [7, 2, 0, 0, cbor2.dumps([2, [20, 0]])])
         blocks.insert(2, [10, 3, 0, 0, cbor2.dumps([10, 1])])
@@ -76,6 +83,7 @@ class EndpointSecurity(unittest.TestCase):
         self.assertEqual(accepted[-1][4], b'authenticated video chunk')
 
     def test_truncation_and_capacity_fail_closed(self):
+        """Reject truncated CBOR and undersized output without returning partial data."""
         self.transform(False, b'\x9f', False)
         output = ctypes.create_string_buffer(1); length = ctypes.c_size_t()
         self.assertNotEqual(self.lib.BPLib_BSL_SecurityTransform(True, self.plain, len(self.plain), output, 1, ctypes.byref(length)), 0)

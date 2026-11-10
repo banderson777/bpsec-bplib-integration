@@ -22,6 +22,7 @@ typedef struct
     BPLib_Status_t status;
 } TransferArgs_t;
 
+/** Perform one side of session negotiation and save the status for the joining thread. */
 static void *session_worker(void *arg)
 {
     SessionArgs_t *args = arg;
@@ -29,6 +30,7 @@ static void *session_worker(void *arg)
     return NULL;
 }
 
+/** Receive one encoded bundle into caller-provided storage and save its size and status. */
 static void *receive_worker(void *arg)
 {
     TransferArgs_t *args = arg;
@@ -37,6 +39,7 @@ static void *receive_worker(void *arg)
     return NULL;
 }
 
+/** Negotiate both ends concurrently and report success only when both peers are ready. */
 static int start_sessions(BPLib_TCPCLA_t *active, BPLib_TCPCLA_t *passive)
 {
     SessionArgs_t active_args = {.cla = active, .active = true, .status = BPLIB_ERROR};
@@ -50,6 +53,7 @@ static int start_sessions(BPLib_TCPCLA_t *active, BPLib_TCPCLA_t *passive)
     return active_args.status == BPLIB_SUCCESS && passive_args.status == BPLIB_SUCCESS ? 0 : 1;
 }
 
+/** Receive at the relay, forward to ground, and verify the final payload bytes. */
 static int forward_bundle(BPLib_TCPCLA_t *source, BPLib_TCPCLA_t *relay_in,
                           BPLib_TCPCLA_t *relay_out, BPLib_TCPCLA_t *ground,
                           const uint8_t *bundle, size_t size)
@@ -74,6 +78,7 @@ static int forward_bundle(BPLib_TCPCLA_t *source, BPLib_TCPCLA_t *relay_in,
            ground_rx.output_size == size && memcmp(bundle, ground_buffer, size) == 0 ? 0 : 1;
 }
 
+/** Set up a three-node TCPCLv4 chain and run the forwarding smoke test. */
 int main(void)
 {
     BPLib_TCPCLA_t moon = {0}, relay_in = {0}, relay_out = {0}, ground = {0};

@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include <stdio.h>
 
+/** Compute CRC16 or CRC32C bit by bit as an independent reference for the table-driven
+ * implementation. */
 static uint64_t reference(const unsigned char *data, size_t size, unsigned width)
 {
     uint32_t crc=width==16 ? UINT32_C(0xffff) : UINT32_C(0xffffffff);
@@ -18,12 +20,14 @@ static uint64_t reference(const unsigned char *data, size_t size, unsigned width
     return width==16 ? (crc^UINT32_C(0xffff)) : (crc^UINT32_C(0xffffffff));
 }
 static unsigned checks;
+/** Check both public CRC variants against the bitwise reference for one buffer. */
 static void compare(const unsigned char *data,size_t size)
 {
     assert(BPLib_CRC_Calculate(data,size,BPLib_CRC_Type_CRC16)==reference(data,size,16));
     assert(BPLib_CRC_Calculate(data,size,BPLib_CRC_Type_CRC32C)==reference(data,size,32));
     checks+=2;
 }
+/** Exercise known vectors, varied lengths, unaligned input, and repeat initialization. */
 int main(void)
 {
     static const unsigned char text[]="123456789";

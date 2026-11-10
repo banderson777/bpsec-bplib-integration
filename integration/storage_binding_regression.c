@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 
+/** Return the number of persisted blob rows; finalize the count statement before returning. */
 static int rows(sqlite3 *db)
 {
     sqlite3_stmt *query=NULL;
@@ -13,12 +14,14 @@ static int rows(sqlite3 *db)
     assert(sqlite3_step(query)==SQLITE_ROW);int value=sqlite3_column_int(query,0);
     assert(sqlite3_finalize(query)==SQLITE_OK);return value;
 }
+/** Assert that the prepared statement no longer retains its parameter bindings. */
 static void released(sqlite3_stmt *statement)
 {
     char *expanded=sqlite3_expanded_sql(statement);assert(expanded);
     assert(strstr(expanded,"VALUES (NULL, NULL)")!=NULL);
     sqlite3_free(expanded);
 }
+/** Exercise SQLite binding ownership through success, invalid length, failure, and retry. */
 int main(void)
 {
     sqlite3 *db=NULL;sqlite3_stmt *statement=NULL;

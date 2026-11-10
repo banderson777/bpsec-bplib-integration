@@ -107,6 +107,7 @@ def main():
         a.frames = (input_path.stat().st_size + a.frame_bytes - 1) // a.frame_bytes
     errors = []
     def worker(function, *arguments):
+        """Run a relay or ground worker and pass any failure back to the main thread."""
         try:
             function(*arguments)
         except BaseException as exc:

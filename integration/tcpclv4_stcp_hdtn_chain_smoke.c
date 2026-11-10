@@ -14,6 +14,7 @@ typedef struct {
     BPLib_Status_t status;
 } ReceiveArgs_t;
 
+/** Perform one side of session negotiation and save the status for the joining thread. */
 static void *session_worker(void *arg)
 {
     SessionArgs_t *args = arg;
@@ -21,6 +22,7 @@ static void *session_worker(void *arg)
     return NULL;
 }
 
+/** Receive one encoded bundle into caller-provided storage and save its size and status. */
 static void *receive_worker(void *arg)
 {
     ReceiveArgs_t *args = arg;
@@ -29,6 +31,7 @@ static void *receive_worker(void *arg)
     return NULL;
 }
 
+/** Negotiate the TCPCLv4 hop concurrently on the active and passive peers. */
 static int start_tcpclv4(BPLib_TCPCLA_t *active, BPLib_TCPCLA_t *passive)
 {
     SessionArgs_t active_args = {.cla = active, .active = true, .status = BPLIB_ERROR};
@@ -42,6 +45,7 @@ static int start_tcpclv4(BPLib_TCPCLA_t *active, BPLib_TCPCLA_t *passive)
     return active_args.status == BPLIB_SUCCESS && passive_args.status == BPLIB_SUCCESS ? 0 : 1;
 }
 
+/** Start a receive worker before sending so the peer can acknowledge TCPCLv4 segments. */
 static int send_and_receive(BPLib_TCPCLA_t *sender, BPLib_TCPCLA_t *receiver,
                             const uint8_t *input, size_t input_size,
                             uint8_t *output, size_t output_capacity, size_t *output_size)
@@ -57,6 +61,7 @@ static int send_and_receive(BPLib_TCPCLA_t *sender, BPLib_TCPCLA_t *receiver,
     return send_status == BPLIB_SUCCESS && args.status == BPLIB_SUCCESS ? 0 : 1;
 }
 
+/** Exercise a mixed-protocol chain with simulated relay, ground, and HDTN peers. */
 int main(void)
 {
     BPLib_TCPCLA_t moon = {0}, relay_moon = {0}, relay_hardy = {0};

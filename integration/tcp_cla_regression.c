@@ -8,6 +8,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 
+/** Create and attach an isolated pair of connected test sockets, optionally with TCPCLv4 state. */
 static void pair(BPLib_TCPCLA_t *a, BPLib_TCPCLA_t *b, bool v4)
 {
     int sockets[2];
@@ -20,12 +21,14 @@ static void pair(BPLib_TCPCLA_t *a, BPLib_TCPCLA_t *b, bool v4)
     a->SessionReady = b->SessionReady = v4;
 }
 
+/** Write an exact test frame directly to the peer socket to exercise parser edge cases. */
 static void raw(BPLib_TCPCLA_t *c, const void *data, size_t size)
 {
     assert(write(c->SocketFd, data, size) == (ssize_t)size);
 }
 
 static volatile sig_atomic_t interruptions;
+/** Handle the periodic test signal and bound the number of injected interrupts. */
 static void interrupt_wait(int signo)
 {
     (void)signo;
@@ -37,6 +40,7 @@ static void interrupt_wait(int signo)
     }
 }
 
+/** Read monotonic milliseconds for assertions about I/O elapsed time. */
 static uint64_t monotonic_ms(void)
 {
     struct timespec ts;
@@ -44,6 +48,7 @@ static uint64_t monotonic_ms(void)
     return (uint64_t)ts.tv_sec * 1000 + ts.tv_nsec / 1000000;
 }
 
+/** Check that signals do not extend finite receive and accept deadlines. */
 static void interrupted_timeouts(void)
 {
     struct sigaction handler = {0}, previous;
@@ -86,6 +91,7 @@ static void interrupted_timeouts(void)
     puts("PASS interrupted receive/accept preserve deadlines and zero-timeout receive works");
 }
 
+/** Distinguish resumable idle timeouts from partial transfers that close a session. */
 static void timeouts(void)
 {
     BPLib_TCPCLA_t a, b;
@@ -114,6 +120,7 @@ static void timeouts(void)
     puts("PASS idle timeout preserves stream; every partial frame closes stream");
 }
 
+/** Exercise transfer size limits and disconnected peer handling. */
 static void limits_and_disconnect(void)
 {
     BPLib_TCPCLA_t a, b; char out[64]; size_t n;
@@ -133,6 +140,8 @@ static void limits_and_disconnect(void)
 }
 
 typedef struct { BPLib_TCPCLA_t *cla; bool sending; int status; char data[16]; } Worker;
+/** Run the selected send or receive role. Retry busy or idle receive timeouts,
+ * verify delivered bytes, and save the final transport status. */
 static void *worker(void *arg)
 {
     Worker *w = arg; size_t n = 0;
@@ -150,6 +159,7 @@ static void *worker(void *arg)
     return NULL;
 }
 
+/** Exercise dispatch while both peers send and acknowledge transfers. */
 static void concurrent(void)
 {
     for (unsigned run = 0; run < 50; ++run)
@@ -166,6 +176,7 @@ static void concurrent(void)
     puts("PASS 50 simultaneous bidirectional transfers with concurrent ingress/egress");
 }
 
+/** Delay the receive worker to model a peer serviced on a later wakeup. */
 static void *delayed_receiver(void *arg)
 {
     struct timespec pause = {0, 60000000};
@@ -173,6 +184,7 @@ static void *delayed_receiver(void *arg)
     return worker(arg);
 }
 
+/** Verify the sender can complete when its peer dispatches the ACK later. */
 static void delayed_ack(void)
 {
     BPLib_TCPCLA_t a, b; pair(&a, &b, true);
@@ -186,6 +198,7 @@ static void delayed_ack(void)
     puts("PASS TCPCL ACK may arrive after a later peer task wakeup");
 }
 
+/** Exercise the adapter lifecycle through setup errors and cleanup. */
 static void startup_cleanup(void)
 {
     BPLib_TCPCLA_t a, b;
@@ -206,6 +219,7 @@ static void startup_cleanup(void)
     puts("PASS failed accept/handshake clean up, allow retry, and restore configured limits");
 }
 
+/** Run timeout, bounds, dispatch, and connection lifecycle regressions. */
 int main(void)
 {
     interrupted_timeouts(); timeouts(); limits_and_disconnect(); concurrent(); delayed_ack(); startup_cleanup();

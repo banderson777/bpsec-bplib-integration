@@ -6,9 +6,12 @@
 #include <string.h>
 
 static int allocations, fail_after = -1;
+/** Initialize the fixture allocator without reserving a flight memory region. */
 BPLib_Status_t BPLib_MEM_PoolImplInit(BPLib_MEM_PoolImpl_t *p, void *mem, size_t size, size_t block)
 { (void)p; (void)mem; (void)size; (void)block; return BPLIB_SUCCESS; }
+/** Complete pool shutdown; the fixture owns individual heap allocations. */
 void BPLib_MEM_PoolImplDestroy(BPLib_MEM_PoolImpl_t *p) { (void)p; }
+/** Allocate a test block and track live allocations for cleanup assertions. */
 void *BPLib_MEM_PoolImplAlloc(BPLib_MEM_PoolImpl_t *p, size_t size)
 {
     (void)p;
@@ -18,10 +21,14 @@ void *BPLib_MEM_PoolImplAlloc(BPLib_MEM_PoolImpl_t *p, size_t size)
     if (ptr) ++allocations;
     return ptr;
 }
+/** Release a test block and update the live allocation count. */
 void BPLib_MEM_PoolImplFree(BPLib_MEM_PoolImpl_t *p, void *ptr)
 { (void)p; free(ptr); --allocations; }
+/** Translate the live allocation count into fixture accounting bytes. */
 size_t BPLib_MEM_GetBytesInUseImpl(BPLib_MEM_PoolImpl_t *p) { (void)p; return allocations * 1024; }
+/** Return the fixture’s fixed free-space reading. */
 size_t BPLib_MEM_GetBytesFreeImpl(BPLib_MEM_PoolImpl_t *p) { (void)p; return 0; }
+/** Check bundle byte ranges, cross-block reads, and preservation on rejected requests. */
 static void bounds(BPLib_MEM_Pool_t *pool)
 {
     unsigned char source[BPLIB_MEM_BIG_BLK_DATA_SIZE + 3];
@@ -54,6 +61,7 @@ static void bounds(BPLib_MEM_Pool_t *pool)
     puts("PASS blob bounds, unchanged output on failure, cross-block reads, reader bounds");
 }
 
+/** Check pool initialization bounds without relying on the backing allocator. */
 static void pool_bounds(void)
 {
     BPLib_MEM_Pool_t pool;
@@ -69,6 +77,7 @@ static void pool_bounds(void)
     puts("PASS pool initialization respects supplied buffer length");
 }
 
+/** Run pool and bundle allocation cases, including allocation failure and cleanup. */
 int main(void)
 {
     pool_bounds();

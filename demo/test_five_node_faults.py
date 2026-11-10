@@ -59,6 +59,7 @@ def main():
     logs = {}
 
     def launch(number):
+        """Start one host with its fault settings and retain the log offset for readiness checks."""
         command, env = node_command(runtime, number, args.port_base)
         if args.replay_retained_duplicates and number == 2:
             env['BPNODE_DEMO_HOLD_CCS_UNTIL'] = str(runtime / 'node2/allow-ccs')
@@ -78,6 +79,7 @@ def main():
             wait_for_nodes(processes, run)
 
     def stop(number):
+        """Remove the host from the live set and reap it, escalating after five seconds."""
         process = processes.pop(number, None)
         if process and process.poll() is None:
             process.terminate()
