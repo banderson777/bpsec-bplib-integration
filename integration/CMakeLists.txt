@@ -5,6 +5,7 @@ set(BSL_ROOT "${CMAKE_CURRENT_LIST_DIR}/../BSL" CACHE PATH "BSL checkout")
 set(BPLIB_ROOT "${CMAKE_CURRENT_LIST_DIR}/../bplib" CACHE PATH "BPLib checkout")
 set(BSL_BUILD "${BSL_ROOT}/build/default" CACHE PATH "BSL build directory")
 set(BPLIB_BUILD "${BPLIB_ROOT}/build" CACHE PATH "BPLib build directory")
+# Use the staged package's include and library paths on clean checkouts.
 find_package(qcbor 1.6 CONFIG REQUIRED HINTS "${BSL_ROOT}/testroot/usr")
 
 add_executable(bpsec_bplib_smoke main.c bplib_bsl_adapter.c)
@@ -35,6 +36,7 @@ if (Python3_Interpreter_FOUND)
     add_test(NAME deployment_health_regression
       COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_LIST_DIR}/../demo/test_node_health.py")
     set_tests_properties(deployment_health_regression PROPERTIES TIMEOUT 10 ENVIRONMENT "PYTHONDONTWRITEBYTECODE=1")
+    # Exercise the stream's record and playlist contracts without FFmpeg or a display.
     add_test(NAME five_node_stream_regression
       COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_LIST_DIR}/../demo/test_five_node_stream.py")
     set_tests_properties(five_node_stream_regression PROPERTIES TIMEOUT 10 ENVIRONMENT "PYTHONDONTWRITEBYTECODE=1")

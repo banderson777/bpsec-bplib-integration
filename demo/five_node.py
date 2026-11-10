@@ -48,6 +48,8 @@ set(MISSION_GLOBAL_APPLIST bpnode bplib sch_lab)
 set(BPNODE_ENABLE_FIVE_NODE_DEMO ON)
 set(BPNODE_DEMO_SECURITY_LIBRARY "{security.as_posix()}")
 add_compile_definitions(BPLIB_STOR_INSERTBATCHSIZE=1)
+# BPLib's native build expects a bare qcbor target and a separate include path.
+# Resolve both from BSL's staged package so the mission uses the same library.
 if(IS_CFS_ARCH_BUILD)
   find_package(qcbor 1.6 CONFIG REQUIRED HINTS "{ROOT.as_posix()}/BSL/testroot/usr")
   get_target_property(QCBOR_INCLUDE_DIRS qcbor::qcbor INTERFACE_INCLUDE_DIRECTORIES)
@@ -135,7 +137,11 @@ def prepare(directory, build_dir, segments, chunk):
 
 
 def prepare_stream(directory, build_dir):
-    """Create a run whose source ADU queue remains open until the watcher ends."""
+    """Create a new streaming run for the given installed native build.
+
+    The stream marker tells node 1 to wait at gaps in the input queue until
+    EOF is published. The four-byte file acknowledgement starts at zero.
+    """
     session, inputs = initialize_run(directory, build_dir)
     (inputs / 'stream').write_text('streaming input\n')
     (inputs / 'file-ack').write_bytes(bytes(4))
@@ -146,7 +152,13 @@ def prepare_stream(directory, build_dir):
 
 
 def segment_records(session, segment_id, data, chunk):
-    """Encode a segment as streaming BPD1 records with an unknown final count."""
+    """Yield BPD1 records for a zero-based segment in a 16-byte session.
+
+    Each record carries a part index, part count, zero for the unknown total
+    number of segments, and the payload byte count as big-endian uint32s after
+    the segment index. chunk is a positive byte limit. An empty segment still
+    emits one record so the receiver can publish it.
+    """
     part_count = max(1, (len(data) + chunk - 1) // chunk)
     for part in range(part_count):
         piece = data[part * chunk:(part + 1) * chunk]
@@ -156,12 +168,20 @@ def segment_records(session, segment_id, data, chunk):
 
 
 def file_marker(session, file_number):
-    """Create a local-only node-1 queue marker following one input file."""
+    """Encode a BPF1 marker with the session and one-based file number.
+
+    Node 1 consumes the marker locally after accepting earlier queue entries.
+    It is never transmitted and does not acknowledge delivery to node 5.
+    """
     return b'BPF1' + session + struct.pack('!I', file_number)
 
 
 def file_completion_record(session, file_number, first_segment, segment_count):
-    """Create the protected end-of-video record consumed by node 5."""
+    """Encode a BPE2 archive request before node 1 applies wire protection.
+
+    The file number is one-based; the first segment is a zero-based index.
+    The count defines the contiguous range node 5 must have published.
+    """
     return b'BPE2' + session + struct.pack('!III', file_number, first_segment, segment_count)
 
 
@@ -229,11 +249,14 @@ def watch_folder(directory, watch_directory, pattern, poll_interval, stable_seco
     ack_path = inputs / 'file-ack'
 
     def acknowledged_file_number():
+        """Read node 1's last acknowledged file number; zero means none."""
         raw = ack_path.read_bytes()
         if len(raw) != 4:
             raise RuntimeError(f'invalid node-1 file acknowledgement: {ack_path}')
         return int.from_bytes(raw, 'big')
 
+    # Acceptance is saved before renaming. Finish a rename interrupted after
+    # that checkpoint; do not try to infer which parts of an unaccepted file ran.
     for file_entry in manifest.get('files', []):
         if file_entry.get('accepted_by_node1'):
             original = watch_directory / file_entry['source']
@@ -246,9 +269,11 @@ def watch_folder(directory, watch_directory, pattern, poll_interval, stable_seco
         raise RuntimeError('stream has a file not acknowledged by node 1; discard this run and prepare a fresh stream')
 
     def file_identity(path, stat):
+        """Key a file version by resolved path, byte size, and mtime."""
         return f'{path.resolve()}|{stat.st_size}|{stat.st_mtime_ns}'
 
     def next_stable_file():
+        """Return the oldest unprocessed file only after its stability delay."""
         candidates = sorted(
             (path for path in watch_directory.glob(pattern) if path.is_file()),
             key=lambda path: (path.stat().st_mtime_ns, path.name),
@@ -263,13 +288,14 @@ def watch_folder(directory, watch_directory, pattern, poll_interval, stable_seco
             previous = seen.get(identity)
             if previous is None or previous[0] != signature:
                 seen[identity] = (signature, now)
-                return None
+                return None  # Keep younger files behind this candidate.
             if now - previous[1] < stable_seconds:
                 return None
             return path, identity, signature
         return None
 
     def queue_record(data):
+        """Publish one complete ADU at the next source queue index."""
         nonlocal record_number
         path = inputs / f'{record_number:08d}.adu'
         temporary = path.with_suffix('.tmp')
@@ -278,6 +304,7 @@ def watch_folder(directory, watch_directory, pattern, poll_interval, stable_seco
         record_number += 1
 
     def process_file(path, identity, signature):
+        """Transcode and queue a file, then rename it after source acceptance."""
         nonlocal manifest
         sent_path = path.with_name(path.name + '.sent')
         if sent_path.exists():
@@ -320,6 +347,7 @@ def watch_folder(directory, watch_directory, pattern, poll_interval, stable_seco
                 for record in segment_records(session, segment_id, data, chunk):
                     queue_record(record)
                 write_json_atomic(manifest_path, manifest)
+            # Send the archive request before the local acknowledgement marker.
             queue_record(file_completion_record(
                 session, file_number, first_segment, len(encoded_segments)
             ))
@@ -352,6 +380,7 @@ def watch_folder(directory, watch_directory, pattern, poll_interval, stable_seco
             raise RuntimeError('watcher interrupted while processing a file; discard this run and prepare a fresh stream') from None
         segment_count = len(manifest['segments'])
         eof_record = b'BPE1' + session + struct.pack('!IIIII', segment_count, 0, 0, segment_count, 0)
+        # Publish EOF as an ADU before telling node 1 the queue can stop at a gap.
         queue_record(eof_record)
         manifest['records'] = record_number
         manifest['streaming'] = False
@@ -437,7 +466,12 @@ def verify(directory, timeout):
 
 
 def live_playlist(output, entries, segment_duration, complete):
-    """Build an HLS event playlist from currently published stream segments."""
+    """Return an HLS event playlist as bytes for the contiguous published prefix.
+
+    entries are in manifest order. segment_duration is the fallback in
+    seconds when an entry lacks measured timing. Add ENDLIST only after the
+    completion marker exists and all listed segments have been published.
+    """
     durations = [float(entry.get('duration', segment_duration)) for entry in entries]
     lines = [
         '#EXTM3U',
@@ -462,7 +496,11 @@ def live_playlist(output, entries, segment_duration, complete):
 
 
 def view(directory, player, segment_duration, startup_timeout):
-    """Play complete node-5 segments as they arrive, via a local HLS playlist."""
+    """Serve node 5's published output on loopback while the player runs.
+
+    startup_timeout is in seconds; zero waits without a deadline. The viewer
+    requires a published segment, even when an empty run has completed.
+    """
     manifest_path = directory / 'manifest.json'
     if not manifest_path.is_file():
         raise ValueError(f'run manifest not found: {manifest_path}')
@@ -487,10 +525,14 @@ def view(directory, player, segment_duration, startup_timeout):
         time.sleep(0.1)
 
     class LivePlaylistHandler(SimpleHTTPRequestHandler):
+        """Serve the live manifest and files from node 5's output directory."""
+
         def __init__(self, *args, **kwargs):
+            """Keep the file server rooted in published output, not the run."""
             super().__init__(*args, directory=str(output), **kwargs)
 
         def do_GET(self):
+            """Build a fresh playlist or serve the requested output file."""
             if urlsplit(self.path).path != '/live.m3u8':
                 return super().do_GET()
             latest = json.loads(manifest_path.read_text())
@@ -505,6 +547,7 @@ def view(directory, player, segment_duration, startup_timeout):
             self.wfile.write(content)
 
         def log_message(self, format, *args):
+            """Suppress routine polling logs; leave player output visible."""
             pass
 
     handler = functools.partial(LivePlaylistHandler)

@@ -14,6 +14,8 @@ from five_node import (
 
 
 class StreamingRecords(unittest.TestCase):
+    """Check the byte layout shared by the watcher and BPNode receiver."""
+
     def test_file_marker_carries_session_and_sequence(self):
         session = bytes(range(16))
         marker = file_marker(session, 12)
@@ -48,6 +50,8 @@ class StreamingRecords(unittest.TestCase):
 
 
 class GrowingPlaylist(unittest.TestCase):
+    """Check elapsed timing and publication order without a live player."""
+
     def test_ffmpeg_timestamps_become_segment_durations(self):
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary)
@@ -83,6 +87,8 @@ class GrowingPlaylist(unittest.TestCase):
 
 
 class VideoArchives(unittest.TestCase):
+    """Check verification of the sink's per-video archive against its segments."""
+
     def test_verify_checks_archives_against_received_segments(self):
         with tempfile.TemporaryDirectory() as temporary:
             run = Path(temporary)
