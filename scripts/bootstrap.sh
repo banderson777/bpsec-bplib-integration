@@ -40,7 +40,8 @@ cmake --build "$root/BSL/build/default" -j4
 # This also generates the cFS headers needed by the BPNode regression targets.
 GIT_DIR=/dev/null "$venv/bin/python" "$root/demo/five_node.py" build --build-dir "$build/native"
 cmake -S "$root/integration" -B "$build/native/integration" \
-  -DBSL_BUILD="$root/BSL/build/default" -DCFS_BUILD="$build/native/cfs"
+  -DBSL_BUILD="$root/BSL/build/default" -DCFS_BUILD="$build/native/cfs" \
+  -DPython3_EXECUTABLE="$venv/bin/python"
 cmake --build "$build/native/integration" -j4
 if [[ "$mode" != --build-only ]]; then
   "$venv/bin/python" "$root/docs/check_documentation.py"

@@ -48,6 +48,12 @@ set(MISSION_GLOBAL_APPLIST bpnode bplib sch_lab)
 set(BPNODE_ENABLE_FIVE_NODE_DEMO ON)
 set(BPNODE_DEMO_SECURITY_LIBRARY "{security.as_posix()}")
 add_compile_definitions(BPLIB_STOR_INSERTBATCHSIZE=1)
+if(IS_CFS_ARCH_BUILD)
+  find_package(qcbor 1.6 CONFIG REQUIRED HINTS "{ROOT.as_posix()}/BSL/testroot/usr")
+  get_target_property(QCBOR_INCLUDE_DIRS qcbor::qcbor INTERFACE_INCLUDE_DIRECTORIES)
+  add_library(qcbor INTERFACE IMPORTED)
+  target_link_libraries(qcbor INTERFACE qcbor::qcbor)
+endif()
 ''')
     (mission / 'bpnode_platform_cfg.h').write_text(f'''#include "{ROOT.as_posix()}/bpnode/config/default_bpnode_platform_cfg.h"
 #undef BPNODE_CLA_IN_STACK_SIZE
