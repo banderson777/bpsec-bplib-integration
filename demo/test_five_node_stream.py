@@ -9,12 +9,54 @@ from unittest.mock import patch
 
 from five_node import (
     file_completion_record, file_marker, live_playlist, segment_records,
-    stream_file_segments, verify,
+    stream_file_segments, verify, watch_folder,
 )
 
 
 class StreamingRecords(unittest.TestCase):
     """Check the byte layout shared by the watcher and BPNode receiver."""
+
+    def test_replacement_survives_ack_and_recovery(self):
+        """Replace a claimed input during ACK and replay its accepted checkpoint."""
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            inputs = root / 'node1/input'
+            inputs.mkdir(parents=True)
+            incoming = root / 'incoming'
+            incoming.mkdir()
+            source = incoming / 'clip.mp4'
+            source.write_bytes(b'original')
+            manifest = root / 'manifest.json'
+            manifest.write_text(json.dumps(dict(streaming=True, records=0, segments=[],
+                                                session=bytes(16).hex())))
+            ack = inputs / 'file-ack'
+            ack.write_bytes(bytes(4))
+
+            def advance(delay):
+                """Publish the next input during the pending acknowledgement."""
+                if delay == 0.1:
+                    source.write_bytes(b'replacement')
+                    ack.write_bytes((1).to_bytes(4, 'big'))
+                elif (incoming / 'clip.mp4.sent').exists():
+                    raise KeyboardInterrupt
+
+            args = (root, incoming, '*.mp4', 0.01, 0, 1, 100)
+            with patch('five_node.time.sleep', side_effect=advance), patch(
+                    'five_node.stream_file_segments', return_value=[(b'encoded', 1)]):
+                watch_folder(*args)
+            archive = incoming / 'clip.mp4.sent'
+            self.assertEqual(archive.read_bytes(), b'original')
+            state = json.loads(manifest.read_text())
+            claim = incoming / state['files'][0]['claim']
+            claim.parent.mkdir()
+            archive.rename(claim)
+            state['streaming'] = True
+            manifest.write_text(json.dumps(state))
+            (inputs / 'eof').unlink()
+            with patch('five_node.time.sleep', side_effect=KeyboardInterrupt):
+                watch_folder(*args)
+            self.assertEqual(archive.read_bytes(), b'original')
+            self.assertEqual(source.read_bytes(), b'replacement')
 
     def test_file_marker_carries_session_and_sequence(self):
         """Check the local marker layout used to advance node 1’s acknowledgement."""

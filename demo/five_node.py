@@ -223,8 +223,8 @@ def watch_folder(directory, watch_directory, pattern, poll_interval, stable_seco
     """Queue stable input files in modification-time order for one streaming run.
 
     Use one watcher per run. Intervals and segment duration are in seconds;
-    chunk is the maximum record payload in bytes (1–4096). A source is renamed
-    only after node 1 acknowledges its queue marker. Ctrl+C while idle queues
+    chunk is the maximum record payload in bytes (1–4096). Claim inputs in a private directory
+    before transcoding and publish the archive after node 1 acknowledges it. Ctrl+C while idle queues
     EOF, while an interrupted file requires a fresh run.
     """
     if poll_interval <= 0 or stable_seconds < 0 or segment_duration <= 0:
@@ -255,14 +255,33 @@ def watch_folder(directory, watch_directory, pattern, poll_interval, stable_seco
             raise RuntimeError(f'invalid node-1 file acknowledgement: {ack_path}')
         return int.from_bytes(raw, 'big')
 
+    def archive_claim(entry):
+        """Publish only this run's claimed file; a reused producer name stays untouched."""
+        if 'claim' not in entry:
+            # Older checkpoints have no private claim. Ownership of a file at
+            # the producer's pathname can no longer be established.
+            original = watch_directory / entry['source']
+            if original.exists() and not original.with_name(original.name + '.sent').exists():
+                raise RuntimeError(f'legacy checkpoint: verify and archive the accepted input manually: {original}')
+            return
+        claimed = watch_directory / entry['claim']
+        if claimed.exists():
+            destination = watch_directory / entry['archive']
+            # An existing archive is never overwritten, including after a crash
+            # between publishing the hard link and releasing the private claim.
+            try:
+                os.link(claimed, destination)
+            except FileExistsError:
+                if not claimed.samefile(destination):
+                    raise
+            claimed.unlink()
+            claimed.parent.rmdir()
+
     # Acceptance is saved before renaming. Finish a rename interrupted after
     # that checkpoint; do not try to infer which parts of an unaccepted file ran.
     for file_entry in manifest.get('files', []):
         if file_entry.get('accepted_by_node1'):
-            original = watch_directory / file_entry['source']
-            sent_path = original.with_name(original.name + '.sent')
-            if original.exists() and not sent_path.exists():
-                os.replace(original, sent_path)
+            archive_claim(file_entry)
             processed.add(file_entry['identity'])
     write_json_atomic(state_path, {'processed': sorted(processed)})
     if manifest.get('files') and not manifest['files'][-1].get('accepted_by_node1'):
@@ -275,15 +294,14 @@ def watch_folder(directory, watch_directory, pattern, poll_interval, stable_seco
     def next_stable_file():
         """Return the oldest unprocessed file only after its stability delay."""
         candidates = sorted(
-            (path for path in watch_directory.glob(pattern) if path.is_file()),
+            (path for path in watch_directory.glob(pattern) if path.is_file() and not path.name.endswith('.sent')
+             and not any(part.startswith('.bpsec-claim-') for part in path.relative_to(watch_directory).parts)),
             key=lambda path: (path.stat().st_mtime_ns, path.name),
         )
         now = time.monotonic()
         for path in candidates:
             stat = path.stat()
             identity = file_identity(path, stat)
-            if identity in processed:
-                continue
             signature = (stat.st_size, stat.st_mtime_ns)
             previous = seen.get(identity)
             if previous is None or previous[0] != signature:
@@ -307,11 +325,29 @@ def watch_folder(directory, watch_directory, pattern, poll_interval, stable_seco
         """Transcode and queue a file, then rename it after source acceptance."""
         nonlocal manifest
         sent_path = path.with_name(path.name + '.sent')
+        claim_dir = Path(tempfile.mkdtemp(prefix='.bpsec-claim-', dir=watch_directory))
+        claimed = claim_dir / path.name
         if sent_path.exists():
-            raise FileExistsError(f'sent marker already exists: {sent_path}')
+            sent_path = path.with_name(f'{path.name}.{claim_dir.name}.sent')
+        try:
+            path.rename(claimed)
+        except OSError:
+            claim_dir.rmdir()
+            raise
         with tempfile.TemporaryDirectory(prefix='bpsec-watch-', dir=str(directory)) as temp_name:
-            encoded_segments = stream_file_segments(path, Path(temp_name), segment_duration)
-            after = path.stat()
+            try:
+                encoded_segments = stream_file_segments(claimed, Path(temp_name), segment_duration)
+            except BaseException:
+                # Restore a failed input only if the producer has left its slot free.
+                try:
+                    os.link(claimed, path)
+                except FileExistsError:
+                    print(f'Unprocessed input retained at {claimed}', file=sys.stderr)
+                else:
+                    claimed.unlink()
+                    claim_dir.rmdir()
+                raise
+            after = claimed.stat()
             if (after.st_size, after.st_mtime_ns) != signature:
                 raise RuntimeError(f'input changed while it was being transcoded: {path}')
             first_segment = len(manifest['segments'])
@@ -321,6 +357,8 @@ def watch_folder(directory, watch_directory, pattern, poll_interval, stable_seco
             file_entry = dict(
                 file_number=file_number,
                 source=path.name,
+                claim=str(claimed.relative_to(watch_directory)),
+                archive=str(sent_path.relative_to(watch_directory)),
                 first_segment=first_segment,
                 segment_count=len(encoded_segments),
                 identity=identity,
@@ -359,7 +397,8 @@ def watch_folder(directory, watch_directory, pattern, poll_interval, stable_seco
             time.sleep(0.1)
         file_entry['accepted_by_node1'] = True
         write_json_atomic(manifest_path, manifest)
-        os.replace(path, sent_path)
+        archive_claim(file_entry)
+        seen.pop(identity, None)
         processed.add(identity)
         write_json_atomic(state_path, {'processed': sorted(processed)})
         print(f'Node 1 accepted {path.name}; renamed to {sent_path.name} ({len(encoded_segments)} segment(s))', flush=True)

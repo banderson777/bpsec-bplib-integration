@@ -4,12 +4,13 @@ import argparse
 import glob
 import os
 import socket
+import tempfile
 import threading
 import time
 from pathlib import Path
 
 from cryptography.exceptions import InvalidTag
-from secure_records import (Codec, GroundStore, durable_write, load_key,
+from secure_records import (MAX_SEGMENT_BYTES, MAX_SEGMENT_PARTS, Codec, GroundStore, durable_write, load_key,
                             record_id, sync_directory, validate_bundle)
 
 REJECTED = (ValueError, TypeError, KeyError, InvalidTag)
@@ -45,13 +46,18 @@ class RelayStore:
         self.pending[identity] = blob
 
     def acknowledge(self, message):
-        """Delete/sync a matching ground-ACK record; return False for unknown IDs."""
+        """Release a pending record after its removal is durable.
+
+        A directory sync failure leaves the record pending in memory. Repeating
+        the ACK retries the sync even when the previous unlink succeeded.
+        Return False for an unknown or already completed acknowledgement.
+        """
         if message.get("kind") != "ground_ack":
             raise ValueError("invalid acknowledgement")
         identity = record_id(message)
         if identity not in self.pending:
             return False
-        (self.directory / (identity + ".cbor")).unlink()
+        (self.directory / (identity + ".cbor")).unlink(missing_ok=True)
         sync_directory(self.directory)
         del self.pending[identity]
         return True
@@ -76,19 +82,52 @@ def exchange(sock, blob, address, expected, codec, attempts=20):
     raise RuntimeError("custody acknowledgement timed out")
 
 
+def stage_segment(path, staged, session, segment, chunk, codec):
+    """Stage one segment's authenticated records and return their lengths in wire order.
+
+    Check the receipt and encoded-byte limits before the first custody exchange.
+    Keep only one chunk and its encoding in memory. The caller owns the seekable
+    temporary file and discards it on failure.
+    """
+    lengths = []
+    with Path(path).open("rb") as source:
+        size = os.fstat(source.fileno()).st_size
+        count = max(1, (size + chunk - 1) // chunk)
+        if count > MAX_SEGMENT_PARTS:
+            raise ValueError("segment exceeds receipt limit")
+        if size > MAX_SEGMENT_BYTES:
+            raise ValueError("segment exceeds encoded byte budget")
+        for part in range(count):
+            expected = min(chunk, size - part * chunk)
+            raw = source.read(expected)
+            if len(raw) != expected:
+                raise ValueError("segment shrank during staging")
+            message = dict(kind="bundle", session=session, segment=segment, part=part,
+                           count=count, seq=(segment << 32) | part, payload=raw)
+            validate_bundle(message)
+            blob = codec.encode(message)
+            if staged.tell() + len(blob) > MAX_SEGMENT_BYTES:
+                raise ValueError("segment exceeds encoded byte budget")
+            staged.write(blob)
+            lengths.append(len(blob))
+        if source.read(1):
+            raise ValueError("segment grew during staging")
+    staged.seek(0)
+    return lengths
+
+
 def moon(port, files, chunk, codec):
-    """Send sorted segments in a fresh session and wait for custody/final ACKs."""
+    """Send each validated segment in order and wait for custody and final ACKs."""
+    if not 1 <= chunk <= 60000:
+        raise ValueError("chunk bytes must be between 1 and 60000")
     session = os.urandom(16)
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as tx:
         for segment, path in enumerate(files):
-            data = Path(path).read_bytes()
-            parts = [data[i:i + chunk] for i in range(0, len(data), chunk)] or [b""]
-            for part, raw in enumerate(parts):
-                message = dict(kind="bundle", session=session, segment=segment,
-                               part=part, count=len(parts), seq=(segment << 32) | part, payload=raw)
-                validate_bundle(message)
-                exchange(tx, codec.encode(message), ("127.0.0.1", port),
-                         dict(kind="custody_ack", session=session, seq=message["seq"]), codec)
+            with tempfile.TemporaryFile() as staged:
+                lengths = stage_segment(path, staged, session, segment, chunk, codec)
+                for part, length in enumerate(lengths):
+                    exchange(tx, staged.read(length), ("127.0.0.1", port),
+                             dict(kind="custody_ack", session=session, seq=(segment << 32) | part), codec)
         exchange(tx, codec.encode(dict(kind="eof", session=session)), ("127.0.0.1", port),
                  dict(kind="eof_ack", session=session), codec)
 

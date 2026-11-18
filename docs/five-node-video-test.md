@@ -203,8 +203,13 @@ python3 demo/five_node.py watch --run-dir "$BPSEC_RUN" \
   --segment-duration 2 --chunk-bytes 4096
 ```
 
-The watcher prints `Node 1 accepted <name>` and renames the source with a `.sent`
-suffix after the node-1 acknowledgement arrives. Leave it running to monitor for
+The watcher moves a stable input into a private `.bpsec-claim-*` directory before
+transcoding. Producers can immediately reuse the original name. After node 1
+acknowledges the file, the watcher prints `Node 1 accepted <name>` and publishes
+the claimed file with a `.sent` suffix. Repeated names receive a unique archive
+suffix. The watch directory must support hard links. If a run is interrupted
+while processing, preserve any remaining private claim when recovering the
+original input for a fresh run. Leave it running to monitor for
 more files. To finish the session, wait until it is idle between files and press
 Ctrl+C in the watcher terminal; it queues the final record and closes the stream.
 Let node 5 publish `output/complete` and the viewer exit before stopping the nodes.

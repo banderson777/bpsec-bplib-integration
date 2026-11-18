@@ -17,9 +17,41 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential cmake ninja-build pkg-config rsync libssl-dev libjansson-dev libsqlite3-dev python3 python3-venv
+          sudo apt-get install -y build-essential cmake ninja-build pkg-config rsync libssl-dev libjansson-dev libsqlite3-dev python3 python3-venv ruby valgrind gcovr
       - name: Build, run integration tests and native baseline
+        env:
+          BPSEC_BSL_TESTS: "ON"
         run: bash scripts/bootstrap.sh --native-test
+      - name: Measure integration C and demo Python line and branch coverage
+        run: |
+          mkdir -p build/validation
+          cmake -S integration -B build/coverage -G Ninja -DCMAKE_BUILD_TYPE=Debug \
+            -DCMAKE_C_FLAGS="--coverage -fprofile-update=atomic" -DCFS_BUILD="$PWD/build/native/cfs" \
+            -DPython3_EXECUTABLE="$PWD/.venv/bin/python"
+          cmake --build build/coverage -j4
+          ctest --test-dir build/coverage --output-on-failure --timeout 60
+          ctest --test-dir build/coverage -R '^tcp_cla_regression$' --repeat until-fail:10 --output-on-failure
+          gcovr build/coverage --root . --filter 'integration/bplib_tcp_cla_bplib[.]c$' \
+            --fail-under-line 100 --fail-under-branch 100
+          gcovr build/coverage --root . --filter 'integration/bplib_.*' --filter 'bplib/.*' --filter 'bpnode/.*' \
+            --xml-pretty --output build/validation/c-coverage.xml
+          .venv/bin/python -m pip install 'coverage>=7.10,<8'
+          export PYTHONPATH="$PWD/client-test:$PWD/demo"
+          export COVERAGE_RCFILE="$PWD/.github/coverage.ini"
+          .venv/bin/coverage run client-test/test_security.py
+          .venv/bin/coverage run demo/test_node_health.py
+          .venv/bin/coverage run demo/test_five_node_stream.py
+          .venv/bin/coverage run demo/test_security.py "$PWD/build/coverage/libbplib_bsl_security.so"
+          .venv/bin/coverage combine
+          .venv/bin/coverage xml -o build/validation/python-coverage.xml
+      - name: Check memory and demo regressions with ASan, LSan and UBSan
+        run: |
+          cmake -S integration -B build/sanitized -G Ninja -DCMAKE_BUILD_TYPE=Debug \
+            -DCMAKE_C_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer" \
+            -DCMAKE_EXE_LINKER_FLAGS=-no-pie -DCFS_BUILD="$PWD/build/native/cfs"
+          cmake --build build/sanitized --target memory_regression demo_delivery_regression -j4
+          ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1 \
+            ctest --test-dir build/sanitized --output-on-failure -R '^(memory_regression|demo_delivery_regression)$'
       - name: Record tool and Python package versions
         if: always()
         run: |

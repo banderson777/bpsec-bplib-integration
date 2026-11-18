@@ -2,6 +2,7 @@
 #undef NDEBUG
 #include <assert.h>
 #include <signal.h>
+#include <poll.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
@@ -145,12 +146,12 @@ typedef struct { BPLib_TCPCLA_t *cla; bool sending; int status; char data[16]; }
 static void *worker(void *arg)
 {
     Worker *w = arg; size_t n = 0;
-    if (w->sending) w->status = BPLib_TCPCLA_Send(w->cla, "abcdefgh", 8, 2000);
+    if (w->sending) w->status = BPLib_TCPCLA_Send(w->cla, "abcdefgh", 8, 0);
     else
     {
         for (unsigned i = 0; i < 4000; ++i)
         {
-            w->status = BPLib_TCPCLA_Receive(w->cla, w->data, sizeof(w->data), &n, 20);
+            w->status = BPLib_TCPCLA_Receive(w->cla, w->data, sizeof(w->data), &n, 0);
             if (w->status != BPLIB_CLA_TIMEOUT) break;
             struct timespec pause = {0, 1000000}; nanosleep(&pause, NULL);
         }
@@ -168,7 +169,17 @@ static void concurrent(void)
         Worker workers[4] = {{.cla=&a,.sending=true}, {.cla=&b,.sending=true},
                              {.cla=&a}, {.cla=&b}};
         pthread_t threads[4];
-        for (unsigned i = 0; i < 4; ++i) assert(pthread_create(&threads[i], NULL, worker, &workers[i]) == 0);
+        /* Wait until A owns its dispatcher and has actually sent a segment.
+         * No receiver can then take an idle lock needed by both senders.
+         * The test runner bounds deadlocks; scheduler delays must not trigger
+         * the production partial-frame timeout in this successful-transfer case. */
+        assert(pthread_create(&threads[0], NULL, worker, &workers[0]) == 0);
+        struct pollfd peer = {.fd = b.SocketFd, .events = POLLIN};
+        assert(poll(&peer, 1, -1) == 1 && (peer.revents & POLLIN));
+        size_t received;
+        char scratch[8];
+        assert(BPLib_TCPCLA_Receive(&a, scratch, sizeof(scratch), &received, 0) == BPLIB_CLA_TIMEOUT);
+        for (unsigned i = 1; i < 4; ++i) assert(pthread_create(&threads[i], NULL, worker, &workers[i]) == 0);
         for (unsigned i = 0; i < 4; ++i)
         { assert(pthread_join(threads[i], NULL) == 0); assert(workers[i].status == BPLIB_SUCCESS); }
         BPLib_TCPCLA_Destroy(&a); BPLib_TCPCLA_Destroy(&b);

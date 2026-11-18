@@ -6,6 +6,9 @@ from pathlib import Path
 import cbor2
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
+# Bound per-segment receipt metadata and encoded disk usage, including CBOR overhead.
+MAX_SEGMENT_PARTS = 4096
+MAX_SEGMENT_BYTES = 64 * 1024 * 1024
 CONTEXT = b"bpnode-video-demo-v2"
 
 
@@ -98,12 +101,18 @@ def durable_write(path, data):
     Create parents and clean temporary files on error. Propagate I/O failures;
     replacement overwrites previous destination contents.
     """
+    durable_write_parts(path, (data,))
+
+
+def durable_write_parts(path, parts):
+    """Atomically publish a stream of byte chunks and discard partial output on error."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, temporary = tempfile.mkstemp(prefix=".pending-", dir=path.parent)
     try:
         with os.fdopen(fd, "wb") as stream:
-            stream.write(data)
+            for data in parts:
+                stream.write(data)
             stream.flush()
             os.fsync(stream.fileno())
         os.replace(temporary, path)
@@ -123,6 +132,8 @@ def validate_bundle(message):
     segment = integer(message.get("segment"), (1 << 32) - 1)
     part = integer(message.get("part"), 65535)
     count = integer(message.get("count"), 65536)
+    if count > MAX_SEGMENT_PARTS:
+        raise ValueError("segment exceeds receipt limit")
     if count == 0 or part >= count or message["seq"] != (segment << 32) | part:
         raise ValueError("invalid part/count/sequence")
     if message.get("kind") != "bundle" or not isinstance(message.get("payload"), bytes):
@@ -157,15 +168,28 @@ class GroundStore:
         target = chunks / f"{part}.cbor"
         if target.exists() and self.codec.decode(target.read_bytes()) != message:
             raise ValueError("conflicting duplicate")
+        stored_bytes = 0
+        stored_parts = 0
+        with os.scandir(chunks) as receipts:
+            for receipt in receipts:
+                if receipt.name.endswith(".cbor") and receipt.name != target.name:
+                    if stored_parts == 0:
+                        prior = self.codec.decode(Path(receipt.path).read_bytes())
+                        if prior["count"] != count:
+                            raise ValueError("inconsistent segment")
+                    stored_bytes += receipt.stat().st_size
+                    stored_parts += 1
+        if stored_bytes + len(blob) > MAX_SEGMENT_BYTES:
+            raise ValueError("segment exceeds encoded byte budget")
         durable_write(target, blob)
-        paths = [chunks / f"{index}.cbor" for index in range(count)]
-        if all(path.exists() for path in paths):
-            records = [self.codec.decode(path.read_bytes()) for path in paths]
-            for index, record in enumerate(records):
-                validate_bundle(record)
-                if (record["session"], record["segment"], record["part"], record["count"]) != (
-                        message["session"], segment, index, count):
-                    raise ValueError("inconsistent segment")
-            durable_write(self.directory / f"ground-{segment:06d}.ts",
-                          b"".join(record["payload"] for record in records))
-        # The caller may ACK only after this method returns successfully.
+        if stored_parts + 1 == count:
+            def payloads():
+                """Read receipts in sequence and authenticate each before yielding its payload."""
+                for index in range(count):
+                    record = self.codec.decode((chunks / f"{index}.cbor").read_bytes())
+                    if (validate_bundle(record) != (segment, index, count)
+                            or record["session"] != message["session"]):
+                        raise ValueError("inconsistent segment")
+                    yield record["payload"]
+
+            durable_write_parts(self.directory / f"ground-{segment:06d}.ts", payloads())

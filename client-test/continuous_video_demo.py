@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Segmented continuous-feed DTN video demo (moon -> relay -> ground)."""
 import argparse, glob, os, socket, subprocess, threading, time
-from secure_records import Codec, load_key
+from contextlib import ExitStack, closing
+from secure_records import Codec, durable_write, load_key
 
 def make_segments(src, out_dir, seconds):
     """Run FFmpeg segmentation with continuous timestamps; propagate errors.
@@ -18,27 +19,32 @@ def make_segments(src, out_dir, seconds):
 
 def moon(port, files, chunk_size, codec):
     """Send each segment's encrypted chunks over loopback UDP, then EOF."""
-    tx = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    for seg, path in enumerate(files):
-        with open(path, "rb") as stream:
-            data = stream.read()
-        chunks = [data[i:i + chunk_size] for i in range(0, len(data), chunk_size)] or [b""]
-        for part, chunk in enumerate(chunks):
-            msg = {"bp": 7, "src": "ipn:moon.1", "dst": "ipn:ground.1",
-                   "segment": seg, "part": part, "count": len(chunks), "payload": chunk}
-            tx.sendto(codec.encode(msg), ("127.0.0.1", port))
-            print(f"[moon] segment {seg} chunk {part}/{len(chunks)-1} encrypted")
-            time.sleep(0.01)
-    tx.sendto(codec.encode({"eof": True, "segments": len(files)}), ("127.0.0.1", port)); tx.close()
+    with closing(socket.socket(socket.AF_INET, socket.SOCK_DGRAM)) as tx:
+        for seg, path in enumerate(files):
+            with open(path, "rb") as stream:
+                data = stream.read()
+            chunks = [data[i:i + chunk_size] for i in range(0, len(data), chunk_size)] or [b""]
+            for part, chunk in enumerate(chunks):
+                msg = {"bp": 7, "src": "ipn:moon.1", "dst": "ipn:ground.1",
+                       "segment": seg, "part": part, "count": len(chunks), "payload": chunk}
+                tx.sendto(codec.encode(msg), ("127.0.0.1", port))
+                print(f"[moon] segment {seg} chunk {part}/{len(chunks)-1} encrypted")
+                time.sleep(0.01)
+        tx.sendto(codec.encode({"eof": True, "segments": len(files)}), ("127.0.0.1", port))
 
 def relay(in_port, out_port, codec):
     """Authenticate and forward unchanged datagrams until authenticated EOF."""
-    rx = socket.socket(socket.AF_INET, socket.SOCK_DGRAM); rx.bind(("127.0.0.1", in_port))
-    tx = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    while True:
-        data, _ = rx.recvfrom(65535); msg = codec.decode(data); tx.sendto(data, ("127.0.0.1", out_port))
-        if msg.get("eof"): print("[relay] end-of-stream forwarded"); break
-    rx.close(); tx.close()
+    with ExitStack() as resources:
+        rx = resources.enter_context(closing(socket.socket(socket.AF_INET, socket.SOCK_DGRAM)))
+        rx.bind(("127.0.0.1", in_port))
+        tx = resources.enter_context(closing(socket.socket(socket.AF_INET, socket.SOCK_DGRAM)))
+        while True:
+            data, _ = rx.recvfrom(65535)
+            msg = codec.decode(data)
+            tx.sendto(data, ("127.0.0.1", out_port))
+            if msg.get("eof"):
+                print("[relay] end-of-stream forwarded")
+                break
 
 def ground(port, out_dir, player, codec):
     """Assemble parts and publish/play segments in completion order.
@@ -48,41 +54,45 @@ def ground(port, out_dir, player, codec):
     Empty segments are represented by one empty part. No retry or inter-segment
     ordering exists.
     """
-    rx = socket.socket(socket.AF_INET, socket.SOCK_DGRAM); rx.bind(("127.0.0.1", port))
-    os.makedirs(out_dir, exist_ok=True)
-    pending = {}; counts = {}; completed = set(); next_seg = 0; proc = None
-    if player:
-        try:
-            proc = subprocess.Popen([player, "-fflags", "nobuffer", "-flags", "low_delay", "-f", "mpegts", "-i", "-"], stdin=subprocess.PIPE)
-        except (FileNotFoundError, OSError) as exc:
-            print(f"[ground] unable to start player {player!r}: {exc}; saving segments instead")
-    while True:
-        data, _ = rx.recvfrom(65535); msg = codec.decode(data)
-        if msg.get("eof"):
-            expected = msg.get("segments")
-            break
-        seg, part = msg["segment"], msg["part"]
-        count = msg["count"]
-        if any(type(v) is not int for v in (seg, part, count)) or not (0 <= seg and 0 <= part < count <= 65536):
-            raise ValueError("invalid segment metadata")
-        if seg in completed: continue
-        if counts.setdefault(seg, count) != count: raise ValueError("inconsistent segment count")
-        chunk = msg["payload"]
-        pending.setdefault(seg, {})[part] = chunk
-        if len(pending[seg]) == count:
-            assembled = b"".join(pending[seg][i] for i in sorted(pending[seg]))
-            pending.pop(seg)
-            completed.add(seg); counts.pop(seg)
-            final_path = os.path.join(out_dir, f"ground-{seg:06d}.ts")
-            temp_path = final_path + ".part"
-            with open(temp_path, "wb") as f: f.write(assembled)
-            os.replace(temp_path, final_path)
-            if proc:
-                proc.stdin.write(assembled); proc.stdin.flush()
-            print(f"[ground] segment {seg} complete ({len(assembled)} bytes), displayed live")
-            next_seg += 1
-    if proc: proc.stdin.close(); proc.wait()
-    rx.close(); print(f"[ground] continuous feed stopped after {next_seg} segments")
+    with ExitStack() as resources:
+        rx = resources.enter_context(closing(socket.socket(socket.AF_INET, socket.SOCK_DGRAM)))
+        rx.bind(("127.0.0.1", port))
+        os.makedirs(out_dir, exist_ok=True)
+        pending = {}; counts = {}; completed = set(); next_seg = 0; proc = None
+        if player:
+            try:
+                proc = resources.enter_context(subprocess.Popen([player, "-fflags", "nobuffer", "-flags", "low_delay", "-f", "mpegts", "-i", "-"], stdin=subprocess.PIPE))
+            except (FileNotFoundError, OSError) as exc:
+                print(f"[ground] unable to start player {player!r}: {exc}; saving segments instead")
+        while True:
+            data, _ = rx.recvfrom(65535); msg = codec.decode(data)
+            if msg.get("eof"):
+                expected = msg.get("segments")
+                break
+            seg, part = msg["segment"], msg["part"]
+            count = msg["count"]
+            if any(type(v) is not int for v in (seg, part, count)) or not (0 <= seg and 0 <= part < count <= 65536):
+                raise ValueError("invalid segment metadata")
+            if seg in completed: continue
+            if counts.setdefault(seg, count) != count: raise ValueError("inconsistent segment count")
+            chunk = msg["payload"]
+            if not isinstance(chunk, bytes):
+                raise ValueError("invalid segment payload")
+            parts = pending.setdefault(seg, {})
+            if part in parts and parts[part] != chunk:
+                raise ValueError("conflicting duplicate part")
+            parts[part] = chunk
+            if len(pending[seg]) == count:
+                assembled = b"".join(pending[seg][i] for i in sorted(pending[seg]))
+                pending.pop(seg)
+                completed.add(seg); counts.pop(seg)
+                final_path = os.path.join(out_dir, f"ground-{seg:06d}.ts")
+                durable_write(final_path, assembled)
+                if proc:
+                    proc.stdin.write(assembled); proc.stdin.flush()
+                print(f"[ground] segment {seg} complete ({len(assembled)} bytes), displayed live")
+                next_seg += 1
+    print(f"[ground] continuous feed stopped after {next_seg} segments")
     if type(expected) is not int or expected < 0:
         raise ValueError("EOF requires a nonnegative integer segment count")
     # Compare cardinality and bounds without allocating range(expected).

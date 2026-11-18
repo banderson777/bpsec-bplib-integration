@@ -11,10 +11,10 @@ import tempfile
 import threading
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from cryptography.exceptions import InvalidTag
-from secure_records import Codec, GroundStore, load_key, record_id
+from secure_records import Codec, GroundStore, load_key, record_id, sync_directory
 from custody_video_demo import RelayStore, ground, relay, moon
 import continuous_video_demo as continuous
 
@@ -32,6 +32,37 @@ class SecurityTests(unittest.TestCase):
         """Build one deterministic chunk with zero-based part and total part count."""
         return dict(kind="bundle", session=b"s" * 16, seq=part, segment=0,
                     part=part, count=count, payload=f"part{part}".encode())
+
+    def test_sender_rejects_whole_segment_before_exchange(self):
+        """A late budget overrun or excessive part count must leave no partial custody transfer."""
+        source = self.root / "segment.ts"
+        source.write_bytes(b"ab")
+        first_size = len(self.codec.encode(dict(self.bundle(), payload=b"a")))
+        with patch("custody_video_demo.socket.socket"), patch("custody_video_demo.exchange") as send:
+            with patch("custody_video_demo.MAX_SEGMENT_BYTES", first_size):
+                with self.assertRaisesRegex(ValueError, "byte budget"):
+                    moon(1, [source], 1, self.codec)
+            with patch("custody_video_demo.MAX_SEGMENT_PARTS", 1):
+                with self.assertRaisesRegex(ValueError, "receipt limit"):
+                    moon(1, [source], 1, self.codec)
+            send.assert_not_called()
+
+    def test_ground_segment_budgets(self):
+        """Reject excess parts and bytes before persisting or acknowledging a chunk."""
+        store = GroundStore(self.root, self.codec)
+        first = self.bundle()
+        blob = self.codec.encode(first)
+        store.accept(first, blob)
+        with patch("secure_records.MAX_SEGMENT_BYTES", len(blob)):
+            store.accept(first, blob)
+            second = self.bundle(part=1)
+            with self.assertRaisesRegex(ValueError, "byte budget"):
+                store.accept(second, self.codec.encode(second))
+        self.assertFalse(list(self.root.rglob("1.cbor")))
+        oversized = self.bundle(count=4097)
+        with self.assertRaisesRegex(ValueError, "receipt limit"):
+            store.accept(oversized, self.codec.encode(oversized))
+        self.assertFalse((self.root / "ground-000000.ts").exists())
 
     def test_new_keys_and_nonces_across_runs(self):
         """Check fresh random keys and nonces, plus stable reuse of a private key file."""
@@ -79,6 +110,23 @@ class SecurityTests(unittest.TestCase):
         self.assertTrue(store.acknowledge(ack))
         self.assertFalse(store.acknowledge(ack))
         self.assertFalse(list(store.directory.glob("*.cbor")))
+
+    def test_ack_retries_directory_sync_after_unlink(self):
+        """Keep custody pending until retry makes the removed spool entry durable."""
+        store = RelayStore(self.root / "spool", self.codec)
+        message = self.bundle()
+        store.accept(message, self.codec.encode(message))
+        ack = dict(kind="ground_ack", session=message["session"], seq=message["seq"])
+        with patch("custody_video_demo.sync_directory", side_effect=OSError("sync failed")):
+            with self.assertRaisesRegex(OSError, "sync failed"):
+                store.acknowledge(ack)
+        self.assertIn(record_id(message), store.pending)
+        self.assertFalse(list(store.directory.glob("*.cbor")))
+        with patch("custody_video_demo.sync_directory", wraps=sync_directory) as sync:
+            self.assertTrue(store.acknowledge(ack))
+            sync.assert_called_once_with(store.directory)
+        self.assertFalse(store.acknowledge(ack))
+        self.assertFalse(RelayStore(store.directory, self.codec).pending)
 
     def test_recovery_missing_part_and_duplicate(self):
         """Recover a persisted part after restart and reject a conflicting duplicate."""
@@ -131,8 +179,25 @@ class SecurityTests(unittest.TestCase):
         packets = [(codec.encode(record), ("127.0.0.1", 1)) for record in records]
         with patch.object(continuous.socket, "socket") as factory:
             factory.return_value.recvfrom.side_effect = packets
-            continuous.ground(0, directory, None, codec)
+            try:
+                continuous.ground(0, directory, None, codec)
+            finally:
+                factory.return_value.close.assert_called_once()
+
+    def test_continuous_workers_close_sockets_on_failure(self):
+        """Release sender and relay sockets when input or packet authentication fails."""
+        with patch.object(continuous.socket, "socket") as factory:
+            with self.assertRaises(FileNotFoundError):
+                continuous.moon(1, [self.root / "missing.ts"], 8, self.codec)
             factory.return_value.close.assert_called_once()
+        receiver, sender = Mock(), Mock()
+        receiver.recvfrom.return_value = (b"invalid", ("127.0.0.1", 1))
+        with patch.object(continuous.socket, "socket", side_effect=[receiver, sender]):
+            with self.assertRaises(ValueError):
+                continuous.relay(1, 2, self.codec)
+        receiver.close.assert_called_once()
+        sender.close.assert_called_once()
+        sender.sendto.assert_not_called()
 
     def test_continuous_missing_segments(self):
         """Reject EOF when any declared segment is absent, incomplete, or misnumbered."""
@@ -142,6 +207,17 @@ class SecurityTests(unittest.TestCase):
         for index, case in enumerate(cases):
             with self.subTest(case=index), self.assertRaisesRegex(RuntimeError, "incomplete"):
                 self.continuous_receive(case + [dict(eof=True, segments=3)], self.root / str(index))
+
+    def test_continuous_rejects_conflicts_before_publication(self):
+        """Reject conflicting or malformed parts while keeping the published file intact."""
+        first = dict(segment=0, part=0, count=2, payload=b"first")
+        published = self.root / "ground-000000.ts"
+        published.write_bytes(b"previous run")
+        for second, error in [(dict(first, payload=b"different"), "conflicting duplicate"),
+                              (dict(first, part=1, payload=1), "invalid segment payload")]:
+            with self.subTest(error=error), self.assertRaisesRegex(ValueError, error):
+                self.continuous_receive([first, second], self.root)
+            self.assertEqual(published.read_bytes(), b"previous run")
 
     def test_continuous_eof_schema(self):
         """Reject invalid segment counts but allow EOF for a run with no segments."""

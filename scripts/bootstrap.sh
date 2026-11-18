@@ -30,11 +30,12 @@ python3 -m venv "$venv"
   cd "$root/BSL"
   ./build.sh deps
 )
+bsl_tests=${BPSEC_BSL_TESTS:-OFF}
 version_args=()
 if [[ ! -e "$root/BSL/.git" ]]; then version_args=(-DPROJECT_VERSION=0.0.0); fi
 cmake -S "$root/BSL" -B "$root/BSL/build/default" -G Ninja \
   -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH="$root/BSL/testroot/usr" \
-  -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_UNITTEST=OFF -DTEST_MEMCHECK=OFF \
+  -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_UNITTEST="$bsl_tests" -DTEST_MEMCHECK="$bsl_tests" \
   -DBUILD_DOCS_API=OFF -DBUILD_DOCS_MAN=OFF -DBSL_LOG_PLAINTEXT_ENABLE=OFF "${version_args[@]}"
 cmake --build "$root/BSL/build/default" -j4
 # This also generates the cFS headers needed by the BPNode regression targets.
@@ -46,6 +47,9 @@ cmake -S "$root/integration" -B "$build/native/integration" \
 cmake --build "$build/native/integration" -j4
 if [[ "$mode" != --build-only ]]; then
   "$venv/bin/python" "$root/docs/check_documentation.py"
+  if [[ "$bsl_tests" == ON ]]; then
+    ctest --test-dir "$root/BSL/build/default" --output-on-failure -j2
+  fi
   ctest --test-dir "$build/native/integration" --output-on-failure --timeout 60
 fi
 if [[ "$mode" == --native-test ]]; then

@@ -47,6 +47,7 @@ databases are outside this inventory.
 | `integration/tcpclv4_chain_smoke.c` | Three-node local TCPCLv4 smoke topology |
 | `integration/tcpclv4_stcp_chain_smoke.c` | Local mixed-protocol relay smoke topology |
 | `integration/tcpclv4_stcp_hdtn_chain_smoke.c` | Extended local mixed-protocol smoke topology |
+| `integration/tcp_queue_regression.c` | STCP queue bridge success and failure regressions |
 | `integration/tcp_cla_regression.c` | Framing, concurrent dispatch, failure, size, lifecycle regressions |
 | `integration/memory_regression.c` | Allocation failure cleanup, pool buffer bounds, and blob/reader range regressions |
 | `integration/demo_delivery_regression.c` | Real demo data/EOF delivery, read/close/sync error injection, receipt/output consistency, immutable replay, and missing-output reconstruction |

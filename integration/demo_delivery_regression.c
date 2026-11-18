@@ -125,6 +125,16 @@ int main(void)
     char directory[] = "/tmp/bpnode-demo-delivery-XXXXXX";
     int original = open(".", O_RDONLY | O_DIRECTORY); assert(original >= 0);
     assert(mkdtemp(directory) && chdir(directory) == 0);
+    /* Simulate the producer publishing both files after the first gap probe. */
+    assert(mkdir("input", 0700) == 0);
+    assert(write_file("input/stream", "1", 1, "input") == 0);
+    assert(!final_queue_gap("input/00000000.adu"));
+    assert(write_file("input/00000000.adu", "1", 1, "input") == 0);
+    assert(write_file("input/eof", "1", 1, "input") == 0);
+    assert(!final_queue_gap("input/00000000.adu"));
+    assert(final_queue_gap("input/00000001.adu"));
+    assert(unlink("input/00000000.adu") == 0 && unlink("input/eof") == 0);
+    assert(unlink("input/stream") == 0 && rmdir("input") == 0);
     assert(mkdir("receipts", 0700) == 0 && mkdir("output", 0700) == 0);
     uint8_t first[44], second[44], end[40] = {0}, bytes[40]; size_t length;
     record(first, 0); record(second, 1);

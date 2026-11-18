@@ -57,6 +57,27 @@ static void bounds(BPLib_MEM_Pool_t *pool)
     BPLib_BlockReader_t reader; size_t got = 99;
     assert(BPLib_BlockReaderOpen(bundle, 1, &reader) == BPLIB_SUCCESS);
     assert(BPLib_BlockReaderRead(&reader, output, sizeof(output), &got) != BPLIB_SUCCESS && got == 0);
+    /* Truncating the backing chain after open must leave all bytes untouched. */
+    BPLib_CanBlockHeader_t *header = &bundle->blocks.PayloadHeader;
+    header->BlockNum = 1;
+    header->DataOffsetStart = sizeof(source) - 5;
+    header->DataSize = 5;
+    header->RequiresEncode = false;
+    BPLib_BlockWriter_t writer;
+    assert(BPLib_BlockWriterOpen(bundle, 1, 5, &writer) == BPLIB_SUCCESS);
+    assert(BPLib_BlockWriterWrite(&writer, "abcde", 5) == BPLIB_SUCCESS);
+    last->used_len--;
+    assert(BPLib_BlockWriterClose(&writer, true) != BPLIB_SUCCESS);
+    assert(!header->RequiresEncode && !writer.staging);
+    assert(BPLib_BlockWriterOpen(bundle, 1, 5, &writer) != BPLIB_SUCCESS);
+    last->used_len++;
+    assert(BPLib_MEM_CopyOutFromOffset(bundle, header->DataOffsetStart, 5, output, sizeof(output)) == BPLIB_SUCCESS);
+    assert(memcmp(output, source + sizeof(source) - 5, 5) == 0);
+    assert(BPLib_BlockWriterOpen(bundle, 1, 5, &writer) == BPLIB_SUCCESS);
+    assert(BPLib_BlockWriterWrite(&writer, "abcde", 5) == BPLIB_SUCCESS);
+    assert(BPLib_BlockWriterClose(&writer, true) == BPLIB_SUCCESS && header->RequiresEncode);
+    assert(BPLib_MEM_CopyOutFromOffset(bundle, header->DataOffsetStart, 5, output, sizeof(output)) == BPLIB_SUCCESS);
+    assert(memcmp(output, "abcde", 5) == 0);
     BPLib_MEM_BundleFree(pool, bundle);
     puts("PASS blob bounds, unchanged output on failure, cross-block reads, reader bounds");
 }
