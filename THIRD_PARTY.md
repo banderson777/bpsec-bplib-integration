@@ -6,7 +6,7 @@ files when redistributing source or binary packages.
 
 | Component | Original upstream | Local publication |
 | --- | --- | --- |
-| BPLib | https://github.com/nasa/bplib | banderson777/bplib_and_BSL, codex/integration |
+| BPLib | https://github.com/nasa/bplib | banderson777/bplib, codex/integration |
 | BPNode | https://github.com/nasa/bp | banderson777/bp, codex/integration |
 | BSL | https://github.com/NASA-AMMOS/BSL | banderson777/BSL, codex/integration |
 | cFS bundle | https://github.com/nasa/cFS | banderson777/cFS, codex/integration |

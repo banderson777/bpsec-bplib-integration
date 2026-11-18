@@ -12,13 +12,13 @@ A commit in the parent alone does not save uncommitted changes inside a submodul
 | Source | Publication repository | Change ownership |
 | --- | --- | --- |
 | Integration, tests, demos, configuration and reviews | banderson777/bpsec-bplib-integration | Main project |
-| BPLib | banderson777/bplib_and_BSL | Existing fork, codex/integration branch |
+| BPLib | banderson777/bplib | Existing fork, codex/integration branch |
 | BPNode | banderson777/bp | Fork, codex/integration branch |
 | BSL | banderson777/BSL | Policy parser compatibility change |
 | cFE | banderson777/cFE | Per-process RAM mount support for the native lab |
 | cFS bundle | banderson777/cFS | Pins the modified cFE fork |
 
-The existing bplib_and_BSL fork is retained. Its main branch need not be overwritten:
+The existing bplib fork is retained. Its main branch need not be overwritten:
 the integration branch preserves this working code separately. Other cFS and BSL
 dependencies remain pinned to their upstream commits. The full source inventory
 is in docs/publication/component-inventory-2026-11-02.json.

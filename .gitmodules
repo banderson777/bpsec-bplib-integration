@@ -1,6 +1,6 @@
 [submodule "bplib"]
 	path = bplib
-	url = https://github.com/banderson777/bplib_and_BSL.git
+	url = https://github.com/banderson777/bplib.git
 	branch = codex/integration
 [submodule "bpnode"]
 	path = bpnode
