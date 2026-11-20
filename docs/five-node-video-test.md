@@ -271,6 +271,18 @@ not playback.
 
 ## Persistence and security boundaries
 
+Set `BPNODE_DEMO_BIB_KEY_FILE` at nodes 1 and 5 to enable the combined
+profile. The file must contain the same dedicated 64-byte HMAC key at both
+endpoints. The existing `video.key` still supplies the separate 32-byte
+AES key. The source adds a full-scope payload HMAC-SHA-512 BIB, then
+encrypts the payload and the BIB with separate AES-256-GCM BCBs and
+distinct IVs. Both GCM tags and the restored BIB must verify at node 5
+before data reaches delivery. A configured endpoint rejects a bundle
+missing the BIB or either BCB. Without an integrity key file, the lab uses
+the single-BCB policy described below. The combined lab source omits
+Previous Node and Hop Count so the three security blocks, Bundle Age,
+and custody block fit the legacy decoder's five-extension limit.
+
 The source adds an RFC 9173 context-2 BCB using BSL's Mock BPA codec/host services
 and the actual BSL AES-GCM implementation. The fixed acceptance policy requires
 AES-256, AAD scope 7, payload block 1, security source `ipn:10.0`, and the expected

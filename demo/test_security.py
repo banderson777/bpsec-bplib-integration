@@ -1,4 +1,4 @@
-"""Exercise the compiled endpoint policy on genuine BPv7/BCB wire bundles."""
+"""Exercise the compiled endpoint policy on genuine BPv7/BPSec wire bundles."""
 import ctypes
 import os
 from pathlib import Path
@@ -20,6 +20,7 @@ class EndpointSecurity(unittest.TestCase):
         """Load the compiled bridge once and declare its pointer and size argument types."""
         cls.lib = ctypes.CDLL(str(LIBRARY))
         cls.lib.BPLib_BSL_SecurityInit.argtypes = [ctypes.c_void_p]
+        cls.lib.BPLib_BSL_SecurityInitWithIntegrity.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
         cls.lib.BPLib_BSL_SecurityTransform.argtypes = [ctypes.c_bool, ctypes.c_void_p, ctypes.c_size_t, ctypes.c_void_p, ctypes.c_size_t, ctypes.POINTER(ctypes.c_size_t)]
 
     def setUp(self):
@@ -49,6 +50,32 @@ class EndpointSecurity(unittest.TestCase):
         self.assertNotIn(b'authenticated video chunk', first)
         self.assertEqual(cbor2.loads(self.transform(False, first)), cbor2.loads(self.plain))
         self.assertEqual([block[0] for block in cbor2.loads(first)[1:]], [12, 1])
+
+    def test_combined_bib_and_bcb_roundtrip(self):
+        """Require both GCM targets and the full-scope BIB before delivery."""
+        aes_only = self.transform(True, self.plain)
+        integrity_key = os.urandom(64)
+        self.lib.BPLib_BSL_SecurityClose()
+        self.assertEqual(self.lib.BPLib_BSL_SecurityInitWithIntegrity(self.key, integrity_key), 0)
+        self.transform(False, aes_only, False)
+
+        protected = self.transform(True, self.plain)
+        blocks = cbor2.loads(protected)
+        self.assertEqual([block[0] for block in blocks[1:]], [11, 12, 12, 1])
+        self.assertEqual(blocks[-1][3], 0)
+        self.assertNotIn(b'authenticated video chunk', protected)
+        self.assertEqual(cbor2.loads(self.transform(False, protected)), cbor2.loads(self.plain))
+        for index in (1, -1):
+            changed = cbor2.loads(protected)
+            changed[index][4] = bytes([changed[index][4][0] ^ 1]) + changed[index][4][1:]
+            self.transform(False, wire(changed), False)
+
+        self.lib.BPLib_BSL_SecurityClose()
+        self.assertEqual(self.lib.BPLib_BSL_SecurityInitWithIntegrity(self.key, os.urandom(64)), 0)
+        self.transform(False, protected, False)
+        self.lib.BPLib_BSL_SecurityClose()
+        self.assertEqual(self.lib.BPLib_BSL_SecurityInit(self.key), 0)
+        self.transform(False, protected, False)
 
     def test_wrong_key_missing_bcb_and_tampering(self):
         """Reject missing BCB, changed ciphertext or primary fields, and a different key."""

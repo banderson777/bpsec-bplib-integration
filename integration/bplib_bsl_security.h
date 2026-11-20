@@ -16,13 +16,19 @@
  */
 int BPLib_BSL_SecurityInit(const uint8_t key[32]);
 
+/** Enable full-scope payload BIB and two single-target BCBs. An optional
+ * dedicated 64-byte HMAC-SHA-512 key enables the combined endpoint policy.
+ * A NULL integrity key selects the legacy single-BCB policy. */
+int BPLib_BSL_SecurityInitWithIntegrity(const uint8_t key[32], const uint8_t integrity_key[64]);
+
 /** Release the library and its key store. Safe to call when uninitialized. */
 void BPLib_BSL_SecurityClose(void);
 
 /** Encrypt (protect=true) or authenticate and decrypt (protect=false) payload
  * block 1 of a nonfragmented BPv7 bundle from ipn:10.1 to ipn:50.1.
- * Acceptance requires exactly one AES-256-GCM BCB from ipn:10.0 with scope 7,
- * targeting only the payload. Caller owns the input and output buffers.
+ * The default policy requires one payload AES-256-GCM BCB. Combined policy
+ * requires an encrypted payload and encrypted full-scope HMAC-SHA-512 BIB.
+ * Security source is ipn:10.0. Caller owns the input and output buffers.
  * Input must contain 1–17000 bytes; capacity is the writable output size.
  * Returns 0 and sets output_size to the encoded length on success. Returns
  * -1 for invalid input, failed policy or codec operations, or insufficient
